@@ -2,7 +2,7 @@ import { alpha, InputBase, styled, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 export const Search = () => (
-  <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
+  <Box sx={{ display: { xs: 'none', sm: 'flex'},  ml: [null, null, 20] }}>
     <SearchWrapper>
       <SearchIconWrapper>
         <SearchIcon />

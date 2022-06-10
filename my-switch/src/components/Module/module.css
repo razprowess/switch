@@ -1,0 +1,10 @@
+.container {
+    display: flex;
+    margin: 0px -25px;
+}
+
+@media (min-width: 600px) {
+    .conainter {
+flex-direction: column;
+    }
+  }

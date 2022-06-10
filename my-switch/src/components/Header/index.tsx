@@ -27,10 +27,10 @@ export const Header = ({ toggleNavigation }: HeaderProps) => {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
-
+  // , bgcolor: <"#ecb613">
   return (
     <>
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 , py: 1}}>
         <Toolbar disableGutters variant="dense">
           <Hamburger toggleNavigation={toggleNavigation} />
           <AppTitle />

@@ -26,7 +26,6 @@ export const RouteItem = ({
 
   const isSelected =
     location.pathname === route.path || (hasChildren && route.subRoutes?.some((e) => location.pathname === e.path));
-
   const item = (
     <StyledListItemButton
       isEnabled={route.isEnabled}
@@ -71,5 +70,5 @@ const StyledIconButton = styled(IconButton)<{ isSelected: boolean }>(({ isSelect
 }));
 
 const StyledIcon = styled(Icon)<{ isSelected: boolean; component: ComponentType<{}> }>`
-  ${({ isSelected, theme }) => isSelected && `color: ${theme.palette.primary.main};`}
+  ${({ isSelected, theme }) => isSelected &&  `color: ${theme.palette.primary.main};`}
 `;
