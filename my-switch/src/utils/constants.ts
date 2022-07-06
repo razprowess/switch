@@ -1,5 +1,5 @@
 // APP TEXT
-export const APP_TITLE = 'Welcome to career guide mentorship';
+export const APP_TITLE = 'WELCOME TO CAREER GUIDE MENTORSHIP';
 export const APP_DESCRIPTION = 'React TypeScript Material-UI boilerplate by Welcome, Developer.';
 export const FOOTER_TEXT = `${new Date().getFullYear()} Proudly made in New Zealand by Dan Castro`;
 // PAGES TITLE
@@ -10,6 +10,7 @@ export const PAGE_TITLE_GH_PUBLIC = 'GitHub Public';
 export const PAGE_TITLE_CODE = 'Code Editor';
 export const PAGE_TITLE_SETTINGS = 'Settings';
 export const PAGE_TITLE_PREFERENCES = 'Preferences';
+export const PAGE_TITLE_SIGNUP = "Signup";
 // UI CONSTANTS
 export const FOOTER_HEIGHT = 30;
 export const HEADER_HEIGHT = 60;

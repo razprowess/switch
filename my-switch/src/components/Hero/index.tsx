@@ -29,7 +29,7 @@ export const Hero = () => {
         Learn from those who have done it before to avoid the mistake they went through
         Learn from those who have done it before to avoid the mistake they went through</Typography>
           </Slide>
-      <Button href="#text-buttons" variant='contained' size='large' sx={{ py: 2, px: '2rem', m: 1, borderRadius: 7, textTransform: 'none' }}>Learn More</Button>
+      <Button href="#text-buttons" variant='contained' size='large' sx={{ py: 2, px: '2rem', m: 1, borderRadius: 7, textTransform: 'none' }} className='button'>Learn More</Button>
     </div>
   </section>
 

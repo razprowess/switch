@@ -13,5 +13,6 @@ export const Hamburger = ({ toggleNavigation }: HamburgerProps) => {
     toggleNavigation();
   };
 
-  return <HamburgerMenu size={24} onToggle={toggle} toggled={isOpen} />;
+  return <HamburgerMenu size={24} onToggle={toggle} toggled={isOpen}/>;
+  
 };

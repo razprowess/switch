@@ -2,8 +2,8 @@ import { styled, Typography } from '@mui/material';
 
 import { APP_TITLE } from '../../../utils/constants';
 
-export const AppTitle = () => (
-  <StyledAppTitle variant="h5" noWrap>
+export const AppTitle = ({variant}: {variant: any}) => (
+  <StyledAppTitle variant={variant} noWrap>
     {APP_TITLE}
   </StyledAppTitle>
 );
@@ -14,6 +14,6 @@ const StyledAppTitle = styled(Typography)`
     sm: block;
   }
   cursor: default;
-  margin-left: 40px;
+  margin: 0 auto;
   font-weight: bold;
 `;
