@@ -1,7 +1,6 @@
 
 
 import { createTheme, responsiveFontSizes } from '@mui/material';
-import { blue, red } from '@mui/material/colors';
 
 import { DARK_MODE_THEME, LIGHT_MODE_THEME } from '../utils/constants';
 declare module '@mui/material/Button' {
@@ -14,11 +13,6 @@ export const getAppTheme = (mode: typeof LIGHT_MODE_THEME | typeof DARK_MODE_THE
 
   
   const lightTheme = {
-  //  palette: {
-  //    primary: {
-  //      main: '#ecb613'
-  //    }
-  //  },
   }
 
   const darkTheme = {
