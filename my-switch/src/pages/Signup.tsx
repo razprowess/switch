@@ -1,6 +1,3 @@
-
-// import { Module } from '../components/Module';
-
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { APP_TITLE, PAGE_TITLE_SIGNUP } from '../utils/constants';
@@ -41,6 +38,7 @@ export function Signup() {
         console.log({
             email: data.get('email'),
             password: data.get('password'),
+            profession: data.get('select'),
         });
     };
 
@@ -121,6 +119,7 @@ export function Signup() {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <TextField
+                                        name="select"
                                             fullWidth
                                             id="outlined-select-currency"
                                             select
@@ -153,7 +152,7 @@ export function Signup() {
                                 </Button>
                                 <Grid container justifyContent="flex-end" sx={{ mb: 2 }}>
                                     <Grid item>
-                                        <Link href="#" variant="body2">
+                                        <Link href="/login" variant="body2">
                                             Already have an account? Sign in
                                         </Link>
                                     </Grid>
