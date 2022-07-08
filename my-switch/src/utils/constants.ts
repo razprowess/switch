@@ -11,6 +11,7 @@ export const PAGE_TITLE_CODE = 'Code Editor';
 export const PAGE_TITLE_SETTINGS = 'Settings';
 export const PAGE_TITLE_PREFERENCES = 'Preferences';
 export const PAGE_TITLE_SIGNUP = "Signup";
+export const PAGE_TITLE_SIGNIN = "Signin";
 // UI CONSTANTS
 export const FOOTER_HEIGHT = 30;
 export const HEADER_HEIGHT = 60;
