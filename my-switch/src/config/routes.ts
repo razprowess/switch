@@ -13,7 +13,8 @@ import {
   } from '@mui/icons-material';
   
   import { Home } from '../pages/Home';
-  import { Signup } from '../pages/Signup'
+  import { Signup } from '../pages/Signup';
+  import { Signin } from '../pages/Signin';
   
   import { Route } from '../types/Route';
   
@@ -34,6 +35,16 @@ import {
       description: 'Signup',
       component: Signup,
       path: '/signup',
+      isEnabled: true,
+      icon: HomeIcon,
+      appendDivider: true,
+    },
+    {
+      key: 'router-signup',
+      title: 'Signin',
+      description: 'Signin',
+      component: Signin,
+      path: '/login',
       isEnabled: true,
       icon: HomeIcon,
       appendDivider: true,
