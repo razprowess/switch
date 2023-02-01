@@ -4,6 +4,8 @@ import { Box, Menu, MenuItem } from '@mui/material';
 import { Messages, Notifications, SignOut, Settings } from '../../Actions';
 import { ThemeSwitcher } from '../ThemeSwitcher';
 import { ThemeModeContext } from '../../../contexts';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/authContext';
 
 interface MobileMenuProps {
   isMenuOpen: boolean;
@@ -14,6 +16,13 @@ interface MobileMenuProps {
 
 export const MobileMenu = ({ isMenuOpen, handleMenuOpen, handleMenuClose, anchorEl }: MobileMenuProps) => {
   const { toggleThemeMode } = useContext(ThemeModeContext);
+  const navigate = useNavigate();
+  const {logout} = useContext(AuthContext);
+  const onLogout = ()=>{
+    handleMenuClose()
+    logout();
+    navigate('/');
+  }
 
   return (
     <Menu
@@ -48,7 +57,7 @@ export const MobileMenu = ({ isMenuOpen, handleMenuOpen, handleMenuClose, anchor
           <Settings disableTooltip />
           Settings
         </MenuItem>
-        <MenuItem onClick={handleMenuClose}>
+        <MenuItem onClick={onLogout}>
           <SignOut disableTooltip onClick={() => alert('Signing out...')} />
           Sign Out
         </MenuItem>

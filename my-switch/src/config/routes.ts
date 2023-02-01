@@ -15,8 +15,9 @@ import {
   import { Home } from '../pages/Home';
   import { Signup } from '../pages/Signup';
   import { Signin } from '../pages/Signin';
-  
   import { Route } from '../types/Route';
+  import { Dashboard } from '../pages/Dashboard';
+  import {Mentor} from '../pages/Mentor';
   
   const routes: Array<Route> = [
     {
@@ -30,6 +31,16 @@ import {
       appendDivider: true,
     },
     {
+      key: 'router-dashboard',
+      description:'Dashboard',
+      title: 'Dashboard',
+      path: '/dashboard',
+      component: Dashboard,
+      isEnabled: true,
+      icon: DashboardIcon,
+      isAuthenticated: true,
+  },
+    {
       key: 'router-signup',
       title: 'Signup',
       description: 'Signup',
@@ -40,7 +51,7 @@ import {
       appendDivider: true,
     },
     {
-      key: 'router-signup',
+      key: 'router-signin',
       title: 'Signin',
       description: 'Signin',
       component: Signin,
@@ -50,12 +61,13 @@ import {
       appendDivider: true,
     },
     {
-      key: 'router-dashboard',
-      title: 'Dashboard',
-      description: 'Dashboard',
-      path: '/dashboard',
-      isEnabled: true,
-      icon: DashboardIcon,
+      key: 'router-mentor',
+      title: 'become mentor',
+      description: 'mentorship signup',
+      component: Mentor,
+      path: '/mentor',
+      isEnabled: false,
+      isAuthenticated: true
     },
     {
       key: 'router-gh',

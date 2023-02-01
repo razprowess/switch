@@ -6,7 +6,8 @@ import {
   Fingerprint as FingerprintIcon,
   Logout as LogoutIcon,
   Settings as SettingsIcon,
-  List as PreferencesIcon,
+  Login as SignupIcon,
+  Person as ProfileIcon,
 } from '@mui/icons-material';
 
 import { ActionItem } from './ActionItem';
@@ -49,10 +50,14 @@ export const SignOut = ({ onClick, disableTooltip = false }: ActionProps) => (
   <ActionItem title="Sign Out" icon={LogoutIcon} onClick={onClick} disableTooltip={disableTooltip} />
 );
 
+export const SignUp = ({ onClick, disableTooltip = false }: ActionProps) => (
+  <ActionItem title="Sign Up" icon={SignupIcon} onClick={onClick} disableTooltip={disableTooltip} />
+);
+
 export const Settings = ({ onClick, disableTooltip = false }: ActionProps) => (
   <ActionItem title="Settings" icon={SettingsIcon} onClick={onClick} disableTooltip={disableTooltip} />
 );
 
-export const Preferences = ({ onClick, disableTooltip = false }: ActionProps) => (
-  <ActionItem title="Preferences" icon={PreferencesIcon} onClick={onClick} disableTooltip={disableTooltip} />
+export const Profile = ({ onClick, disableTooltip = false }: ActionProps) => (
+  <ActionItem title="Profile" icon={ProfileIcon} onClick={onClick} disableTooltip={disableTooltip} />
 );

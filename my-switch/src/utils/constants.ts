@@ -13,7 +13,7 @@ export const PAGE_TITLE_PREFERENCES = 'Preferences';
 export const PAGE_TITLE_SIGNUP = "Signup";
 export const PAGE_TITLE_SIGNIN = "Signin";
 // UI CONSTANTS
-export const FOOTER_HEIGHT = 30;
+export const FOOTER_HEIGHT = 60; //previously 30
 export const HEADER_HEIGHT = 60;
 export const DRAWER_WIDTH = 250;
 // APP THEME

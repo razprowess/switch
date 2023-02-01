@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AppBar, Box, Toolbar } from '@mui/material';
 
 import { Hamburger } from './Hamburger';
@@ -8,15 +8,15 @@ import { ThemeSwitcher } from './ThemeSwitcher';
 import { Messages, More, Notifications, UserAccount } from '../Actions';
 import { DefaultMenu, MobileMenu } from './Menu';
  import logo from '../../assets/logo/switch.png';
+import { AuthContext } from '../../contexts/authContext';
 interface HeaderProps {
   toggleNavigation: () => void;
 }
 
 export const Header = ({ toggleNavigation }: HeaderProps) => {
-  const [isLogin, setIsLogin] =  useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<null | HTMLElement>(null);
-
+const {user} = useContext(AuthContext);
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -29,7 +29,7 @@ export const Header = ({ toggleNavigation }: HeaderProps) => {
     handleMobileMenuClose();
   };
 
-  const Navbar = isLogin ?
+  const Navbar = user ?
   ( 
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 , py: 1}}>
 <Toolbar disableGutters variant="dense">
@@ -79,7 +79,7 @@ export const Header = ({ toggleNavigation }: HeaderProps) => {
         handleMenuClose={handleMobileMenuClose}
         anchorEl={mobileMoreAnchorEl}
       />
-      <DefaultMenu isMenuOpen={Boolean(anchorEl)} handleMenuClose={handleMenuClose} anchorEl={anchorEl} />
+      <DefaultMenu isMenuOpen={Boolean(anchorEl)} handleMenuClose={handleMenuClose} anchorEl={anchorEl} user={user}/>
     </>
   );
 };
