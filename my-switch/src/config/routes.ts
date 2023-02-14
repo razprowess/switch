@@ -18,6 +18,7 @@ import {
   import { Route } from '../types/Route';
   import { Dashboard } from '../pages/Dashboard';
   import {Mentor} from '../pages/Mentor';
+  import {Profile} from '../pages/Profile';
   
   const routes: Array<Route> = [
     {
@@ -66,6 +67,15 @@ import {
       description: 'mentorship signup',
       component: Mentor,
       path: '/mentor',
+      isEnabled: false,
+      isAuthenticated: true
+    },
+    {
+      key: 'router-profile',
+      title: 'profile',
+      description: 'user profile',
+      component: Profile,
+      path: '/profile',
       isEnabled: false,
       isAuthenticated: true
     },
