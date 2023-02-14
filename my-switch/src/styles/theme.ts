@@ -1,7 +1,7 @@
 
 
 import { createTheme, responsiveFontSizes } from '@mui/material';
-
+import { tableCellClasses } from '@mui/material/TableCell';
 import { DARK_MODE_THEME, LIGHT_MODE_THEME } from '../utils/constants';
 declare module '@mui/material/Button' {
   interface ButtonPropsVariantOverrides {
@@ -13,9 +13,30 @@ export const getAppTheme = (mode: typeof LIGHT_MODE_THEME | typeof DARK_MODE_THE
 
   
   const lightTheme = {
+    components: {
+      MuiCard: {
+        styleOverrides: {
+          root: {
+            backgroundColor: '#F6F6F6'
+          }
+        }
+      },
+      MuiDialog: {
+        styleOverrides: {
+          root: {
+            color: '#fff'
+          }
+        }
+      }
+    },
   }
 
   const darkTheme = {
+    palette: {background: {
+      default:  '#343434',
+      paper: '#343434'}
+    },
+
     components:{
       MuiAppBar:{
         styleOverrides:{
@@ -46,10 +67,24 @@ export const getAppTheme = (mode: typeof LIGHT_MODE_THEME | typeof DARK_MODE_THE
           },
         ],
       },
-    }
-  }
+      MuiCard: {
+        styleOverrides: {
+          root: {
+            backgroundColor: '#000000',
+          }
+        }
+      },
+      MuiDialog: {
+        styleOverrides: {
+          root:{
+            color: 'grey'
+          }
+        }
+      },
+  },
+}
 
-  const mainTheme = mode === 'light' ?  lightTheme : darkTheme
+  const mainTheme = mode === 'light' ?  lightTheme : darkTheme;
 
   let theme = createTheme({
     ...mainTheme,

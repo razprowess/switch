@@ -1,8 +1,6 @@
 import { Drawer as MuiDrawer, styled } from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import { Routes } from './Routes';
-
-import { DRAWER_WIDTH } from '../../utils/constants';
 import { navClosedMixin, navOpenedMixin } from '../../styles/mixins';
 
 interface NavigationProps {
@@ -24,7 +22,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
-  width: DRAWER_WIDTH,
   flexShrink: 0,
   whiteSpace: 'nowrap',
   boxSizing: 'border-box',

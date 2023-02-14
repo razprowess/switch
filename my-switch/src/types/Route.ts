@@ -53,7 +53,6 @@ export type Route = {
    * "<Dashboard />"
    */
   component?: FC<{}>;
-
   /**
    * The status of the route
    * @type {boolean}
@@ -109,4 +108,16 @@ export type Route = {
    * false
    */
   expanded?: boolean;
+
+    /**
+   * Indicate user's authentications status
+   * @type {boolean}
+   * @memberof Route
+   * @optional
+   * @example
+   * true
+   * @default
+   * false
+   */
+     isAuthenticated?: boolean;
 };

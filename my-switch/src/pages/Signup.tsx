@@ -1,6 +1,3 @@
-
-// import { Module } from '../components/Module';
-
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { APP_TITLE, PAGE_TITLE_SIGNUP } from '../utils/constants';
@@ -19,9 +16,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
+import { gql, useMutation } from '@apollo/client';
+import { AuthContext } from '../contexts/authContext';
+import { useNavigate } from 'react-router-dom';
+import { Alert } from '@mui/material';
 
 
-const currencies = [
+const professions = [
     {
         value: 'PHARMACY',
         label: 'Pharmacy',
@@ -34,14 +35,53 @@ const currencies = [
 
 export function Signup() {
     const [currency, setCurrency] = React.useState('PHARMACY');
+    const context = React.useContext(AuthContext);
+    let navigate = useNavigate();
+
+    const CREATE_USER = gql`
+    mutation CreateUser($userInput: RegisterUserInput){
+        registerUser(user: $userInput){
+        profession
+        token
+    }
+    }
+    `
+
+    // const [createUser,{data, error, reset}] = useMutation(CREATE_USER);
+    // if(data){
+    //     context?.login(data);
+    //     navigate('/');
+    // }
+
+    // if(error){
+    //     console.log(error.message);
+    // }
+
+    const [createUser, {error, reset}] = useMutation(CREATE_USER, {
+        update(proxy, { data: { registerUser: user } }) {
+            console.log("user: ", user)
+            context.login(user.token);
+            navigate('/dashboard');
+        },
+        onError({ graphQLErrors }) {
+            console.log(graphQLErrors)
+        }
+    }
+  )
+
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
+        const input = {
+            firstname: data.get('firstName'),
+            lastname: data.get('lastName'),
             email: data.get('email'),
             password: data.get('password'),
-        });
+            profession: data.get('select'),
+        }
+
+        createUser({ variables: { userInput: { ...input } } });
     };
 
 
@@ -49,6 +89,10 @@ export function Signup() {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCurrency(event.target.value);
     };
+
+    const closeAlert = () => {
+        reset();
+    }
 
     return (
         <>
@@ -121,15 +165,16 @@ export function Signup() {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <TextField
+                                            name="select"
                                             fullWidth
-                                            id="outlined-select-currency"
+                                            id="outlined-select-profession"
                                             select
                                             label="Select"
                                             value={currency}
                                             onChange={handleChange}
                                             helperText="Please select your profession"
                                         >
-                                            {currencies.map((option) => (
+                                            {professions.map((option) => (
                                                 <MenuItem key={option.value} value={option.value}>
                                                     {option.label}
                                                 </MenuItem>
@@ -153,12 +198,14 @@ export function Signup() {
                                 </Button>
                                 <Grid container justifyContent="flex-end" sx={{ mb: 2 }}>
                                     <Grid item>
-                                        <Link href="#" variant="body2">
+                                        <Link href="/login" variant="body2">
                                             Already have an account? Sign in
                                         </Link>
                                     </Grid>
                                 </Grid>
                             </Box>
+                            {error && <Alert sx={{ mx: 6 }} severity="error" onClose={closeAlert} variant="filled">{error?.message}</Alert>
+                            }
                         </Box>
                     </Container>
                 </CardContent>

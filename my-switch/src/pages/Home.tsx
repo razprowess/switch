@@ -8,9 +8,15 @@ import { AppContext } from '../contexts';
 import { APP_TITLE, PAGE_TITLE_HOME } from '../utils/constants';
 import { Module } from '../components/Module';
 import { Hero } from '../components/Hero';
+import AlertDialogue from '../components/AlertDialogue';
 
 export const Home = () => {
   const context = useContext(AppContext);
+
+  // const cardContainer = {
+  //   display: 'flex',
+  //   margin: '0 auto' 
+  // }
 
   return (
     <>
@@ -21,6 +27,7 @@ export const Home = () => {
       </Helmet>
       <Module marginTop='-25px'>
         <Hero/>
+        <AlertDialogue />
       </Module>
       <Typography variant="h4">{`Hello, ${context.user.name} 🎃`}</Typography>
       <LogoWrapper>

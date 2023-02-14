@@ -13,9 +13,12 @@ import {
   } from '@mui/icons-material';
   
   import { Home } from '../pages/Home';
-  import { Signup } from '../pages/Signup'
-  
+  import { Signup } from '../pages/Signup';
+  import { Signin } from '../pages/Signin';
   import { Route } from '../types/Route';
+  import { Dashboard } from '../pages/Dashboard';
+  import {Mentor} from '../pages/Mentor';
+  import {Profile} from '../pages/Profile';
   
   const routes: Array<Route> = [
     {
@@ -29,6 +32,16 @@ import {
       appendDivider: true,
     },
     {
+      key: 'router-dashboard',
+      description:'Dashboard',
+      title: 'Dashboard',
+      path: '/dashboard',
+      component: Dashboard,
+      isEnabled: true,
+      icon: DashboardIcon,
+      isAuthenticated: true,
+  },
+    {
       key: 'router-signup',
       title: 'Signup',
       description: 'Signup',
@@ -39,12 +52,32 @@ import {
       appendDivider: true,
     },
     {
-      key: 'router-dashboard',
-      title: 'Dashboard',
-      description: 'Dashboard',
-      path: '/dashboard',
+      key: 'router-signin',
+      title: 'Signin',
+      description: 'Signin',
+      component: Signin,
+      path: '/login',
       isEnabled: true,
-      icon: DashboardIcon,
+      icon: HomeIcon,
+      appendDivider: true,
+    },
+    {
+      key: 'router-mentor',
+      title: 'become mentor',
+      description: 'mentorship signup',
+      component: Mentor,
+      path: '/mentor',
+      isEnabled: false,
+      isAuthenticated: true
+    },
+    {
+      key: 'router-profile',
+      title: 'profile',
+      description: 'user profile',
+      component: Profile,
+      path: '/profile',
+      isEnabled: false,
+      isAuthenticated: true
     },
     {
       key: 'router-gh',
