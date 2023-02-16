@@ -69,7 +69,6 @@ const {user} = useContext(AuthContext);
 </AppBar>
 )
 
-  // , bgcolor: <"#ecb613">
   return (
     <>
       {Navbar}
@@ -78,6 +77,7 @@ const {user} = useContext(AuthContext);
         handleMenuOpen={handleMobileMenuOpen}
         handleMenuClose={handleMobileMenuClose}
         anchorEl={mobileMoreAnchorEl}
+        user={user}
       />
       <DefaultMenu isMenuOpen={Boolean(anchorEl)} handleMenuClose={handleMenuClose} anchorEl={anchorEl} user={user}/>
     </>

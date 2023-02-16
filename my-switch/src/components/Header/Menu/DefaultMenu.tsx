@@ -3,10 +3,7 @@ import { Divider, Menu, MenuItem } from '@mui/material';
 import { AuthContext } from '../../../contexts/authContext';
 import { useNavigate } from 'react-router-dom';
 import { JwtPayload } from "jwt-decode";
-
 import { Settings, SignOut, SignUp, Profile } from '../../Actions';
-
-
 interface DefaultMenuProps {
   isMenuOpen: boolean;
   handleMenuClose: () => void;
@@ -17,7 +14,7 @@ interface DefaultMenuProps {
 export const DefaultMenu = ({ isMenuOpen, handleMenuClose, anchorEl, user }: DefaultMenuProps) => {
 
   const navigate = useNavigate();
-  const { logout} = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const onLogout = () => {
     handleMenuClose();
     logout();
@@ -30,29 +27,27 @@ export const DefaultMenu = ({ isMenuOpen, handleMenuClose, anchorEl, user }: Def
   }
 
   return (<Menu anchorEl={anchorEl} id="primary-search-account-menu" keepMounted open={isMenuOpen} onClose={handleMenuClose}>
-      {user && 
-      <MenuItem onClick={handleMenuClose}>
-      <Profile disableTooltip />
-      Profile
-    </MenuItem>}
-    <MenuItem onClick={handleMenuClose}>
-      <Settings disableTooltip />
-      Settings
-    </MenuItem>
-    <Divider />
     {user ?
-      <MenuItem onClick={onLogout}>
-        <SignOut disableTooltip />
-        Sign Out
-      </MenuItem>
+      <>
+        <MenuItem onClick={handleMenuClose}>
+          <Profile disableTooltip />
+          Profile
+        </MenuItem>
+        <MenuItem onClick={handleMenuClose}>
+          <Settings disableTooltip />
+          Settings
+        </MenuItem>
+        <Divider />
+        <MenuItem onClick={onLogout}>
+          <SignOut disableTooltip />
+          Sign Out
+        </MenuItem>
+      </>
       :
       <MenuItem onClick={handleSignup}>
         <SignUp disableTooltip />
         Sign Up
       </MenuItem>
-
-
     }
-
   </Menu>)
 };
