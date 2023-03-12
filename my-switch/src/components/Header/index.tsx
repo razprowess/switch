@@ -11,12 +11,15 @@ import { DefaultMenu, MobileMenu } from './Menu';
 import { AuthContext } from '../../contexts/authContext';
 interface HeaderProps {
   toggleNavigation: () => void;
+  onClickOutside: boolean;
 }
+export type Ref = HTMLDivElement | null;
 
-export const Header = ({ toggleNavigation }: HeaderProps) => {
+export const Header = React.forwardRef<Ref, HeaderProps>((props, ref) => {
+  const {toggleNavigation, onClickOutside} = props;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<null | HTMLElement>(null);
-const {user} = useContext(AuthContext);
+  const {user} = useContext(AuthContext);
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -33,8 +36,8 @@ const {user} = useContext(AuthContext);
   ( 
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 , py: 1}}>
 <Toolbar disableGutters variant="dense">
-  <Box sx={{mr: 2.5}}>
-  <Hamburger toggleNavigation={toggleNavigation}/>
+  <Box sx={{mr: 2.5}} ref={ref}>
+  <Hamburger toggleNavigation={toggleNavigation} onClickOutside={onClickOutside} />
   </Box>
   <AppTitle variant="h5"/>
   <Search />
@@ -82,4 +85,4 @@ const {user} = useContext(AuthContext);
       <DefaultMenu isMenuOpen={Boolean(anchorEl)} handleMenuClose={handleMenuClose} anchorEl={anchorEl} user={user}/>
     </>
   );
-};
+});

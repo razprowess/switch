@@ -1,3 +1,4 @@
+import React from 'react';
 import { Drawer as MuiDrawer, styled } from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import { Routes } from './Routes';
@@ -8,14 +9,16 @@ interface NavigationProps {
   handleClose: () => void;
 }
 
-export const Navigation = ({ open, handleClose }: NavigationProps) => {
+export type Ref = HTMLDivElement | null;
+export const Navigation = React.forwardRef<Ref, NavigationProps>((props, ref) => {
+  const { open, handleClose } = props;
   return (
-    <Drawer variant="permanent" open={open} onClose={handleClose}>
+    <Drawer variant="permanent" open={open} onClose={handleClose} ref={ref}>
       <DrawerHeader />
       <Routes />
     </Drawer>
   );
-};
+});
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar, useStyles

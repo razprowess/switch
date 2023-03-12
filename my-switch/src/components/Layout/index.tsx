@@ -1,4 +1,4 @@
-import { FC, useState, useContext } from 'react';
+import { FC, useState, useContext, useEffect, useRef } from 'react';
 import { styled, Box } from '@mui/material';
 
 import { Navigation } from '../Navigation';
@@ -11,21 +11,45 @@ import { AuthContext } from '../../contexts/authContext';
 
 export const Layout: FC = ({ children }) => {
   const [open, setOpen] = useState(false);
+  const [hasClickOutide, setHasclickOutside] = useState(false);
+
   const toggleNavigation = () => setOpen((status) => !status);
+
+  const closeNavigation = () => {
+      setOpen(false);
+      setHasclickOutside((status)=> !status);
+  };
 
 const { user } =  useContext(AuthContext);
 
-  return (
+const ref = useRef<HTMLDivElement | null>(null);
+const headerRef = useRef<HTMLDivElement | null>(null);
+
+useEffect(()=>{
+  document.addEventListener('mousedown', handleClickOut);
+
+  return ()=>{
+    document.removeEventListener('mousedown', handleClickOut);
+  }
+},[]);
+
+const handleClickOut = (event:any)=>{
+  if(ref.current && headerRef.current && !headerRef.current.contains(event.target) && !ref.current.contains(event.target)){
+    closeNavigation();
+  }
+}
+
+return (
     <LayoutWrapper>
       <ContentWrapper>
         <Box component="header">
-          <Header toggleNavigation={toggleNavigation} />
+          <Header toggleNavigation={toggleNavigation} ref={headerRef} onClickOutside={hasClickOutide}/>
         </Box>
-       {user && <Navigation open={open} handleClose={toggleNavigation} />}
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        {user && <Navigation open={open} handleClose={toggleNavigation} ref={ref}/>} 
+         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <DrawerHeader />
            {children} 
-        </Box>
+        </Box> 
       </ContentWrapper>
       <Box component="footer">
         <Footer />
