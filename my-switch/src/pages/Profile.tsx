@@ -2,9 +2,7 @@ import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import myimage from '../assets/images/abdulrazak.jpg';
@@ -13,16 +11,13 @@ import myimage from '../assets/images/abdulrazak.jpg';
 export const Profile = () => {
     return (
         <>
-            <Grid container spacing={2}>
-                <Grid item xs={12} md={3}>
-                    
-
-
-                    <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-      <ImageAvatar />
-      </CardContent>
-    </Card>
+            <Grid container spacing={2} justifyContent='space-around'>
+                <Grid item xs={12} md={2}>
+                    <Card sx={{ minWidth: 275}}>
+                        <CardContent sx={{paddingLeft: 4}}>
+                            <ImageAvatar />
+                        </CardContent>
+                    </Card>
 
 
 
@@ -90,7 +85,7 @@ export function OutlinedCard() {
 export function ImageAvatar() {
     return (
         <>
-            <Avatar alt="abdulrazak lawal" src={myimage} sx={{ width: 200, height: 200 }} />
+            <Avatar alt="abdulrazak lawal" src={myimage} sx={{ width: 200, height: 200}} />
         </>
     )
 }
