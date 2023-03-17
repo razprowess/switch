@@ -22,14 +22,12 @@ export const Hero = () => {
   }}>
     <div style={{ textAlign: 'center' }}>
       <StyledHeroHeading variant='h2'>
-        Be a guide to people's success.
+        Be a guide to people's success
       </StyledHeroHeading>
           <Slide direction="up" in={checked} mountOnEnter unmountOnExit timeout={2000}>
-          <Typography paragraph className='hero-description'>Learn from those who have done it before to avoid the mistake they went through
-        Learn from those who have done it before to avoid the mistake they went through
-        Learn from those who have done it before to avoid the mistake they went through</Typography>
+          <Typography variant='h5' className='hero-description' mb={5}>Learn from those who have done it before</Typography>
           </Slide>
-      <Button href="/signup" variant='contained' size='large' sx={{ py: 2, px: '2rem', m: 1, borderRadius: 7, textTransform: 'none' }} className='button'>Join Now</Button>
+      <Button href="/signup" variant='contained' size='large' sx={{ py: 2, px: '2rem', m: 1, borderRadius: 0, textTransform: 'none' }} className='button'> <StyledButtonText>Join Now</StyledButtonText></Button>
     </div>
   </section>
 
@@ -42,9 +40,12 @@ const StyledHeroHeading = styled(Typography)`
     sm: block;
   }
   cursor: default;
-  margin-left: 40px;
   font-weight: bold;
   color: #6795de;
   margin-bottom: 10px;
 `;
 
+const StyledButtonText = styled(Typography)`
+font-family: Oxanium, cursive;
+font-size: 1.5em;
+`

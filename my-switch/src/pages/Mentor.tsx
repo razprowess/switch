@@ -117,8 +117,8 @@ export const Mentor = () => {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormControlLabel
-                                            control={<Checkbox color="primary" name='checked' onChange={handleChange} value={checked} checked={checked}/>}
-                                            label="I want to be verified."
+                                            control={<Checkbox color="primary" name='checked' onChange={handleChange} value={checked} checked={checked} disabled/>}
+                                            label="I want to be verified. (Feature Not Yet Available)"
                                         />
                                     </Grid>
                                 </Grid>
