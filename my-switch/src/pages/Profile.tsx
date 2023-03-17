@@ -13,7 +13,7 @@ export const Profile = () => {
         <>
             <Grid container spacing={2} justifyContent='space-around'>
                 <Grid item xs={12} md={2}>
-                    <Card sx={{ minWidth: 275}}>
+                    <Card sx={{ minWidth: 275, backgroundColor: 'transparent'}} variant='elevation'>
                         <CardContent sx={{paddingLeft: 4}}>
                             <ImageAvatar />
                         </CardContent>
@@ -76,7 +76,7 @@ const card = (
 export function OutlinedCard() {
     return (
         <Box sx={{ minWidth: 275 }}>
-            <Card variant="outlined">{card}</Card>
+            <Card sx={{ backgroundColor: 'transparent'}} variant='elevation'>{card}</Card>
         </Box>
     );
 }
@@ -89,3 +89,5 @@ export function ImageAvatar() {
         </>
     )
 }
+
+
