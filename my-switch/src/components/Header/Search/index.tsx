@@ -1,92 +1,155 @@
 import { useEffect, useRef, useState } from 'react';
-import { alpha, InputBase, styled, Box } from '@mui/material';
+import { alpha, InputBase, styled, Box, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchResultList from '../SearchResultList';
-import {gql, useQuery} from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
+import { LIGHT_MODE_THEME } from '../../../utils/constants';
 
-// const GET_MENTOR_LiST = gql`
-// query mentorList($speciality: String){
-// mentor()
-// }
-// `
 
 interface SearchProps {
-isIconClick: boolean,
-handleIconclose: ()=>void,
+  isIconClick: boolean,
+  handleIconclose: () => void,
 }
 
-export const Search = ({ isIconClick, handleIconclose}: SearchProps) => {
+export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
   const [searchInput, setSearchInput] = useState('');
+  const [isClosed, setIsClosed] = useState(false);
   const [left, setLeft] = useState(0);
-   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+  const ref = useRef<HTMLElement | null>(null);
+  const GET_MENTOR_LiST = gql`
+query mentorList($speciality: String){
+getMentors(speciality: $speciality){
+info
+account {
+firstname
+lastname
+}
+  }
+}
+`
+
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    }
+  }, [])
+
+  useEffect(() => {
+    if (ref.current !== null) {
+      let leftMargin = ref.current.getBoundingClientRect().left;
+      setLeft(leftMargin);
+    }
+  }, [])
+
+  const [getMentor, { data }] = useLazyQuery(GET_MENTOR_LiST);
+
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      if (searchInput) {
+        getMentor({ variables: { speciality: searchInput } });
+        setIsClosed(false);
+      }
+
+      if (searchInput === "") {
+        setIsClosed(true);
+      }
+    }, 1000);
+
+    return () => clearTimeout(timerId);
+  }, [searchInput]);
+
+  const handleResize = () => {
+    if (ref.current) {
+      let leftMargin = ref.current.getBoundingClientRect().left;
+      setLeft(leftMargin);
+    }
+  }
+
+
+  const handleCloseButton = () => {
+    setSearchInput('');
+    setIsClosed(true);
+    handleIconclose();
+  }
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(event.target.value);
   }
 
-  const ref = useRef<HTMLElement | null>(null);
-
-useEffect(()=>{
-window.addEventListener('resize', handleResize);
-
-return ()=>{
-  window.removeEventListener('resize', handleResize);
-}
-},[])
-
-useEffect(()=>{
-  if(ref.current !== null){
-    let leftMargin = ref.current.getBoundingClientRect().left;
-    setLeft(leftMargin);
+  if (isIconClick) {
+    return (
+      <>
+        <Box sx={{ display: { xs: 'flex' }, ml: [6, null, 12] }} ref={ref}>
+          <SearchWrapper>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase placeholder="Search a career for mentor…" inputProps={{ 'aria-label': 'search' }} onChange={handleChange} value={searchInput} />
+            <CloseIconWrapper onClick={handleCloseButton}>
+              <CloseIcon />
+            </CloseIconWrapper>
+          </SearchWrapper>
+        </Box>
+       {!isClosed && <SearchResultList left={left} searchResult={data} />}
+        {data && !isClosed && <SearchResultWrapper left={left}>
+          <Typography variant='body1' sx={{ flexGrow: 1, fontWeight: 'bold' }} ml={2}>
+            Search Result for Mentors
+          </Typography>
+          <CloseIconWrapper onClick={handleCloseButton}>
+            <CloseIcon />
+          </CloseIconWrapper>
+        </SearchResultWrapper>
+        }
+      </>
+    )
   }
-},[])
-
-const handleResize =()=>{
-if(ref.current){
-  let leftMargin = ref.current.getBoundingClientRect().left;
-  setLeft(leftMargin);
-}
-}
-
-const handleCloseButton = () =>{
-  setSearchInput('');
-  handleIconclose();
-}
-
-if(isIconClick){
-  return (
-    <>
-       <Box sx={{ display: { xs: 'flex' }, ml: [6, null, 12] }} ref={ref}>
-       <SearchWrapper>
-         <SearchIconWrapper>
-           <SearchIcon />
-         </SearchIconWrapper>
-         <StyledInputBase placeholder="Search a career for mentor…" inputProps={{ 'aria-label': 'search' }} onChange={handleChange} value={searchInput} />
-         <CloseIconWrapper onClick={handleCloseButton}>
-           <CloseIcon />
-         </CloseIconWrapper>
-       </SearchWrapper>
-     </Box>
-     <SearchResultList left={left}/>
-   </> 
-   )
-} 
 
   return (
     <>
-       <Box sx={{ display: { sm: 'flex', xs: 'none', }, ml: [2, null, 12] }} ref={ref}>
-       <SearchWrapper>
-         <SearchIconWrapper>
-           <SearchIcon />
-         </SearchIconWrapper>
-         <StyledInputBase placeholder="A Search a career for mentor…" inputProps={{ 'aria-label': 'search' }} onChange={handleChange} value={searchInput}/>
-         <CloseIconWrapper onClick={handleCloseButton}>
-           <CloseIcon />
-         </CloseIconWrapper>
-       </SearchWrapper>
-     </Box>
-     <SearchResultList left={left}/>
-   </> 
-   )
+      <Box sx={{ display: { sm: 'flex', xs: 'none', }, ml: [2, null, 12] }} ref={ref}>
+        <SearchWrapper>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase placeholder="A Search a career for mentor…" inputProps={{ 'aria-label': 'search' }} onChange={handleChange} value={searchInput} />
+          <CloseIconWrapper onClick={handleCloseButton}>
+            <CloseIcon sx={(theme) => ({
+              "&:hover": {
+                backgroundColor: theme.palette.mode === LIGHT_MODE_THEME ? alpha(theme.palette.common.white, 0.15) : alpha(theme.palette.common.white, 0.15),
+                borderRadius: '10%',
+                cursor: 'pointer',
+              }
+            })
+            }
+            />
+          </CloseIconWrapper>
+        </SearchWrapper>
+      </Box>
+      {!isClosed && <SearchResultList left={left} searchResult={data} />}
+      {data && !isClosed && <SearchResultWrapper left={left}>
+        <Typography variant='body1' sx={{ flexGrow: 1, fontWeight: 'bold' }} ml={2}>
+          Search Result for Mentors
+        </Typography>
+        <CloseIconWrapper onClick={handleCloseButton}>
+          <CloseIcon sx={(theme) => ({
+            "&:hover": {
+              backgroundColor: theme.palette.mode === LIGHT_MODE_THEME ? '#e0e0e0' : alpha(theme.palette.common.white, 0.15),
+              borderRadius: '10%',
+              cursor: 'pointer',
+            }
+          })
+          } />
+        </CloseIconWrapper>
+      </SearchResultWrapper>
+      }
+    </>
+  )
 };
 
 const SearchWrapper = styled('div')(({ theme }) => ({
@@ -136,9 +199,24 @@ const CloseIconWrapper = styled('div')(({ theme }) => ({
   alignItems: 'center',
   padding: theme.spacing(0, 2),
   height: '100%',
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.20),
-    cursor: 'pointer',
-  },
 }));
 
+const SearchResultWrapper = styled('div')<{ left: number }>(({ theme, left }) => ({
+  display: 'flex',
+  width: '480px',
+  position: 'fixed',
+  top: '70px',
+  left: `calc(${left}px + 24px)`,
+  height: '50px',
+  borderTopRightRadius: '10px',
+  borderTopLeftRadius: '10px',
+  backgroundColor: theme.palette.background.paper,
+  color: theme.palette.mode === LIGHT_MODE_THEME ? theme.palette.text.primary : '#fff',
+  alignItems: 'center',
+  boxShadow: '0px 2px 0px #888',
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+    left: '0',
+    top: '70px',
+  },
+}))
