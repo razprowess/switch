@@ -8,21 +8,49 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { styled, alpha, Button, Box } from '@mui/material';
 import { LIGHT_MODE_THEME } from '../../../utils/constants';
+import { gql, useMutation} from '@apollo/client';
+import { useEffect, useState } from 'react';
 
 interface SearchResultListProps {
   left: number;
-  searchResult?: any
+  searchResult?: any;
+  onHandleButtonClick: Function;
 }
 
 
-export default function SearchResultList({ left, searchResult }: SearchResultListProps) {
-  if (!searchResult) return null;
+export default function SearchResultList({ left, searchResult, onHandleButtonClick }: SearchResultListProps) {
+  const [rendered, setRendered] =  useState(false);
 
-  const { getMentors } = searchResult;
+  useEffect(()=>{
+    setRendered(true);
+  },[])
 
-  if (getMentors.length === 0) {
+  const REGISTER_FOLLOWER = gql`
+  mutation RegisterFollower($mentorid: ID){
+  createFollower(mentorId: $mentorid){
+    status
+    mentor_id
+  }
+}
+`
+
+const REMOVE_FOLLOWER = gql`
+mutation RemoveFollower($mentorid: ID){
+  removeFollower(mentorId: $mentorid)
+}`
+
+
+const [create] = useMutation(REGISTER_FOLLOWER);
+
+const [remove] = useMutation(REMOVE_FOLLOWER);
+
+
+if (!searchResult) return null;
+
+  if (searchResult.length === 0) {
     return (
-      <StyledList left={left} >
+      <>
+     {!rendered && (<StyledList left={left} >
         <NoSearchResult>
           <ListItemText
             sx={{ textAlign: 'center' }}
@@ -39,36 +67,53 @@ export default function SearchResultList({ left, searchResult }: SearchResultLis
             </React.Fragment>} />
         </NoSearchResult>
         <Divider variant='fullWidth' component="li" />
-      </StyledList>
+      </StyledList>)
+    }
+    </>
     )
   }
 
   const capitalizedFirstLetter = (str: string) => {
     return str[0].toUpperCase();
   }
+
+  const handleFollowButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number) => {
+    event.stopPropagation();
+      onHandleButtonClick(id);
+     create({ variables: { mentorid: id } });
+    }  
+
+
+  const handleUnfollowButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number) => {
+    event.stopPropagation();
+    onHandleButtonClick(id);
+    remove({ variables: { mentorid: id } })
+  }
+
   return (
     <StyledList left={left}>
-      {getMentors?.map((result: any) => {
-        const { info, account } = result;
+      {searchResult?.map((result: any) => {
+        const { info, account, id, hasFollowed } = result;
         const { firstname, lastname } = account;
         return (
           <>
-            <StyledListItem alignItems="flex-start">
+            <StyledListItem alignItems="flex-start" key={id}>
               <ListItemAvatar>
-                <Avatar alt={capitalizedFirstLetter(lastname)} src="/static/images/avatar/1.jpg" />
+                <Avatar alt={capitalizedFirstLetter(firstname)} src="/static/images/avatar/1.jpg" />
               </ListItemAvatar>
               <ListItemWrapper>
                 <Typography variant='h6' sx={{ textTransform: 'capitalize' }}>
                   {firstname} {lastname}
                 </Typography>
-                <Typography variant='body2'>
+                <StyledTypographay variant='body2'>
                   {info}
-                </Typography>
+                </StyledTypographay>
               </ListItemWrapper>
               <ButtonContainer>
-              <Button variant='contained' size='small' sx={{textTransform: 'none', borderRadius: '0'}}>Follow</Button> 
-              <Button variant='text' size='small' sx={{textTransform: 'none', borderRadius: '0', marginBottom: '3px'}}>View Profile</Button> 
-            </ButtonContainer>
+                { hasFollowed ? <Button variant='contained' size='small' sx={{ textTransform: 'none', borderRadius: '0', marginBottom: '5px' }} onClick={(event) => handleUnfollowButtonClick(event, id)}>Unfollow</Button>: 
+                 <Button variant='contained' size='small' sx={{ textTransform: 'none', borderRadius: '0', marginBottom: '5px' }} onClick={(event) => handleFollowButtonClick(event, id)}>Follow</Button> }
+                <Button variant='text' size='small' sx={{ textTransform: 'none', borderRadius: '0' }}>View Profile</Button>
+              </ButtonContainer>
             </StyledListItem>
             <Divider variant="inset" component="li" />
           </>
@@ -139,3 +184,10 @@ const ButtonContainer = styled(Box)(() => ({
   flexDirection: 'column',
   marginLeft: '15px'
 }));
+
+const StyledTypographay = styled(Typography)`
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+overflow: hidden;
+`;

@@ -44,7 +44,7 @@ export const Mentor = () => {
             verifyrequest: data.get('checked'),
 
         }
-        console.log(input);
+    
         create({variables: {mentor: {...input}}});
 
     }
