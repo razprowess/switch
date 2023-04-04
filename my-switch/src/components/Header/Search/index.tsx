@@ -12,23 +12,40 @@ interface SearchProps {
   handleIconclose: () => void,
 }
 
+type Mentor = {
+  account: {
+    firstname: string,
+    lastname: string,
+  },
+  info: string,
+  id: number,
+  hasFollowed: boolean,
+}
+
+
 export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
+
   const [searchInput, setSearchInput] = useState('');
   const [isClosed, setIsClosed] = useState(false);
   const [left, setLeft] = useState(0);
+  const [mentorsList, setMentorsList] = useState<Mentor[]>([]);
 
   const ref = useRef<HTMLElement | null>(null);
   const GET_MENTOR_LiST = gql`
-query mentorList($speciality: String){
-getMentors(speciality: $speciality){
-info
-account {
-firstname
-lastname
-}
+      query mentorList($speciality: String){
+      getMentors(speciality: $speciality){
+        info
+        id
+        account {
+          firstname
+          lastname
+      }
+      followers {
+        togglerequest
+      }
+    }
   }
-}
-`
+  `
 
 
   useEffect(() => {
@@ -44,10 +61,13 @@ lastname
       let leftMargin = ref.current.getBoundingClientRect().left;
       setLeft(leftMargin);
     }
-  }, [])
+  }, []);
+
 
   const [getMentor, { data }] = useLazyQuery(GET_MENTOR_LiST);
-
+  useEffect(() => {
+    setMentorsList((data?.getMentors || []).map((item: any) => ({ ...item, hasFollowed: item.followers?.length > 0 })));
+  }, [data])
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -82,6 +102,19 @@ lastname
     setSearchInput(event.target.value);
   }
 
+  const onHandleButtonClick = (id: number) => {
+
+    const result = mentorsList.map((mentor) => {
+      if (mentor.id === id) {
+        const value = mentor.hasFollowed;
+        return { ...mentor, hasFollowed: !value }
+      }
+      return mentor;
+    })
+
+    setMentorsList(result);
+  }
+
   if (isIconClick) {
     return (
       <>
@@ -96,7 +129,7 @@ lastname
             </CloseIconWrapper>
           </SearchWrapper>
         </Box>
-       {!isClosed && <SearchResultList left={left} searchResult={data} />}
+        {!isClosed && <SearchResultList left={left} searchResult={mentorsList} onHandleButtonClick={onHandleButtonClick} />}
         {data && !isClosed && <SearchResultWrapper left={left}>
           <Typography variant='body1' sx={{ flexGrow: 1, fontWeight: 'bold' }} ml={2}>
             Search Result for Mentors
@@ -117,7 +150,7 @@ lastname
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
-          <StyledInputBase placeholder="A Search a career for mentor…" inputProps={{ 'aria-label': 'search' }} onChange={handleChange} value={searchInput} />
+          <StyledInputBase placeholder="Search a career for mentor…" inputProps={{ 'aria-label': 'search' }} onChange={handleChange} value={searchInput} />
           <CloseIconWrapper onClick={handleCloseButton}>
             <CloseIcon sx={(theme) => ({
               "&:hover": {
@@ -131,7 +164,7 @@ lastname
           </CloseIconWrapper>
         </SearchWrapper>
       </Box>
-      {!isClosed && <SearchResultList left={left} searchResult={data} />}
+      {!isClosed && <SearchResultList left={left} searchResult={mentorsList} onHandleButtonClick={onHandleButtonClick} />}
       {data && !isClosed && <SearchResultWrapper left={left}>
         <Typography variant='body1' sx={{ flexGrow: 1, fontWeight: 'bold' }} ml={2}>
           Search Result for Mentors
