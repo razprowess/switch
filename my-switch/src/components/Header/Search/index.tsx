@@ -41,7 +41,7 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
           lastname
       }
       followers {
-        togglerequest
+        status
       }
     }
   }
