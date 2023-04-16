@@ -80,6 +80,15 @@ import {
       isAuthenticated: true
     },
     {
+      key: 'router-user-profile',
+      title: 'profile',
+      description: 'user profile',
+      component: Profile,
+      path: '/:username',
+      isEnabled: false,
+      isAuthenticated: false,
+    },
+    {
       key: 'router-gh',
       title: 'GitHub',
       description: 'GitHub',
