@@ -39,6 +39,8 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
         account {
           firstname
           lastname
+          id
+          username
       }
       followers {
         status
@@ -129,7 +131,7 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
             </CloseIconWrapper>
           </SearchWrapper>
         </Box>
-        {!isClosed && <SearchResultList left={left} searchResult={mentorsList} onHandleButtonClick={onHandleButtonClick} />}
+        {!isClosed && <SearchResultList left={left} searchResult={mentorsList} onHandleButtonClick={onHandleButtonClick} onHandleCloseButton={handleCloseButton}/>}
         {data && !isClosed && <SearchResultWrapper left={left}>
           <Typography variant='body1' sx={{ flexGrow: 1, fontWeight: 'bold' }} ml={2}>
             Search Result for Mentors
@@ -164,7 +166,7 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
           </CloseIconWrapper>
         </SearchWrapper>
       </Box>
-      {!isClosed && <SearchResultList left={left} searchResult={mentorsList} onHandleButtonClick={onHandleButtonClick} />}
+      {!isClosed && <SearchResultList left={left} searchResult={mentorsList} onHandleButtonClick={onHandleButtonClick} onHandleCloseButton={handleCloseButton}/>}
       {data && !isClosed && <SearchResultWrapper left={left}>
         <Typography variant='body1' sx={{ flexGrow: 1, fontWeight: 'bold' }} ml={2}>
           Search Result for Mentors

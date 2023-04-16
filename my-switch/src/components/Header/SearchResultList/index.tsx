@@ -10,16 +10,21 @@ import { styled, alpha, Button, Box } from '@mui/material';
 import { LIGHT_MODE_THEME } from '../../../utils/constants';
 import { gql, useMutation} from '@apollo/client';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 interface SearchResultListProps {
   left: number;
   searchResult?: any;
   onHandleButtonClick: Function;
+  onHandleCloseButton: ()=>void;
 }
 
 
-export default function SearchResultList({ left, searchResult, onHandleButtonClick }: SearchResultListProps) {
+export default function SearchResultList(props: SearchResultListProps) {
+  const { left, searchResult, onHandleButtonClick, onHandleCloseButton } = props;
   const [rendered, setRendered] =  useState(false);
+const navigate = useNavigate();
 
   useEffect(()=>{
     setRendered(true);
@@ -90,11 +95,16 @@ if (!searchResult) return null;
     remove({ variables: { mentorid: id } })
   }
 
+  const viewUserProfile = (username: string)=>{
+       onHandleCloseButton();
+      navigate(`/${username}`);
+  }
+
   return (
     <StyledList left={left}>
       {searchResult?.map((result: any) => {
         const { info, account, id, hasFollowed } = result;
-        const { firstname, lastname } = account;
+        const { firstname, lastname, username } = account;
         return (
           <>
             <StyledListItem alignItems="flex-start" key={id}>
@@ -112,7 +122,7 @@ if (!searchResult) return null;
               <ButtonContainer>
                 { hasFollowed ? <Button variant='contained' size='small' sx={{ textTransform: 'none', borderRadius: '0', marginBottom: '5px' }} onClick={(event) => handleUnfollowButtonClick(event, id)}>Unfollow</Button>: 
                  <Button variant='contained' size='small' sx={{ textTransform: 'none', borderRadius: '0', marginBottom: '5px' }} onClick={(event) => handleFollowButtonClick(event, id)}>Follow</Button> }
-                <Button variant='text' size='small' sx={{ textTransform: 'none', borderRadius: '0' }}>View Profile</Button>
+                <Button variant='text' size='small' sx={{ textTransform: 'none', borderRadius: '0' }} onClick={()=>viewUserProfile(username)}>View Profile</Button>
               </ButtonContainer>
             </StyledListItem>
             <Divider variant="inset" component="li" />
@@ -149,7 +159,7 @@ const StyledList = styled(List)<{ left: number }>(({ left, theme }) => ({
   overflowX: 'hidden',
   borderBottomLeftRadius: '10px',
   borderBottomRightRadius: '10px',
-
+  borderBottom:  theme.palette.mode === LIGHT_MODE_THEME ? '5px solid #2196f3' : '5px solid #fff',
   backgroundColor: theme.palette.background.paper,
   [theme.breakpoints.up('xs')]: {
     width: '100%',

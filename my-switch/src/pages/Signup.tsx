@@ -76,6 +76,7 @@ export function Signup() {
         const input = {
             firstname: data.get('firstName'),
             lastname: data.get('lastName'),
+            username: data.get('userName'),
             email: data.get('email'),
             password: data.get('password'),
             profession: data.get('select'),
@@ -140,6 +141,16 @@ export function Signup() {
                                             label="Last Name"
                                             name="lastName"
                                             autoComplete="family-name"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            required
+                                            fullWidth
+                                            id="userName"
+                                            label="User Name"
+                                            name="userName"
+                                            autoComplete="user-name"
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
