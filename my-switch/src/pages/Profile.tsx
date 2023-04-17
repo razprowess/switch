@@ -7,11 +7,12 @@ import Avatar from "@mui/material/Avatar";
 import myimage from "../assets/images/abdulrazak.jpg";
 import { styled } from "@mui/material";
 import Button from "@mui/material/Button";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useMutation } from "@apollo/client";
 import PageLayout from "../components/Layout/PageLayout";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import logo from "../assets/logo/avatar-placeholder.jpeg";
 import { useParams } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export interface IProfileProps {
   user?: string;
@@ -21,6 +22,7 @@ export function Profile() {
   //a placeholder variable for image
   const [hasImg, setHasImg] = React.useState(false);
   const { username } = useParams();
+  const navigate = useNavigate();
 
   const GET_PROFILE_DETAIL = gql`
     query GetProfileDetail($username: String) {
@@ -35,6 +37,7 @@ export function Profile() {
       }
     }
   `;
+
   const GET_MENTOR_FOLLOWERS = gql`
     query GetMentorFollowers($username: String) {
       getFollowers(username: $username) {
@@ -51,6 +54,15 @@ export function Profile() {
     }
   `;
 
+const REGISTER_FOLLOWER_BY_USERNAME = gql`
+mutation RegisterFollower($username: String){
+createFollowerByUsername(username: $username){
+  status
+  mentor_id
+}
+}
+`
+  const [create] = useMutation(REGISTER_FOLLOWER_BY_USERNAME);
   const { data: followingData, error: followingDataError } =
     useQuery(GET_USER_FOLLOWING, {
       variables: { username },
@@ -72,6 +84,11 @@ export function Profile() {
   }
 
   const { firstname, lastname, mentor } = data.getProfileInfo;
+
+  const handleFollowButtonClick = () => {
+     create({ variables: { username: username } });
+     navigate('/profile');
+    }
 
   return (
     <>
@@ -99,13 +116,20 @@ export function Profile() {
                 })}
               />
             )}
-            <Button
+            { username ? <Button
+              variant="contained"
+              fullWidth
+              sx={{ textTransform: "none", marginBottom: "10px" }}
+              onClick={handleFollowButtonClick}
+            >
+              Follow
+            </Button> : <Button
               variant="contained"
               fullWidth
               sx={{ textTransform: "none", marginBottom: "10px" }}
             >
               Edit profile
-            </Button>
+            </Button>}
             {followerData && (
               <Typography
                 variant="body1"
@@ -126,7 +150,7 @@ export function Profile() {
                   {" "}
                   &#xB7;
                   <strong>
-                    {" "}
+                    {"   "}
                     {followingData ? followingData.getFollowings.length : 0}
                   </strong>{" "}
                   following
