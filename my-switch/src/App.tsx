@@ -14,7 +14,6 @@ import client from './apolloClient';
 import {AuthProvider} from './contexts/authContext'
 import { AddRoute } from './services/addRoute';
 import NotFound from './components/Layout/NotFound';
-import { Profile } from './pages/Profile';
 
 
 function App() {

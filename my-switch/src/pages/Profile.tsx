@@ -72,7 +72,6 @@ export function Profile() {
   }
 
   const { firstname, lastname, mentor } = data.getProfileInfo;
-  const { info, experienceinyears, speciality } = mentor;
 
   return (
     <>
@@ -174,21 +173,21 @@ export function Profile() {
                     key={"bio"}
                   >
                     {" "}
-                    {info}
+                    {mentor.info}
                   </Typography>
                   <Typography
                     variant="body1"
                     sx={(theme) => ({ marginBottom: theme.spacing(4) })}
                     key={"info"}
                   >
-                    <strong>Area of Specialization:</strong> {speciality}
+                    <strong>Area of Specialization:</strong> {mentor.speciality}
                   </Typography>
                   <Typography
                     variant="body1"
                     sx={(theme) => ({ marginBottom: theme.spacing(4) })}
                     key={"info"}
                   >
-                    <strong>Year of Experience:</strong> {experienceinyears}
+                    <strong>Year of Experience:</strong> {mentor.experienceinyears}
                   </Typography>
                   <Typography
                     variant="body1"
