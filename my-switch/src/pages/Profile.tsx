@@ -90,6 +90,10 @@ createFollowerByUsername(username: $username){
      navigate('/profile');
     }
 
+  const handleEditButton = ()=>{
+    //toggle state variable to display the edit profile form below
+  }
+
   return (
     <>
       <GridContainer>
@@ -127,6 +131,7 @@ createFollowerByUsername(username: $username){
               variant="contained"
               fullWidth
               sx={{ textTransform: "none", marginBottom: "10px" }}
+              onClick={handleEditButton}
             >
               Edit profile
             </Button>}

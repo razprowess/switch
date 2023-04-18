@@ -14,9 +14,12 @@ const AlertDialogue = () => {
     const navigate = useNavigate();
 
     React.useEffect(() => {
-        setTimeout(() => {
-            setOpen(true);
-        }, 5000)
+        if(!sessionStorage.getItem('dialog')){
+            setTimeout(() => {
+                setOpen(true);
+            }, 5000)
+        } 
+      sessionStorage.setItem('dialog', JSON.stringify(open));    
     }, [])
 
     const handleClose = (e: any) => {
