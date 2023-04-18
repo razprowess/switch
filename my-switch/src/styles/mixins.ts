@@ -4,7 +4,7 @@ import { DRAWER_WIDTH } from '../utils/constants';
 
 export const navOpenedMixin = (theme: Theme): CSSObject => ({
   [theme.breakpoints.down('sm')]: {
-    width: '100%',
+    width: '80%',
   },
 
   width: DRAWER_WIDTH,
