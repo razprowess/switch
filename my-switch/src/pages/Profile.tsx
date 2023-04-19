@@ -7,20 +7,25 @@ import Avatar from "@mui/material/Avatar";
 import myimage from "../assets/images/abdulrazak.jpg";
 import { styled } from "@mui/material";
 import Button from "@mui/material/Button";
+import TextField from '@mui/material/TextField';
 import { gql, useQuery, useMutation } from "@apollo/client";
 import PageLayout from "../components/Layout/PageLayout";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import logo from "../assets/logo/avatar-placeholder.jpeg";
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import Container from '@mui/material/Container';
+import CardContent from '@mui/material/CardContent';
+import ProfileImage from "../components/ProfileImage";
 
-export interface IProfileProps {
-  user?: string;
-}
 
 export function Profile() {
   //a placeholder variable for image
-  const [hasImg, setHasImg] = React.useState(false);
+  const [hasImg, setHasImg] = useState(false);
+  const [showEditProfile, setShowEditProfile] = React.useState(false);
+  const [logoSrc, setLogoSrc] = useState("");
+
   const { username } = useParams();
   const navigate = useNavigate();
 
@@ -54,7 +59,7 @@ export function Profile() {
     }
   `;
 
-const REGISTER_FOLLOWER_BY_USERNAME = gql`
+  const REGISTER_FOLLOWER_BY_USERNAME = gql`
 mutation RegisterFollower($username: String){
 createFollowerByUsername(username: $username){
   status
@@ -86,17 +91,24 @@ createFollowerByUsername(username: $username){
   const { firstname, lastname, mentor } = data.getProfileInfo;
 
   const handleFollowButtonClick = () => {
-     create({ variables: { username: username } });
-     navigate('/profile');
-    }
-
-  const handleEditButton = ()=>{
-    //toggle state variable to display the edit profile form below
+    create({ variables: { username: username } });
+    navigate('/profile');
   }
+
+  const handleEditButton = () => {
+    //toggle state variable to display the edit profile form below
+    setShowEditProfile(true);
+  }
+
+  const handleAvatarChange = (event: any) => {
+    const folder = "profile/";
+    const currentFile = event.target.files[0];
+    const url = URL.createObjectURL(currentFile);
+  };
 
   return (
     <>
-      <GridContainer>
+      <GridContainer >
         <Grid container justifyContent="space-around">
           <Grid item xs={12} sm={2}>
             {hasImg ? (
@@ -120,7 +132,7 @@ createFollowerByUsername(username: $username){
                 })}
               />
             )}
-            { username ? <Button
+            {username ? <Button
               variant="contained"
               fullWidth
               sx={{ textTransform: "none", marginBottom: "10px" }}
@@ -231,6 +243,70 @@ createFollowerByUsername(username: $username){
           </Grid>
         </Grid>
       </GridContainer>
+
+      {showEditProfile &&
+        <Card sx={{ minWidth: 275, marginLeft: {xs: '25px', md: '60px'}, marginRight: {xs: '25px', md: '60px'} }}>
+          <CardContent>
+            <Container component="main">
+              <Box component={'form'} noValidate>
+                <h2>Personal Info</h2>
+                <Grid container spacing={2}>
+                  <Box
+                    display="flex"
+                    marginTop="16px"
+                    justifyContent="space-between"
+                    flexDirection={{ xs: "column", sm: "row" }}
+                    gap={{ xs: "1rem", sm: "0" }}
+                    width="100%"
+                  >
+                    <ProfileImage
+                      src={logoSrc}
+                      size="120px"
+                      type="circle"
+                      canChange={true}
+                      callback={handleAvatarChange}
+                    />
+                  </Box>
+
+                  <Grid item xs={12} sm={4}>
+                    <TextField
+                      autoComplete="given-name"
+                      name="firstName"
+                      required
+                      fullWidth
+                      id="firstName"
+                      label="First Name"
+                      autoFocus
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="lastName"
+                      label="Last Name"
+                      name="lastName"
+                      autoComplete="family-name"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="userName"
+                      label="User Name"
+                      name="userName"
+                      autoComplete="user-name"
+                    />
+                  </Grid>
+
+                </Grid>
+              </Box>
+            </Container>
+          </CardContent>
+        </Card>
+      }
+
     </>
   );
 }
