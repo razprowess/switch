@@ -18,11 +18,11 @@ import { useState } from "react";
 import Container from '@mui/material/Container';
 import CardContent from '@mui/material/CardContent';
 import ProfileImage from "../components/ProfileImage";
-
+import axios from "axios";
 
 export function Profile() {
   //a placeholder variable for image
-  const [hasImg, setHasImg] = useState(false);
+  const [hasImg, setHasImg] = useState(true);
   const [showEditProfile, setShowEditProfile] = React.useState(false);
   const [logoSrc, setLogoSrc] = useState("");
 
@@ -67,6 +67,12 @@ createFollowerByUsername(username: $username){
 }
 }
 `
+// const UPDATE_USER_PROFILE = gql`
+// mutation UpdateProfile($user: UserProfile){
+// updateProfile(userprofile: $user){
+// }
+// }
+// `
   const [create] = useMutation(REGISTER_FOLLOWER_BY_USERNAME);
   const { data: followingData, error: followingDataError } =
     useQuery(GET_USER_FOLLOWING, {
@@ -100,12 +106,37 @@ createFollowerByUsername(username: $username){
     setShowEditProfile(true);
   }
 
-  const handleAvatarChange = (event: any) => {
-    const folder = "profile/";
+  const handleAvatarChange = async (event: any) => {
     const currentFile = event.target.files[0];
-    const url = URL.createObjectURL(currentFile);
+    const formData = new FormData();
+    formData.append('file', currentFile);
+    formData.append('upload_preset', 'switch4career');
+    try {
+      const url = 'https://api.Cloudinary.com/v1_1/switch4career/image/upload';
+      const result = await axios.post(url, formData);
+      setLogoSrc(result.data.secure_url);
+
+    } catch (err) {
+      //handle error later
+      console.log(err);
+    }
   };
 
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const input = {
+      firstname: data.get('firstName'),
+      lastname: data.get('lastName'),
+      username: data.get('userName'),
+      speciality: data.get('speciality'),
+      experienceinyears: data.get('experience'),
+      info: data.get('info'),
+      bio: data.get('bio'),
+      imgurl: logoSrc
+    }
+    console.log(input);
+  }
   return (
     <>
       <GridContainer >
@@ -214,7 +245,7 @@ createFollowerByUsername(username: $username){
                     key={"bio"}
                   >
                     {" "}
-                    {mentor.info}
+                    <strong>About me: </strong> {mentor.info}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -245,10 +276,10 @@ createFollowerByUsername(username: $username){
       </GridContainer>
 
       {showEditProfile &&
-        <Card sx={{ minWidth: 275, marginLeft: {xs: '25px', md: '60px'}, marginRight: {xs: '25px', md: '60px'} }}>
+        <Card sx={{ minWidth: 275, marginLeft: { xs: '25px', md: '60px' }, marginRight: { xs: '25px', md: '60px' } }}>
           <CardContent>
             <Container component="main">
-              <Box component={'form'} noValidate>
+              <Box component={'form'} noValidate onSubmit={handleFormSubmit}>
                 <h2>Personal Info</h2>
                 <Grid container spacing={2}>
                   <Box
@@ -299,14 +330,82 @@ createFollowerByUsername(username: $username){
                       autoComplete="user-name"
                     />
                   </Grid>
+                  {followerData ?
+                    <><Grid item xs={12} sm={6}>
+                      <TextField
+                        required
+                        fullWidth
+                        id="speciality"
+                        label="Area of specialization"
+                        name="speciality"
+                        autoComplete="specialities"
+                        placeholder='e.g Cybersecurity' />
+                    </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          required
+                          fullWidth
+                          name="experience"
+                          label="Year of experience"
+                          type="number"
+                          id="experience"
+                          autoComplete="year of experience"
+                          placeholder='e.g 5' />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          name='bio'
+                          placeholder="Short bio"
+                          multiline
+                          maxRows={3}
+                          label='Bio'
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          name='info'
+                          placeholder="Any more details you would like to share about your experience"
+                          multiline
+                          maxRows={Infinity} />
+                      </Grid></> :
+                    <Grid item xs={12}>
+                      <TextField
+                        fullWidth
+                        name='bio'
+                        placeholder="Short bio"
+                        multiline
+                        maxRows={3}
+                        label='Bio'
+                      />
+                    </Grid>
 
+                  }
                 </Grid>
+                <Box sx={{ display: 'flex', justifyContent: { xs: 'flex-end', sm: 'center' }, alignItems: 'center', mb: 2, mt: 3 }}>
+                  <Button
+                    sx={{ mr: 1, borderRadius: '25px', textTransform: 'none' }}
+                    variant="text"
+                    onClick={() => setShowEditProfile(false)}
+                  >
+                    Cancel
+                  </Button>
+
+                  <Button
+                    sx={{ borderRadius: '25px', textTransform: 'none' }}
+                    type="submit"
+                    variant="contained"
+                    autoFocus
+                  >
+                    Save Changes
+                  </Button>
+                </Box>
               </Box>
             </Container>
           </CardContent>
         </Card>
       }
-
     </>
   );
 }
