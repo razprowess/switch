@@ -1,13 +1,19 @@
+import { useContext } from 'react';
 import { ListItemButton, ListItemIcon, ListItemText, IconButton, styled } from '@mui/material';
 import ExitToApp from '@mui/icons-material/ExitToApp';
+import { AuthContext } from '../../../../contexts/authContext';
+import { useNavigate } from 'react-router-dom';
 
 export const SignOutRoute = () => {
-  const handleSignOutClick = () => {
-    alert('Signing Out...');
-  };
+  const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
 
+  const onLogout = () => {
+    logout();
+    navigate('/');
+  }
   return (
-    <StyledListItemButton onClick={handleSignOutClick}>
+    <StyledListItemButton onClick={onLogout}>
       <ListItemIcon>
         <IconButton size="small">
           <ExitToApp />

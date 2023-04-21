@@ -18,7 +18,9 @@ export const Hero = () => {
     overflow: 'hidden',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    position: 'relative',
+    zIndex: 1,
   }}>
     <div style={{ textAlign: 'center' }}>
       <StyledHeroHeading variant='h2'>
@@ -27,7 +29,12 @@ export const Hero = () => {
           <Slide direction="up" in={checked} mountOnEnter unmountOnExit timeout={2000}>
           <Typography variant='h5' className='hero-description' mb={5}>Learn from those who have done it before</Typography>
           </Slide>
-      <Button href="/signup" variant='contained' size='large' sx={{ py: 2, px: '2rem', m: 1, borderRadius: 0, textTransform: 'none' }} className='button'> <StyledButtonText>Join Now</StyledButtonText></Button>
+      <Button 
+      href="/signup" 
+      variant='contained' 
+      size='large' 
+      sx={{ py: 2, px: '2rem', m: 1, borderRadius: 0, textTransform: 'none'}}> 
+      <StyledButtonText>Join Now</StyledButtonText></Button>
     </div>
   </section>
 

@@ -25,6 +25,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
+  zIndex: 2,
+  position: 'fixed',
   flexShrink: 0,
   whiteSpace: 'nowrap',
   boxSizing: 'border-box',

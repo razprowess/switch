@@ -10,15 +10,19 @@ import {
     SettingsOutlined as SettingsIcon,
     ListAlt as ListIcon,
     CreditCard as BillingIcon,
+    Person as ProfileIcon,
+    PersonOutline as MentorIcon
   } from '@mui/icons-material';
   
+
+
   import { Home } from '../pages/Home';
-  import { Signup } from '../pages/Signup';
   import { Signin } from '../pages/Signin';
   import { Route } from '../types/Route';
   import { Dashboard } from '../pages/Dashboard';
   import {Mentor} from '../pages/Mentor';
   import {Profile} from '../pages/Profile';
+  import { Signup } from '../pages/Signup';
   
   const routes: Array<Route> = [
     {
@@ -29,7 +33,6 @@ import {
       path: '/',
       isEnabled: true,
       icon: HomeIcon,
-      appendDivider: true,
     },
     {
       key: 'router-dashboard',
@@ -41,44 +44,49 @@ import {
       icon: DashboardIcon,
       isAuthenticated: true,
   },
-    {
-      key: 'router-signup',
-      title: 'Signup',
-      description: 'Signup',
-      component: Signup,
-      path: '/signup',
-      isEnabled: true,
-      icon: HomeIcon,
-      appendDivider: true,
-    },
-    {
-      key: 'router-signin',
-      title: 'Signin',
-      description: 'Signin',
-      component: Signin,
-      path: '/login',
-      isEnabled: true,
-      icon: HomeIcon,
-      appendDivider: true,
-    },
+  {
+    key: 'router-profile',
+    title: 'Profile',
+    description: 'user profile',
+    component: Profile,
+    path: '/profile',
+    icon: ProfileIcon,
+    isEnabled: true,
+    isAuthenticated: true
+  },
+  {
+    key: 'router-signin',
+    title: 'Signin',
+    description: 'sign in',
+    component: Signin,
+    path: '/login',
+    icon: ProfileIcon,
+    isEnabled: true,
+    isAuthenticated: false,
+    isSkip: true
+  },
+  {
+    key: 'router-signup',
+    title: 'Signup',
+    description: 'sign up',
+    component: Signup,
+    path: '/signup',
+    icon: ProfileIcon,
+    isEnabled: true,
+    isAuthenticated: false,
+    isSkip: true
+  },
     {
       key: 'router-mentor',
-      title: 'become mentor',
+      title: 'Become Mentor',
       description: 'mentorship signup',
       component: Mentor,
       path: '/mentor',
-      isEnabled: false,
+      icon: MentorIcon,
+      isEnabled: true,
       isAuthenticated: true
     },
-    {
-      key: 'router-profile',
-      title: 'profile',
-      description: 'user profile',
-      component: Profile,
-      path: '/profile',
-      isEnabled: false,
-      isAuthenticated: true
-    },
+    
     {
       key: 'router-user-profile',
       title: 'profile',
@@ -87,6 +95,7 @@ import {
       path: '/:username',
       isEnabled: false,
       isAuthenticated: false,
+      isSkip: true,
     },
     {
       key: 'router-gh',

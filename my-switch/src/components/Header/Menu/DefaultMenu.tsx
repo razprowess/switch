@@ -21,6 +21,11 @@ export const DefaultMenu = ({ isMenuOpen, handleMenuClose, anchorEl, user }: Def
     navigate('/');
   }
 
+  const handleProfile = () => {
+    handleMenuClose();
+    navigate('/profile');
+  }
+
   const handleSignup = () => {
     handleMenuClose();
     navigate('/signup')
@@ -29,7 +34,7 @@ export const DefaultMenu = ({ isMenuOpen, handleMenuClose, anchorEl, user }: Def
   return (<Menu anchorEl={anchorEl} id="primary-search-account-menu" keepMounted open={isMenuOpen} onClose={handleMenuClose}>
     {user ?
       <>
-        <MenuItem onClick={handleMenuClose}>
+        <MenuItem onClick={handleProfile}>
           <Profile disableTooltip />
           Profile
         </MenuItem>

@@ -24,7 +24,7 @@ export const Routes = () => {
     <>
       <List component="nav" sx={{ height: '100%' }}>
         {routesState.map((route: Route) => (
-          <div key={route.key}>
+          <div key={route.key} style={{display: route.isSkip ? 'none' : 'block'}}>
             {route.subRoutes ? (
               <>
                 <RouteItem key={`${route.key}`} route={route} hasChildren handleMenuClick={handleMenuClick} />

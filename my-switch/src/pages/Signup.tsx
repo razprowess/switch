@@ -59,7 +59,6 @@ export function Signup() {
 
     const [createUser, {error, reset}] = useMutation(CREATE_USER, {
         update(proxy, { data: { registerUser: user } }) {
-            console.log("user: ", user)
             context.login(user.token);
             navigate('/dashboard');
         },

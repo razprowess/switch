@@ -120,4 +120,16 @@ export type Route = {
    * false
    */
      isAuthenticated?: boolean;
+
+         /**
+   * Indicate user's authentications status
+   * @type {boolean}
+   * @memberof Route
+   * @optional
+   * @example
+   * true
+   * @default
+   * false
+   */
+         isSkip?: boolean;
 };
