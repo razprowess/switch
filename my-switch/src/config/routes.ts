@@ -22,6 +22,7 @@ import {
   import { Dashboard } from '../pages/Dashboard';
   import {Mentor} from '../pages/Mentor';
   import {Profile} from '../pages/Profile';
+  import { Signup } from '../pages/Signup';
   
   const routes: Array<Route> = [
     {
@@ -52,6 +53,28 @@ import {
     icon: ProfileIcon,
     isEnabled: true,
     isAuthenticated: true
+  },
+  {
+    key: 'router-signin',
+    title: 'Signin',
+    description: 'sign in',
+    component: Signin,
+    path: '/login',
+    icon: ProfileIcon,
+    isEnabled: true,
+    isAuthenticated: false,
+    isSkip: true
+  },
+  {
+    key: 'router-signup',
+    title: 'Signup',
+    description: 'sign up',
+    component: Signup,
+    path: '/signup',
+    icon: ProfileIcon,
+    isEnabled: true,
+    isAuthenticated: false,
+    isSkip: true
   },
     {
       key: 'router-mentor',

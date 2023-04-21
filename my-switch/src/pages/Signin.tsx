@@ -9,24 +9,14 @@ import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CssBaseline from '@mui/material/CssBaseline';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { AuthContext } from '../contexts/authContext';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { Alert } from '@mui/material';
-
-    //create the graphql mutation
-    const LOGIN_USER = gql`
-        mutation LoginUser($user: LoginInput){
-    loginUser(user: $user){
-        email
-        token
-        }
-    }
-    `
+import { LOGIN_USER } from '../types/graphSchema';
     
 export const Signin = () => {
-
     const navigate = useNavigate();
     const context = useContext(AuthContext);
 
