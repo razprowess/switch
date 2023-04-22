@@ -16,10 +16,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { AuthContext } from '../contexts/authContext';
 import { useNavigate } from 'react-router-dom';
 import { Alert } from '@mui/material';
+import { CREATE_USER } from '../types/graphSchema';
 
 
 const professions = [
@@ -37,15 +38,6 @@ export function Signup() {
     const [currency, setCurrency] = React.useState('PHARMACY');
     const context = React.useContext(AuthContext);
     let navigate = useNavigate();
-
-    const CREATE_USER = gql`
-    mutation CreateUser($userInput: RegisterUserInput){
-        registerUser(user: $userInput){
-        profession
-        token
-    }
-    }
-    `
 
     // const [createUser,{data, error, reset}] = useMutation(CREATE_USER);
     // if(data){

@@ -3,8 +3,9 @@ import { alpha, InputBase, styled, Box, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchResultList from '../SearchResultList';
-import { gql, useLazyQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { LIGHT_MODE_THEME } from '../../../utils/constants';
+import { GET_MENTOR_LIST } from '../../../types/graphSchema';
 
 
 interface SearchProps {
@@ -31,25 +32,7 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
   const [mentorsList, setMentorsList] = useState<Mentor[]>([]);
 
   const ref = useRef<HTMLElement | null>(null);
-  const GET_MENTOR_LiST = gql`
-      query mentorList($speciality: String){
-      getMentors(speciality: $speciality){
-        info
-        id
-        account {
-          firstname
-          lastname
-          id
-          username
-      }
-      followers {
-        status
-      }
-    }
-  }
-  `
-
-
+  
   useEffect(() => {
     window.addEventListener('resize', handleResize);
 
@@ -66,7 +49,7 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
   }, []);
 
 
-  const [getMentor, { data }] = useLazyQuery(GET_MENTOR_LiST);
+  const [getMentor, { data }] = useLazyQuery(GET_MENTOR_LIST);
   useEffect(() => {
     setMentorsList((data?.getMentors || []).map((item: any) => ({ ...item, hasFollowed: item.followers?.length > 0 })));
   }, [data])

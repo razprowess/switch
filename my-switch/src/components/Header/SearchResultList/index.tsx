@@ -8,9 +8,10 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { styled, alpha, Button, Box } from '@mui/material';
 import { LIGHT_MODE_THEME } from '../../../utils/constants';
-import { gql, useMutation} from '@apollo/client';
+import { useMutation} from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { REGISTER_FOLLOWER, REMOVE_FOLLOWER } from '../../../types/graphSchema';
 
 
 interface SearchResultListProps {
@@ -29,21 +30,6 @@ const navigate = useNavigate();
   useEffect(()=>{
     setRendered(true);
   },[])
-
-  const REGISTER_FOLLOWER = gql`
-  mutation RegisterFollower($mentorid: ID){
-  createFollower(mentorId: $mentorid){
-    status
-    mentor_id
-  }
-}
-`
-
-const REMOVE_FOLLOWER = gql`
-mutation RemoveFollower($mentorid: ID){
-  removeFollower(mentorId: $mentorid)
-}`
-
 
 const [create] = useMutation(REGISTER_FOLLOWER);
 
