@@ -16,10 +16,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { AuthContext } from '../contexts/authContext';
 import { useNavigate } from 'react-router-dom';
-import { Alert } from '@mui/material';
+import { CREATE_USER } from '../types/graphSchema';
+import {toast} from 'react-toastify';
 
 
 const professions = [
@@ -38,15 +39,6 @@ export function Signup() {
     const context = React.useContext(AuthContext);
     let navigate = useNavigate();
 
-    const CREATE_USER = gql`
-    mutation CreateUser($userInput: RegisterUserInput){
-        registerUser(user: $userInput){
-        profession
-        token
-    }
-    }
-    `
-
     // const [createUser,{data, error, reset}] = useMutation(CREATE_USER);
     // if(data){
     //     context?.login(data);
@@ -57,13 +49,14 @@ export function Signup() {
     //     console.log(error.message);
     // }
 
-    const [createUser, {error, reset}] = useMutation(CREATE_USER, {
+    const [createUser, {reset}] = useMutation(CREATE_USER, {
         update(proxy, { data: { registerUser: user } }) {
             context.login(user.token);
+            toast('account created successful', {type: 'success'});
             navigate('/dashboard');
         },
         onError({ graphQLErrors }) {
-            console.log(graphQLErrors)
+            toast(graphQLErrors[0].message, {type: 'error'});
         }
     }
   )
@@ -214,8 +207,7 @@ export function Signup() {
                                     </Grid>
                                 </Grid>
                             </Box>
-                            {error && <Alert sx={{ mx: 6 }} severity="error" onClose={closeAlert} variant="filled">{error?.message}</Alert>
-                            }
+                           
                         </Box>
                     </Container>
                 </CardContent>

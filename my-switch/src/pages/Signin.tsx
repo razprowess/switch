@@ -13,8 +13,8 @@ import { useMutation } from '@apollo/client';
 import { AuthContext } from '../contexts/authContext';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { Alert } from '@mui/material';
 import { LOGIN_USER } from '../types/graphSchema';
+import {toast} from 'react-toastify';
     
 export const Signin = () => {
     const navigate = useNavigate();
@@ -32,12 +32,13 @@ export const Signin = () => {
 //     }
 
 
-    const [loginUser, {error, reset}] = useMutation(LOGIN_USER, {update(proxy, { data: {loginUser: user }}){
+    const [loginUser, { reset}] = useMutation(LOGIN_USER, {update(proxy, { data: {loginUser: user }}){
         context.login(user.token);
+        toast('login successful', {type: 'success'});
         navigate("/dashboard");
     },
     onError({graphQLErrors}){
-        console.log(graphQLErrors[0].message);
+        toast(graphQLErrors[0].message, {type: 'error'});
     }} 
     );
 
@@ -103,7 +104,7 @@ export const Signin = () => {
                         </Button>
                     </Box>
                 </Box>
-                {error && <Alert sx={{mx: 6}} severity='error' onClose={closeAlert} variant="filled"> {error.message}</Alert>}
+
             </CardContent>
 
         </Card>
