@@ -19,8 +19,8 @@ import MenuItem from '@mui/material/MenuItem';
 import { useMutation } from '@apollo/client';
 import { AuthContext } from '../contexts/authContext';
 import { useNavigate } from 'react-router-dom';
-import { Alert } from '@mui/material';
 import { CREATE_USER } from '../types/graphSchema';
+import {toast} from 'react-toastify';
 
 
 const professions = [
@@ -49,13 +49,14 @@ export function Signup() {
     //     console.log(error.message);
     // }
 
-    const [createUser, {error, reset}] = useMutation(CREATE_USER, {
+    const [createUser, {reset}] = useMutation(CREATE_USER, {
         update(proxy, { data: { registerUser: user } }) {
             context.login(user.token);
+            toast('account created successful', {type: 'success'});
             navigate('/dashboard');
         },
         onError({ graphQLErrors }) {
-            console.log(graphQLErrors)
+            toast(graphQLErrors[0].message, {type: 'error'});
         }
     }
   )
@@ -206,8 +207,7 @@ export function Signup() {
                                     </Grid>
                                 </Grid>
                             </Box>
-                            {error && <Alert sx={{ mx: 6 }} severity="error" onClose={closeAlert} variant="filled">{error?.message}</Alert>
-                            }
+                           
                         </Box>
                     </Container>
                 </CardContent>

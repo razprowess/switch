@@ -28,6 +28,7 @@ export const GET_MENTOR_LIST = gql`
         lastname
         id
         username
+        imgurl
       }
       followers {
         status

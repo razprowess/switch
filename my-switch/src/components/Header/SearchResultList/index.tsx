@@ -90,12 +90,12 @@ if (!searchResult) return null;
     <StyledList left={left}>
       {searchResult?.map((result: any) => {
         const { info, account, id, hasFollowed } = result;
-        const { firstname, lastname, username } = account;
+        const { firstname, lastname, username,imgurl } = account;
         return (
           <>
             <StyledListItem alignItems="flex-start" key={id}>
               <ListItemAvatar>
-                <Avatar alt={capitalizedFirstLetter(firstname)} src="/static/images/avatar/1.jpg" />
+                <Avatar alt={capitalizedFirstLetter(firstname)} src={imgurl? imgurl : "/static/images/avatar/1.jpg"}  />
               </ListItemAvatar>
               <ListItemWrapper>
                 <Typography variant='h6' sx={{ textTransform: 'capitalize' }}>

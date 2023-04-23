@@ -20,6 +20,9 @@ import ProfileImage from "../components/ProfileImage";
 import axios from "axios";
 import { Alert } from "@mui/material";
 import { GET_PROFILE_DETAIL, GET_MENTOR_FOLLOWERS, GET_USER_FOLLOWING, REGISTER_FOLLOWER_BY_USERNAME, UPDATE_USER_PROFILE } from "../types/graphSchema";
+import { toast } from "react-toastify";
+
+
 
 export function Profile() {
   const [showEditProfile, setShowEditProfile] = React.useState(false);
@@ -80,8 +83,18 @@ export function Profile() {
   };
 
   const handleEditButton = () => {
-    setShowEditProfile(true);
+     setShowEditProfile(true);
   };
+
+
+  const handleUploadComplete = (response: { message: string; code?: number; })=>{
+    const data = response || {
+      message: "We couldn't process your request! Try again",
+    };
+
+     toast(data.message, { type: data.code === 1 ? "error" : "success" });
+  }
+
 
   const handleAvatarChange = async (event: any) => {
     const currentFile = event.target.files[0];
@@ -92,9 +105,9 @@ export function Profile() {
       const url = "https://api.Cloudinary.com/v1_1/switch4career/image/upload";
       const result = await axios.post(url, formData);
       setLogoSrc(result.data.secure_url);
+      handleUploadComplete({message: 'upload sussessful', code: 0})
     } catch (err) {
-      //handle error later
-      console.log(err);
+      handleUploadComplete({message: 'fail to upload image! Try again', code: 1})
     }
   };
 
@@ -140,7 +153,8 @@ export function Profile() {
                   width: theme.spacing(25),
                   height: theme.spacing(25),
                   marginBottom: theme.spacing(4),
-                  marginLeft: { xs: "25px" },
+                  marginLeft: {xs: 'auto'},
+                  marginRight: {xs: 'auto'}
                 })}
               />
             )}
