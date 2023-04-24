@@ -19,3 +19,5 @@ export const DRAWER_WIDTH = 250;
 // APP THEME
 export const DARK_MODE_THEME = 'dark';
 export const LIGHT_MODE_THEME = 'light';
+export const WHITE_COLOR = '#fff';
+export const BLACK_COLOR = '#000';

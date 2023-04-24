@@ -1,25 +1,42 @@
+import { useContext } from 'react';
 import { Typography, Box } from '@mui/material';
-import { useLocation } from 'react-router';
 import BasicCard from '../components/Card';
 import { Module } from '../components/Module';
 import CustomizedTable from '../components/CustomizedTable';
-
-import { PageTitle } from '../components/PageTitle';
 import AlertDialogue from '../components/AlertDialogue';
+import { useQuery } from "@apollo/client";
+import { GET_MENTOR_FOLLOWERS } from '../types/graphSchema';
+import { GET_USER_FOLLOWING } from '../types/graphSchema';
+import { AuthContext } from '../contexts/authContext';
 
 export const Dashboard = () => {
-  const location = useLocation();
+  const { user } =  useContext(AuthContext);
+
+// const {data, error} = useQuery(GET_MENTOR_FOLLOWERS,   {
+//   variables: { user?.username },
+// });
+// const {data: following} = useQuery(GET_USER_FOLLOWING,   {
+//   variables: { user?.username },
+// });
   return (
     <>
     <AlertDialogue/>
-      <PageTitle title={location.pathname.replaceAll('/', ' ').trimStart()} />
-      <Module>
-        <Box sx={{display: 'flex', flexDirection: {xs: 'column', md: 'row'}, margin: {xs: "0 10px", md: "0 auto"}}}>
+      <>
+      <Typography variant='h6' sx={{textTransform: 'none', marginLeft: {xs: '0px', md: '120px'}, mb: 1}}>Connection Info</Typography>
+        <Box sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row', md: 'row'}, margin: {xs: "0 10px",sm: "0 auto", md: "0 110px"}, flexWrap: 'wrap'}}>
+      
         <BasicCard cardContent='Number of Followers' number={5}/>
-      <BasicCard cardContent='Number of request' number={10}/>
-      <BasicCard cardContent='Number of messages' number={15}/>
+      <BasicCard cardContent='Number of Followings' number={0}/>
         </Box>
-      </Module>
+        </>
+  <>
+  <Typography variant='h6' sx={{textTransform: 'none', marginLeft: {xs: '0px', md: '120px'}, mb: 1, mt: 3}}>Mentor Info</Typography>
+        <Box sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row', md: 'row'}, margin: {xs: "0 10px",sm: "0 auto", md: "0 110px"}, flexWrap: 'wrap'}}>
+      <BasicCard cardContent='Number of messages' number={15}/>
+      <BasicCard cardContent='Number of request' number={10}/>
+
+        </Box>
+        </>  
 
       <Module>
           <CustomizedTable/>

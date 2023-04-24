@@ -21,6 +21,7 @@ import axios from "axios";
 import { Alert } from "@mui/material";
 import { GET_PROFILE_DETAIL, GET_MENTOR_FOLLOWERS, GET_USER_FOLLOWING, REGISTER_FOLLOWER_BY_USERNAME, UPDATE_USER_PROFILE } from "../types/graphSchema";
 import { toast } from "react-toastify";
+import { BLACK_COLOR, LIGHT_MODE_THEME, WHITE_COLOR } from "../utils/constants";
 
 
 
@@ -207,10 +208,11 @@ export function Profile() {
           </Grid>
           <Grid item xs={12} sm={9}>
             <Card
-              elevation={3}
+              elevation={2}
               sx={(theme) => ({
                 marginBottom: theme.spacing(4),
                 paddingLeft: theme.spacing(4),
+                bgcolor: theme.palette.mode === LIGHT_MODE_THEME ? WHITE_COLOR : BLACK_COLOR,
               })}
               key={"info"}
             >
@@ -278,11 +280,13 @@ export function Profile() {
 
       {showEditProfile && (
         <Card
-          sx={{
+        elevation={2}
+          sx={(theme)=>({
+            bgcolor: theme.palette.mode === LIGHT_MODE_THEME ? WHITE_COLOR : BLACK_COLOR,
             minWidth: 275,
             marginLeft: { xs: "25px", md: "60px" },
             marginRight: { xs: "25px", md: "60px" },
-          }}
+          })}
         >
           <CardContent>
             <Container component="main">

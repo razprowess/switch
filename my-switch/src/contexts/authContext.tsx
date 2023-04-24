@@ -1,11 +1,15 @@
 import { createContext, useReducer } from "react";
 import jwtDecode from "jwt-decode";
 
-// type User = {
-//     profession?: string;
-//     token: string | null;
-//     __typename?: string;
-// }
+type User = {
+    email: string;
+    exp: number;
+    iat: number;
+    id: number;
+    role: string;
+    username: string;
+}
+
 
 type IniitialStateProp = {
     user: null | string
