@@ -12,6 +12,7 @@ import { useMutation} from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { REGISTER_FOLLOWER, REMOVE_FOLLOWER } from '../../../types/graphSchema';
+import { toast } from "react-toastify";
 
 
 interface SearchResultListProps {
@@ -72,6 +73,7 @@ if (!searchResult) return null;
     event.stopPropagation();
       onHandleButtonClick(id);
      create({ variables: { mentorid: id } });
+     toast('Follow request sent! You will be able to send a direct message when the user accept your request', {type: 'info'});
     }  
 
 
