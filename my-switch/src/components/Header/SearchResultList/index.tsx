@@ -92,6 +92,7 @@ if (!searchResult) return null;
     <StyledList left={left}>
       {searchResult?.map((result: any) => {
         const { info, account, id, hasFollowed } = result;
+        console.log(hasFollowed);
         const { firstname, lastname, username,imgurl } = account;
         return (
           <>

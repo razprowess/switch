@@ -60,6 +60,8 @@ export const GET_PROFILE_DETAIL = gql`
       username
       imgurl
       bio
+      linkedin
+      twitter
       mentor {
         info
         speciality
@@ -73,6 +75,11 @@ export const GET_MENTOR_FOLLOWERS = gql`
   query GetMentorFollowers($username: String) {
     getFollowers(username: $username) {
       status
+      menteeid
+      account {
+      firstname
+      lastname
+      }
     }
   }
 `;

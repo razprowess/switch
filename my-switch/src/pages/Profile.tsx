@@ -76,6 +76,8 @@ export function Profile() {
     imgurl,
     bio,
     mentor,
+    linkedin,
+    twitter
   } = data.getProfileInfo;
 
   const handleFollowButtonClick = () => {
@@ -123,6 +125,8 @@ export function Profile() {
       info: data.get("info"),
       bio: data.get("bio"),
       imgurl: logoSrc,
+      twitter: data.get('twitterurl'),
+      linkedin: data.get('linkedinurl')
     };
     updateProfile({ variables: { user: { ...input } } });
   };
@@ -130,6 +134,7 @@ export function Profile() {
   const closeAlert = () => {
     reset();
   };
+
   return (
     <>
       <GridContainer>
@@ -241,6 +246,7 @@ export function Profile() {
               >
                 <strong>About me:</strong> {bio}
               </Typography>
+
               {mentor && (
                 <>
                   {mentor.info && (
@@ -273,6 +279,23 @@ export function Profile() {
                   </Typography>
                 </>
               )}
+
+             { twitter && <Typography
+                variant="body1"
+                sx={(theme) => ({ marginBottom: theme.spacing(4) })}
+                key={"info"}
+              >
+                <strong>Find me on twitter on:</strong> <a style={{textDecoration: 'none'}} href={twitter} target="_blank" rel="noopener noreferrer">Twitter</a> 
+              
+              </Typography>}
+
+              { linkedin && <Typography
+                variant="body1"
+                sx={(theme) => ({ marginBottom: theme.spacing(4) })}
+                key={"info"}
+              >
+                <strong>Find me on linkedin on:</strong> <a style={{textDecoration: 'none'}} href={linkedin} target="_blank" rel="noopener noreferrer">Linkedin</a>  
+              </Typography>}
             </Card>
           </Grid>
         </Grid>
@@ -346,7 +369,7 @@ export function Profile() {
                       autoComplete="user-name"
                     />
                   </Grid>
-                  {followerData ? (
+                  {followerData && followerData.getFollowers.length !== 0 ? (
                     <>
                       <Grid item xs={12} sm={6}>
                         <TextField
@@ -408,6 +431,28 @@ export function Profile() {
                       />
                     </Grid>
                   )}
+
+
+                <Grid item xs={12} sm={6}>
+                    <TextField
+                      fullWidth
+                      id="twitter"
+                      label="Twitter Url"
+                      name="twitterurl"
+                      autoComplete="twitter-url"
+                      placeholder="https://twitter.com/your-username"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      fullWidth
+                      id="linkedin"
+                      label="Linkedin Url"
+                      name="linkedinurl"
+                      autoComplete="linkedin-url"
+                      placeholder="https://linkedin.com/in/your-username"
+                    />
+                  </Grid>
                 </Grid>
                 <Box
                   sx={{
