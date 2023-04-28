@@ -108,7 +108,7 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase placeholder="Search a career for mentor…" inputProps={{ 'aria-label': 'search' }} onChange={handleChange} value={searchInput} />
+            <StyledInputBase placeholder="Search a career for mentor…" inputProps={{ 'aria-label': 'search' }} onChange={handleChange} value={searchInput}/>
             <CloseIconWrapper onClick={handleCloseButton}>
               <CloseIcon />
             </CloseIconWrapper>

@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-import { styled } from "@mui/material";
+import { IconButton, styled } from "@mui/material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useQuery, useMutation } from "@apollo/client";
@@ -21,6 +21,8 @@ import axios from "axios";
 import { Alert } from "@mui/material";
 import { GET_PROFILE_DETAIL, GET_MENTOR_FOLLOWERS, GET_USER_FOLLOWING, REGISTER_FOLLOWER_BY_USERNAME, UPDATE_USER_PROFILE } from "../types/graphSchema";
 import { toast } from "react-toastify";
+import { BLACK_COLOR, LIGHT_MODE_THEME, WHITE_COLOR } from "../utils/constants";
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 
 
@@ -75,6 +77,8 @@ export function Profile() {
     imgurl,
     bio,
     mentor,
+    linkedin,
+    twitter
   } = data.getProfileInfo;
 
   const handleFollowButtonClick = () => {
@@ -122,6 +126,8 @@ export function Profile() {
       info: data.get("info"),
       bio: data.get("bio"),
       imgurl: logoSrc,
+      twitter: data.get('twitterurl'),
+      linkedin: data.get('linkedinurl')
     };
     updateProfile({ variables: { user: { ...input } } });
   };
@@ -129,8 +135,14 @@ export function Profile() {
   const closeAlert = () => {
     reset();
   };
+
   return (
     <>
+    {username && <Box sx={{marginLeft: {sm: '50px'}}}>
+      <IconButton aria-label="add an arrow back" onClick={()=>navigate(-1)}>
+  <ArrowBackIosNewIcon />
+</IconButton>
+    </Box>}
       <GridContainer>
         <Grid container justifyContent="space-around">
           <Grid item xs={12} sm={2} >
@@ -207,10 +219,12 @@ export function Profile() {
           </Grid>
           <Grid item xs={12} sm={9}>
             <Card
-              elevation={3}
+              elevation={2}
               sx={(theme) => ({
                 marginBottom: theme.spacing(4),
                 paddingLeft: theme.spacing(4),
+                paddingRight: theme.spacing(2),
+                bgcolor: theme.palette.mode === LIGHT_MODE_THEME ? WHITE_COLOR : BLACK_COLOR,
               })}
               key={"info"}
             >
@@ -239,6 +253,7 @@ export function Profile() {
               >
                 <strong>About me:</strong> {bio}
               </Typography>
+
               {mentor && (
                 <>
                   {mentor.info && (
@@ -271,6 +286,23 @@ export function Profile() {
                   </Typography>
                 </>
               )}
+
+             { twitter && <Typography
+                variant="body1"
+                sx={(theme) => ({ marginBottom: theme.spacing(4) })}
+                key={"info"}
+              >
+                <strong>Find me on twitter on:</strong> <a style={{textDecoration: 'none'}} href={twitter} target="_blank" rel="noopener noreferrer">Twitter</a> 
+              
+              </Typography>}
+
+              { linkedin && <Typography
+                variant="body1"
+                sx={(theme) => ({ marginBottom: theme.spacing(4) })}
+                key={"info"}
+              >
+                <strong>Find me on linkedin on:</strong> <a style={{textDecoration: 'none'}} href={linkedin} target="_blank" rel="noopener noreferrer">Linkedin</a>  
+              </Typography>}
             </Card>
           </Grid>
         </Grid>
@@ -278,11 +310,13 @@ export function Profile() {
 
       {showEditProfile && (
         <Card
-          sx={{
+        elevation={2}
+          sx={(theme)=>({
+            bgcolor: theme.palette.mode === LIGHT_MODE_THEME ? WHITE_COLOR : BLACK_COLOR,
             minWidth: 275,
             marginLeft: { xs: "25px", md: "60px" },
             marginRight: { xs: "25px", md: "60px" },
-          }}
+          })}
         >
           <CardContent>
             <Container component="main">
@@ -342,7 +376,7 @@ export function Profile() {
                       autoComplete="user-name"
                     />
                   </Grid>
-                  {followerData ? (
+                  {followerData && followerData.getFollowers.length !== 0 ? (
                     <>
                       <Grid item xs={12} sm={6}>
                         <TextField
@@ -404,6 +438,30 @@ export function Profile() {
                       />
                     </Grid>
                   )}
+
+
+                <Grid item xs={12} sm={6}>
+                    <TextField
+                      defaultValue={twitter}
+                      fullWidth
+                      id="twitter"
+                      label="Twitter Url"
+                      name="twitterurl"
+                      autoComplete="twitter-url"
+                      placeholder="https://twitter.com/your-username"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      defaultValue={linkedin}
+                      fullWidth
+                      id="linkedin"
+                      label="Linkedin Url"
+                      name="linkedinurl"
+                      autoComplete="linkedin-url"
+                      placeholder="https://linkedin.com/in/your-username"
+                    />
+                  </Grid>
                 </Grid>
                 <Box
                   sx={{

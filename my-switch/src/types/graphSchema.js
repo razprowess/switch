@@ -60,6 +60,8 @@ export const GET_PROFILE_DETAIL = gql`
       username
       imgurl
       bio
+      linkedin
+      twitter
       mentor {
         info
         speciality
@@ -73,6 +75,12 @@ export const GET_MENTOR_FOLLOWERS = gql`
   query GetMentorFollowers($username: String) {
     getFollowers(username: $username) {
       status
+      menteeid
+      account {
+      firstname
+      lastname
+      username
+      }
     }
   }
 `;
@@ -99,3 +107,9 @@ export const UPDATE_USER_PROFILE = gql`
     updateProfile(user: $user)
   }
 `;
+
+export const UPDATE_FOLLOWER = gql`
+mutation UpdateFollower($menteeid: ID){
+  updateFollower(menteeId: $menteeid)
+}
+`

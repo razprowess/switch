@@ -1,51 +1,96 @@
 import { Typography, Box } from '@mui/material';
-import { useLocation } from 'react-router';
 import BasicCard from '../components/Card';
-import { Module } from '../components/Module';
-import CustomizedTable from '../components/CustomizedTable';
-
-import { PageTitle } from '../components/PageTitle';
 import AlertDialogue from '../components/AlertDialogue';
+import { useQuery } from "@apollo/client";
+import { GET_MENTOR_FOLLOWERS } from '../types/graphSchema';
+import { GET_USER_FOLLOWING } from '../types/graphSchema';
+import PageLayout from '../components/Layout/PageLayout';
+import { useState } from 'react';
+import Table, { RowData } from '../components/Table';
+import { TableIcon } from '../components/Table/TableIcon';
 
+
+export type Request = {
+  firstname: string;
+  lastname: string;
+  username: string;
+  id: string;
+  'S/N': number;
+}
 export const Dashboard = () => {
-  const location = useLocation();
-  return (
-    <>
-    <AlertDialogue/>
-      <PageTitle title={location.pathname.replaceAll('/', ' ').trimStart()} />
-      <Module>
-        <Box sx={{display: 'flex', flexDirection: {xs: 'column', md: 'row'}, margin: {xs: "0 10px", md: "0 auto"}}}>
-        <BasicCard cardContent='Number of Followers' number={5}/>
-      <BasicCard cardContent='Number of request' number={10}/>
-      <BasicCard cardContent='Number of messages' number={15}/>
-        </Box>
-      </Module>
 
-      <Module>
-          <CustomizedTable/>
-      </Module>
-      <Box sx={{ p: 3 }}>
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus. Convallis convallis tellus id interdum
-          velit laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate eu
-          scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt
-          lobortis feugiat vivamus at augue. At augue eget arcu dictum varius duis at consectetur lorem. Velit sed
-          ullamcorper morbi tincidunt. Lorem donec massa sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla facilisi etiam
-          dignissim diam. Pulvinar elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus
-          sed viverra tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis sed odio morbi. Euismod
-          lacinia at quis risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in.
-          In hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin nibh sit. Ornare aenean euismod
-          elementum nisi quis eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla posuere
-          sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
-      </Box>
-    </>
+  const [pendingRequest, setPendingRequest] = useState<Request[] | []>([]);
+  const [acceptedRequest, setAcceptedRequested] = useState([]);
+
+  const {data, loading, error, refetch } = useQuery(GET_MENTOR_FOLLOWERS, {
+    onCompleted(data) {
+      setPendingRequest((data.getFollowers || []).filter((follower: { status: string }) => follower.status === 'pending').map((item: any, index: number) => {
+        return {
+          'S/N': index + 1,
+          firstname: item['account']['firstname'],
+          lastname: item['account']['lastname'],
+          username: item['account']['username'],
+          id: item['menteeid']
+        }
+      }));
+
+      setAcceptedRequested((data.getFollowers || []).filter((follower: { status: string; })=> follower.status === 'accepted'));
+    },
+  });
+
+
+  const handleRetry = () => {
+    refetch();
+  }
+
+  const { data: following, loading: followingLoading, error: followingDataError } = useQuery(GET_USER_FOLLOWING);
+
+
+  if (loading || followingLoading) {
+    return <PageLayout loading />;
+  }
+
+  if (error || followingDataError) {
+    return <PageLayout error onRetry={handleRetry} />;
+  }
+
+  const createColumn = (rowData: Request[]) => {
+    if(rowData.length === 0){
+      return [];
+    }
+   const row = rowData.map((data)=> {
+    return {'S/N': data['S/N'], firstname: data.firstname, lastname: data.lastname}
+   })    
+   const columns = Object.keys(row[0]).map((col)=> {
+    return {id: col, label: col}
+   })
+    return [...columns, { id: '', label: '', renderer: render }]
+  }
+
+const render = (row: RowData)=> {
+  return <TableIcon row={row} onAccepted={handleRetry}/>
+}
+
+  return (
+    <Box>
+      <AlertDialogue />
+      <>
+        <Typography variant='h6' sx={{ textTransform: 'none', marginLeft: { xs: '0px', md: '120px' }, mb: 1 }}>Connection Info</Typography>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row', md: 'row' }, margin: { xs: "0 10px", sm: "0 auto", md: "0 110px" }, flexWrap: 'wrap' }}>
+
+          <BasicCard cardContent='Number of Followers' number={acceptedRequest ? acceptedRequest.length : 0} />
+          <BasicCard cardContent='Number of Followings' number={following ? following.getFollowings.length : 0} />
+          <BasicCard cardContent='Number of Messages' number={15} />
+         { data && <BasicCard cardContent='Number of Requests' number={pendingRequest.length} />}
+        </Box>
+      </>
+{data &&
+      <><>
+          {/* <Typography variant='h6' sx={{ textTransform: 'none', marginLeft: { xs: '0px', md: '120px' }, mb: 1, mt: 3 }}>Mentor Info</Typography>
+          */}
+        </><Table rows={pendingRequest} title={{ label: 'Pending Request Table' }} columns={createColumn(pendingRequest)} />
+        </>
+}
+    </Box>
   );
 };

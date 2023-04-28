@@ -1,8 +1,8 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import { BLACK_COLOR, LIGHT_MODE_THEME, WHITE_COLOR } from '../../utils/constants';
 
 type BasicCardProps = {
 cardContent: string;
@@ -12,12 +12,13 @@ number: number;
 
 export default function BasicCard({cardContent, number}: BasicCardProps) {
   return (
-    <Card sx={{ minWidth: 275, m: 3, backgroundColor: 'text.info' }}>
+    <Card elevation={2}  sx={(theme)=>({ minWidth: {xs: 'auto', sm: 270 }, width: 'auto', m: 1, 
+    bgcolor: theme.palette.mode === LIGHT_MODE_THEME ? WHITE_COLOR : BLACK_COLOR, flex: 1, borderRadius: '10px', '&:hover': {boxShadow: '0px 10px 5px lightgrey'}})}>
       <CardContent sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center'}}>
-        <Typography variant="h5" component="div">
+        <Typography variant="h6" component="div" sx={{fontWeight: 'normal', mt: 1}}>
           {cardContent}
         </Typography>
-        <Typography variant="h2">
+        <Typography variant="body1" sx={{fontSize: '1.5em'}}>
           {number} 
         </Typography>
       </CardContent>

@@ -8,6 +8,7 @@ import {
   Settings as SettingsIcon,
   Login as SignupIcon,
   Person as ProfileIcon,
+  CheckCircle as CheckCircleIcon,
 } from '@mui/icons-material';
 
 import { ActionItem } from './ActionItem';
@@ -60,4 +61,8 @@ export const Settings = ({ onClick, disableTooltip = false }: ActionProps) => (
 
 export const Profile = ({ onClick, disableTooltip = false }: ActionProps) => (
   <ActionItem title="Profile" icon={ProfileIcon} onClick={onClick} disableTooltip={disableTooltip} />
+);
+
+export const Accept = ({ onClick, disableTooltip = false }: ActionProps) => (
+  <ActionItem title="Accept" icon={CheckCircleIcon} onClick={onClick} disableTooltip={disableTooltip}/>
 );
