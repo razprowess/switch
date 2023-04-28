@@ -79,6 +79,7 @@ export const GET_MENTOR_FOLLOWERS = gql`
       account {
       firstname
       lastname
+      username
       }
     }
   }
@@ -106,3 +107,9 @@ export const UPDATE_USER_PROFILE = gql`
     updateProfile(user: $user)
   }
 `;
+
+export const UPDATE_FOLLOWER = gql`
+mutation UpdateFollower($menteeid: ID){
+  updateFollower(menteeId: $menteeid)
+}
+`

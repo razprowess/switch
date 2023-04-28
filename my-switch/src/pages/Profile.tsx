@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-import { styled } from "@mui/material";
+import { IconButton, styled } from "@mui/material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useQuery, useMutation } from "@apollo/client";
@@ -22,6 +22,7 @@ import { Alert } from "@mui/material";
 import { GET_PROFILE_DETAIL, GET_MENTOR_FOLLOWERS, GET_USER_FOLLOWING, REGISTER_FOLLOWER_BY_USERNAME, UPDATE_USER_PROFILE } from "../types/graphSchema";
 import { toast } from "react-toastify";
 import { BLACK_COLOR, LIGHT_MODE_THEME, WHITE_COLOR } from "../utils/constants";
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 
 
@@ -137,6 +138,11 @@ export function Profile() {
 
   return (
     <>
+    {username && <Box sx={{marginLeft: {sm: '50px'}}}>
+      <IconButton aria-label="add an arrow back" onClick={()=>navigate(-1)}>
+  <ArrowBackIosNewIcon />
+</IconButton>
+    </Box>}
       <GridContainer>
         <Grid container justifyContent="space-around">
           <Grid item xs={12} sm={2} >
@@ -217,6 +223,7 @@ export function Profile() {
               sx={(theme) => ({
                 marginBottom: theme.spacing(4),
                 paddingLeft: theme.spacing(4),
+                paddingRight: theme.spacing(2),
                 bgcolor: theme.palette.mode === LIGHT_MODE_THEME ? WHITE_COLOR : BLACK_COLOR,
               })}
               key={"info"}
@@ -435,6 +442,7 @@ export function Profile() {
 
                 <Grid item xs={12} sm={6}>
                     <TextField
+                      defaultValue={twitter}
                       fullWidth
                       id="twitter"
                       label="Twitter Url"
@@ -445,6 +453,7 @@ export function Profile() {
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField
+                      defaultValue={linkedin}
                       fullWidth
                       id="linkedin"
                       label="Linkedin Url"

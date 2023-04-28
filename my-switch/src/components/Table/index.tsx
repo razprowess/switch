@@ -93,7 +93,7 @@ const Table = ({
                   style={{
                     top: 57,
                     minWidth: column.minWidth || "auto",
-                    fontWeight: 500,
+                    fontWeight: 700,
                   }}
                 >
                   {column.label.toUpperCase()}
