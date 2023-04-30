@@ -49,7 +49,7 @@ const AlertDialogue = () => {
                                 color: (theme) => theme.palette.grey[500],
                             }}
                         >
-                            <CloseIcon />
+                            <CloseIcon fontSize='small'/>
                         </IconButton>
                     ) : null}
                     <Typography variant='h4' sx={{ textDecoration: 'none', fontWeight: 'bold', marginTop: '20px' }}>Become a Mentor?</Typography>

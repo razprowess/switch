@@ -100,7 +100,7 @@ export const getAppTheme = (mode: typeof LIGHT_MODE_THEME | typeof DARK_MODE_THE
       MuiAppBar:{
         styleOverrides:{
           root:{
-            backgroundColor: '#000000',
+            backgroundColor: '#080404',
             color: WHITE_COLOR
           }
         }

@@ -109,8 +109,8 @@ if (!searchResult) return null;
                 </StyledTypographay>
               </ListItemWrapper>
               <ButtonContainer>
-                { hasFollowed ? <Button variant='contained' size='small' sx={{ textTransform: 'none', borderRadius: '30px', marginBottom: '5px' }} onClick={(event) => handleUnfollowButtonClick(event, id)}>Unfollow</Button>: 
-                 <Button variant='contained' size='small' sx={{ textTransform: 'none', borderRadius: '30px', marginBottom: '5px' }} onClick={(event) => handleFollowButtonClick(event, id)}>Follow</Button> }
+                { hasFollowed ? <Button variant='contained' size='small' sx={{ textTransform: 'none', borderRadius: '34px', marginBottom: '5px' }} onClick={(event) => handleUnfollowButtonClick(event, id)}>Unfollow</Button>: 
+                 <Button variant='contained' size='small' sx={{ textTransform: 'none', borderRadius: '34px', marginBottom: '5px' }} onClick={(event) => handleFollowButtonClick(event, id)}>Follow</Button> }
                 <Button variant='text' size='small' sx={{ textTransform: 'none', borderRadius: '0' }} onClick={()=>viewUserProfile(username)}>View Profile</Button>
               </ButtonContainer>
             </StyledListItem>

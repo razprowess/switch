@@ -4,6 +4,7 @@ import { Icon, IconButton, lighten, ListItemButton, ListItemIcon, ListItemText, 
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 import { Route } from '../../../../types';
+import { DARK_THEME_COLOR, LIGHT_MODE_THEME, LIGHT_THEME_COLOR } from '../../../../utils/constants';
 
 interface RouteItemProps {
   route: Route;
@@ -34,7 +35,8 @@ export const RouteItem = ({
     >
       <ListItemIcon>
         <StyledIconButton size="small" isSelected={location.pathname === route.path}>
-          {route.icon && <StyledIcon component={route.icon} isSelected={isSelected || false} />}
+          {route.icon && <StyledIcon component={route.icon} isSelected={isSelected || false} sx={(theme)=>({color: theme.palette.mode
+          === LIGHT_MODE_THEME ? LIGHT_THEME_COLOR : DARK_THEME_COLOR})}/>}
         </StyledIconButton>
       </ListItemIcon>
       <ListItemText primary={route.title} />
@@ -65,7 +67,7 @@ const StyledListItemButton = styled(ListItemButton)<{ isEnabled: boolean }>(({ t
 );
 
 const StyledIconButton = styled(IconButton)<{ isSelected: boolean }>(({ isSelected, theme }) => ({
-  boxShadow: isSelected ? `0 0 0 2px ${lighten(theme.palette.primary.main, 0.6)}` : 'default',
+  boxShadow: isSelected && theme.palette.mode === LIGHT_MODE_THEME ? `0 0 0 2px ${lighten(LIGHT_THEME_COLOR, 0.6)}` : isSelected && theme.palette.mode !== LIGHT_MODE_THEME ? `0 0 0 2px ${lighten(DARK_THEME_COLOR, 0.6)}` : 'default',
   transition: 'box-shadow 0.1s',
 }));
 

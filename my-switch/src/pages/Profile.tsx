@@ -137,7 +137,7 @@ export function Profile() {
   };
 
   return (
-    <>
+    <PageContainer>
     {username && <Box sx={{marginLeft: {sm: '50px'}}}>
       <IconButton aria-label="add an arrow back" onClick={()=>navigate(-1)}>
   <ArrowBackIosNewIcon />
@@ -504,7 +504,7 @@ export function Profile() {
           </CardContent>
         </Card>
       )}
-    </>
+    </PageContainer>
   );
 }
 
@@ -518,3 +518,8 @@ const GridContainer = styled(Box)(({ theme }) => ({
     alignItems: "center",
   },
 }));
+
+const PageContainer = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(4), 
+}));
+

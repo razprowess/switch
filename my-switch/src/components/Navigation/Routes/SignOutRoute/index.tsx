@@ -3,6 +3,7 @@ import { ListItemButton, ListItemIcon, ListItemText, IconButton, styled } from '
 import ExitToApp from '@mui/icons-material/ExitToApp';
 import { AuthContext } from '../../../../contexts/authContext';
 import { useNavigate } from 'react-router-dom';
+import { DARK_THEME_COLOR, LIGHT_MODE_THEME, LIGHT_THEME_COLOR } from '../../../../utils/constants';
 
 export const SignOutRoute = () => {
   const navigate = useNavigate();
@@ -16,10 +17,12 @@ export const SignOutRoute = () => {
     <StyledListItemButton onClick={onLogout}>
       <ListItemIcon>
         <IconButton size="small">
-          <ExitToApp />
+          <ExitToApp sx={(theme)=>({color: theme.palette.mode
+          === LIGHT_MODE_THEME ? LIGHT_THEME_COLOR : DARK_THEME_COLOR})} />
         </IconButton>
       </ListItemIcon>
-      <ListItemText primary="Sign Out" />
+      <ListItemText primary="Sign Out"  sx={(theme)=>({color: theme.palette.mode
+          === LIGHT_MODE_THEME ? LIGHT_THEME_COLOR : DARK_THEME_COLOR})}/>
     </StyledListItemButton>
   );
 };

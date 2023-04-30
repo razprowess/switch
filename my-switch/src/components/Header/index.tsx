@@ -12,6 +12,8 @@ import {  styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import useIsMobile from '../../hooks/useIsMobile';
 import { HEADER_HEIGHT } from '../../utils/constants';
+import { GET_PROFILE_DETAIL } from '../../types/graphSchema';
+import { useQuery } from '@apollo/client';
 interface HeaderProps {
   toggleNavigation: () => void;
   onClickOutside: boolean;
@@ -23,8 +25,14 @@ export const Header = React.forwardRef<Ref, HeaderProps>((props, ref) => {
   const [isIconClick, setIsIconClick] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<null | HTMLElement>(null);
+  const [logoSrc, setLogoSrc] = useState("");
 
   const { user } = useContext(AuthContext);
+
+  const {data} = useQuery(GET_PROFILE_DETAIL, {onCompleted(data) {
+    setLogoSrc(data.getProfileInfo.imgurl);
+  }});
+
   const isMobile = useIsMobile();
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -49,6 +57,10 @@ const handleIconClose = () => {
     setIsIconClick(false);
   }
 }
+const capitalizedFirstLetter = (str: string) => {
+  return str[0].toUpperCase();
+}
+
   const Navbar = user ?
     (
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, py: 1 }}>
@@ -70,7 +82,7 @@ const handleIconClose = () => {
             <Messages total={10} />
             <Notifications total={20} />
             <IconButton onClick={handleProfileMenuOpen} sx={{ mx: 2 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              {logoSrc ? <Avatar alt="Remy Sharp" src={logoSrc} /> : <Avatar alt={ capitalizedFirstLetter(data?.getProfileInfo?.firstname || 'avatar')} src="/static/images/avatar/2.jpg" />}
               </IconButton>
           </Box>
           {isIconClick ? null : <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
