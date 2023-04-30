@@ -1,8 +1,9 @@
 
 
-import { createTheme, responsiveFontSizes } from '@mui/material';
-import { tableCellClasses } from '@mui/material/TableCell';
-import { DARK_MODE_THEME, LIGHT_MODE_THEME } from '../utils/constants';
+import { createTheme, responsiveFontSizes, alpha } from '@mui/material';
+import { BLACK_COLOR, DARK_MODE_THEME, LIGHT_HOVER, LIGHT_MODE_THEME, LIGHT_THEME_COLOR, WHITE_COLOR } from '../utils/constants';
+
+
 declare module '@mui/material/Button' {
   interface ButtonPropsVariantOverrides {
     dashed: true;
@@ -14,20 +15,70 @@ export const getAppTheme = (mode: typeof LIGHT_MODE_THEME | typeof DARK_MODE_THE
   
   const lightTheme = {
     components: {
+      MuiButton: {
+        styleOverrides: {
+          // @ts-ignore
+          root: ({ ownerState }) => (
+           [
+            {
+              ...(ownerState.variant === 'contained' &&
+                  {
+                  backgroundColor: LIGHT_THEME_COLOR,
+                  color: WHITE_COLOR,
+                  '&:hover':{
+                    backgroundColor: LIGHT_HOVER
+                  }
+                }),
+            },
+            {
+              ...(ownerState.variant === 'text' &&
+                  {
+                  backgroundColor: 'inherit',
+                  color: LIGHT_THEME_COLOR,
+                  borderRadius: '30px',
+                  '&:hover':{
+                    backgroundColor: alpha(LIGHT_HOVER, 0.05),
+                    borderRadius: '30px'
+                  }
+                }),
+            }
+           ]
+          ),
+        },
+      },
+      MuiAppBar:{
+        styleOverrides:{
+          root:{
+            backgroundColor: WHITE_COLOR,
+            color: LIGHT_THEME_COLOR
+          }
+        }
+      },
+
+      MuiList:{
+        styleOverrides:{
+          root:{
+            backgroundColor: WHITE_COLOR,
+            color: LIGHT_THEME_COLOR
+          }
+        }
+      },
+
       MuiCard: {
         styleOverrides: {
           root: {
-            backgroundColor: '#F6F6F6'
+            backgroundColor: WHITE_COLOR
           }
         }
       },
       MuiDialog: {
         styleOverrides: {
           root: {
-            color: '#fff'
+            color: WHITE_COLOR
           }
         }
-      }
+      },
+      
     },
   }
 
@@ -38,39 +89,57 @@ export const getAppTheme = (mode: typeof LIGHT_MODE_THEME | typeof DARK_MODE_THE
     },
 
     components:{
-      MuiAppBar:{
+      MuiList:{
         styleOverrides:{
           root:{
-            backgroundColor: '#ecb613',
-            color: '#000000'
+            backgroundColor: '#000000',
+            color: WHITE_COLOR
           }
         }
       },
+      MuiAppBar:{
+        styleOverrides:{
+          root:{
+            backgroundColor: '#000000',
+            color: WHITE_COLOR
+          }
+        }
+      },
+
       MuiButton: {
-        variants: [
-          {
-            props: { variant: 'dashed' },
-            style: {
-              textTransform: 'none',
-              borderRadius: '30px',
-              paddingTop: '15px',
-              paddingBottom: '15px',
+        styleOverrides: {
+          // @ts-ignore
+          root: ({ ownerState }) => (
+          [
+            {
+              ...(ownerState.variant === 'contained' &&
+                 {
+                  backgroundColor: '#171718',
+                  color: '#fff',
+                  '&:hover':{
+                    backgroundColor: '#585454'
+                  }
+                }),
             },
-          },
-          {
-            props: { variant: 'dashed', color: 'secondary' },
-            style: {
-              borderRadius: '10px',
-              paddingTop: '15px',
-              paddingBottom: '15px', 
-            },
-          },
-        ],
+            {
+              ...(ownerState.variant === 'text' &&
+                  {
+                  backgroundColor: 'inherit',
+                  color: WHITE_COLOR,
+                  borderRadius: '30px',
+                  '&:hover':{
+                    backgroundColor: alpha('#585454', 0.15),
+                    borderRadius: '30px'
+                  }
+                }),
+            }
+          ]),
+        },
       },
       MuiCard: {
         styleOverrides: {
           root: {
-            backgroundColor: '#000000',
+            backgroundColor: BLACK_COLOR,
           }
         }
       },

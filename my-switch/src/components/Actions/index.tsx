@@ -44,7 +44,7 @@ export const Notifications = ({ total, onClick, disableTooltip = false }: Action
 );
 
 export const UserAccount = ({ onClick, disableTooltip = false }: ActionProps) => (
-  <ActionItem title="My Account" icon={FingerprintIcon} onClick={onClick} disableTooltip={disableTooltip} />
+  <ActionItem title="My Account" icon={ProfileIcon} onClick={onClick} disableTooltip={disableTooltip} />
 );
 
 export const SignOut = ({ onClick, disableTooltip = false }: ActionProps) => (

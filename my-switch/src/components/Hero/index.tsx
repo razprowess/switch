@@ -1,6 +1,7 @@
 import { styled, Typography, Button, Slide } from '@mui/material';
 import React, { useEffect } from 'react';
 import './hero.css';
+import { BLACK_COLOR, LIGHT_MODE_THEME, LIGHT_THEME_COLOR } from '../../utils/constants';
 
 export const Hero = () => {
   const [checked, setChecked] = React.useState(false);
@@ -11,7 +12,8 @@ export const Hero = () => {
   }, [])
 
   return <section style={{
-    background: "linear-gradient(rgb(40,0,72,0.8), rgb(192,72,72,0.8)), url('/hero-image-01.jpeg')",
+    // background: "linear-gradient(rgb(40,0,72,0.8), rgb(192,72,72,0.8)), url('/hero-image-01.jpeg')",
+    background: `url("/hero-image-01.jpeg")`,
     width: '100%', height: '100vh',
     backgroundSize: 'cover',
     backgroundColor: '#cccccc',
@@ -21,6 +23,7 @@ export const Hero = () => {
     alignItems: 'center',
     position: 'relative',
     zIndex: 1,
+    backgroundRepeat: 'no-repeat'
   }}>
     <div style={{ textAlign: 'center' }}>
       <StyledHeroHeading variant='h2'>
@@ -33,7 +36,7 @@ export const Hero = () => {
       href="/signup" 
       variant='contained' 
       size='large' 
-      sx={{ py: 2, px: '2rem', m: 1, borderRadius: 0, textTransform: 'none'}}> 
+      sx={{ py: 2, px: '2rem', m: 1, borderRadius: '15px', textTransform: 'none'}}> 
       <StyledButtonText>Join Now</StyledButtonText></Button>
     </div>
   </section>
@@ -41,16 +44,16 @@ export const Hero = () => {
 };
 
 
-const StyledHeroHeading = styled(Typography)`
+const StyledHeroHeading = styled(Typography)(({theme})=>`
   display: {
     xs: none;
     sm: block;
   }
   cursor: default;
   font-weight: bold;
-  color: #6795de;
+  color: ${theme.palette.mode === LIGHT_MODE_THEME ? LIGHT_THEME_COLOR : BLACK_COLOR };
   margin-bottom: 10px;
-`;
+`);
 
 const StyledButtonText = styled(Typography)`
 font-family: Oxanium, cursive;

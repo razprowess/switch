@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { AppBar, Box, Toolbar } from '@mui/material';
+import { AppBar, Avatar, Box, IconButton, Toolbar } from '@mui/material';
 import { Hamburger } from './Hamburger';
 import { Search } from './Search';
 import { AppTitle } from './AppTitle';
@@ -11,6 +11,7 @@ import { AuthContext } from '../../contexts/authContext';
 import {  styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import useIsMobile from '../../hooks/useIsMobile';
+import { HEADER_HEIGHT } from '../../utils/constants';
 interface HeaderProps {
   toggleNavigation: () => void;
   onClickOutside: boolean;
@@ -51,7 +52,7 @@ const handleIconClose = () => {
   const Navbar = user ?
     (
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, py: 1 }}>
-        <Toolbar disableGutters variant="dense">
+        <Toolbar disableGutters variant="dense" sx={{height: HEADER_HEIGHT, paddingLeft:{sm: '52px'}, paddingRight: {sm: '52px'}}}>
            {isIconClick && isMobile ? null : <>
             <Box sx={{ mr: 2.5 }} ref={ref}>
               <Hamburger toggleNavigation={toggleNavigation} onClickOutside={onClickOutside} />
@@ -68,7 +69,9 @@ const handleIconClose = () => {
             <ThemeSwitcher />
             <Messages total={10} />
             <Notifications total={20} />
-            <UserAccount onClick={handleProfileMenuOpen} />
+            <IconButton onClick={handleProfileMenuOpen} sx={{ mx: 2 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
           </Box>
           {isIconClick ? null : <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <More onClick={handleMobileMenuOpen} />
@@ -79,7 +82,7 @@ const handleIconClose = () => {
     ) :
     (
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, py: 1 }}>
-        <Toolbar disableGutters variant="dense">
+        <Toolbar disableGutters variant="dense" sx={{height: HEADER_HEIGHT, paddingLeft:{sm: '52px'}, paddingRight: {sm: '52px'}}}>
           <Box sx={{ display: 'flex', width: '140px', height: '50px', marginLeft: '15px' }}><img src={logo} alt='nav logo' /></Box>
           <AppTitle variant="h5" />
           <Box sx={{ flexGrow: 1 }} />

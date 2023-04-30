@@ -46,7 +46,7 @@ return (
           <Header toggleNavigation={toggleNavigation} ref={headerRef} onClickOutside={hasClickOutide}/>
         </Box>
         {user && <Navigation open={open} handleClose={toggleNavigation} ref={ref}/>} 
-         <Box component="main" sx={(theme)=>({ flexGrow: 1, p: 3, bgcolor: theme.palette.mode === LIGHT_MODE_THEME ? '#f5f5f5': '#353534' })}> 
+         <Box component="main" sx={(theme)=>({ flexGrow: 1, bgcolor: theme.palette.mode === LIGHT_MODE_THEME ? '#f5f5f5': '#353534' })}> 
           <DrawerHeader />
            {children} 
         </Box> 
