@@ -106,12 +106,17 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
   if (isIconClick) {
     return (
       <>
-        <Box sx={(theme)=>({ display: { xs: 'flex'}, ml: [6, null, 12], border:theme.palette.mode === LIGHT_MODE_THEME ?  `2px solid ${LIGHT_THEME_COLOR}` : `2px solid ${DARK_THEME_COLOR}`, borderRadius: '15px', py: 1})} ref={ref} >
-          <SearchWrapper>
+        <Box sx={(theme)=>({ display: { xs: 'flex'}, mr: [2, null, null],
+         ml: [2, null, 12], 
+         border:theme.palette.mode === LIGHT_MODE_THEME ?  `2px solid ${LIGHT_THEME_COLOR}` : `2px solid ${DARK_THEME_COLOR}`,
+          borderRadius: '15px',
+          minWidth: {xs: '-webkit-fill-available', sm: 'inherit'},
+          py: 1})} ref={ref} >
+          <SearchWrapper >
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase placeholder="Search a career for mentor…" inputProps={{ 'aria-label': 'search' }} onChange={handleChange} value={searchInput}/>
+            <StyledInputBase placeholder="Search a career for mentor…" inputProps={{ 'aria-label': 'search' }} onChange={handleChange} value={searchInput} sx={{width: {xs: 'inherit'}}}/>
             <CloseIconWrapper onClick={handleCloseButton}>
               <CloseIcon />
             </CloseIconWrapper>
@@ -123,7 +128,7 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
             Search Result for Mentors
           </Typography>
           <CloseIconWrapper onClick={handleCloseButton}>
-            <CloseIcon />
+            <CloseIcon fontSize='small'/>
           </CloseIconWrapper>
         </SearchResultWrapper>
         }
@@ -165,7 +170,8 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
               cursor: 'pointer',
             }
           })
-          } />
+          } 
+          fontSize='small'/>
         </CloseIconWrapper>
       </SearchResultWrapper>
       }
@@ -188,7 +194,7 @@ const SearchWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
     marginLeft: theme.spacing(3),
     width: 'auto',
-  },
+  }
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
