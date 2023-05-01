@@ -71,13 +71,11 @@ const capitalizedFirstLetter = (str: string) => {
             </Box>
             <AppTitle variant="h5" />
           </>}
-           { isIconClick ? null : 
-           <SearchIconWrapper onClick={handleIconClick}>
-             <SearchIcon />
-          </SearchIconWrapper>}
+
            <Search isIconClick={isIconClick} handleIconclose={handleIconClose}/>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex', alignItems: 'center' } }}>
+                     
             <ThemeSwitcher />
             <Messages total={10} />
             <Notifications total={20} />
@@ -86,6 +84,9 @@ const capitalizedFirstLetter = (str: string) => {
               </IconButton>
           </Box>
           {isIconClick ? null : <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+           <SearchIconWrapper onClick={handleIconClick}>
+             <SearchIcon />
+          </SearchIconWrapper>
             <More onClick={handleMobileMenuOpen} />
           </Box>}
         </Toolbar>
@@ -128,6 +129,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   paddingLeft: theme.spacing(6),
   display: 'flex',
   cursor: 'pointer',
+  alignItems: 'center',
   [theme.breakpoints.up('sm')]: {
     display: 'none'
   },
