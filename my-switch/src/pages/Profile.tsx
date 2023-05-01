@@ -21,10 +21,8 @@ import axios from "axios";
 import { Alert } from "@mui/material";
 import { GET_PROFILE_DETAIL, GET_MENTOR_FOLLOWERS, GET_USER_FOLLOWING, REGISTER_FOLLOWER_BY_USERNAME, UPDATE_USER_PROFILE } from "../types/graphSchema";
 import { toast } from "react-toastify";
-import { BLACK_COLOR, LIGHT_MODE_THEME, WHITE_COLOR } from "../utils/constants";
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-
-
+import { BLACK_COLOR, DARK_THEME_COLOR, LIGHT_MODE_THEME, LIGHT_THEME_COLOR, WHITE_COLOR } from "../utils/constants";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export function Profile() {
   const [showEditProfile, setShowEditProfile] = React.useState(false);
@@ -139,8 +137,11 @@ export function Profile() {
   return (
     <PageContainer>
     {username && <Box sx={{marginLeft: {sm: '50px'}}}>
-      <IconButton aria-label="add an arrow back" onClick={()=>navigate(-1)}>
-  <ArrowBackIosNewIcon />
+      <IconButton aria-label="add an arrow back" onClick={()=>navigate(-1)}
+      sx={(theme)=>({color: theme.palette.mode
+        === LIGHT_MODE_THEME ? LIGHT_THEME_COLOR : DARK_THEME_COLOR})}
+      >
+  <ArrowBackIcon />
 </IconButton>
     </Box>}
       <GridContainer>
