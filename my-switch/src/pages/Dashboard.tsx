@@ -1,4 +1,4 @@
-import { Typography, Box } from '@mui/material';
+import { Typography, Box, styled } from '@mui/material';
 import BasicCard from '../components/Card';
 import AlertDialogue from '../components/AlertDialogue';
 import { useQuery } from "@apollo/client";
@@ -72,7 +72,7 @@ const render = (row: RowData)=> {
 }
 
   return (
-    <Box>
+    <PageContainer>
       <AlertDialogue />
       <>
         <Typography variant='h6' sx={{ textTransform: 'none', marginLeft: { xs: '0px', md: '120px' }, mb: 1 }}>Connection Info</Typography>
@@ -91,6 +91,13 @@ const render = (row: RowData)=> {
         </><Table rows={pendingRequest} title={{ label: 'Pending Request Table' }} columns={createColumn(pendingRequest)} />
         </>
 }
-    </Box>
+    </PageContainer>
   );
 };
+
+
+const PageContainer = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(8), 
+  paddingLeft: theme.spacing(2),
+  paddingRight: theme.spacing(2)
+}));

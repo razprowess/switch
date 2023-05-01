@@ -22,7 +22,7 @@ export const Routes = () => {
 
   return (
     <>
-      <List component="nav" sx={{ height: '100%' }}>
+      <List component="nav" sx={{ height: '100%', mt: 2 }}>
         {routesState.map((route: Route) => (
           <div key={route.key} style={{display: route.isSkip ? 'none' : 'block'}}>
             {route.subRoutes ? (

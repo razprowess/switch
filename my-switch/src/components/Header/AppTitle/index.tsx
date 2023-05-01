@@ -16,4 +16,5 @@ const StyledAppTitle = styled(Typography)`
   cursor: default;
   margin: 0 auto;
   font-weight: bold;
+  font-family: 'Oregano', cursive;
 `;

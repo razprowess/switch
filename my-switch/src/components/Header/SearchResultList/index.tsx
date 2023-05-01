@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { REGISTER_FOLLOWER, REMOVE_FOLLOWER } from '../../../types/graphSchema';
 import { toast } from "react-toastify";
+import { LIGHT_THEME_COLOR, DARK_THEME_COLOR } from '../../../utils/constants';
 
 
 interface SearchResultListProps {
@@ -92,7 +93,6 @@ if (!searchResult) return null;
     <StyledList left={left}>
       {searchResult?.map((result: any) => {
         const { info, account, id, hasFollowed } = result;
-        console.log(hasFollowed);
         const { firstname, lastname, username,imgurl } = account;
         return (
           <>
@@ -101,7 +101,7 @@ if (!searchResult) return null;
                 <Avatar alt={capitalizedFirstLetter(firstname)} src={imgurl? imgurl : "/static/images/avatar/1.jpg"}  />
               </ListItemAvatar>
               <ListItemWrapper>
-                <Typography variant='h6' sx={{ textTransform: 'capitalize' }}>
+                <Typography variant='h6' sx={(theme)=>({ textTransform: 'capitalize', color: theme.palette.mode === LIGHT_MODE_THEME ? LIGHT_THEME_COLOR : DARK_THEME_COLOR })}>
                   {firstname} {lastname}
                 </Typography>
                 <StyledTypographay variant='body2'>
@@ -109,8 +109,8 @@ if (!searchResult) return null;
                 </StyledTypographay>
               </ListItemWrapper>
               <ButtonContainer>
-                { hasFollowed ? <Button variant='contained' size='small' sx={{ textTransform: 'none', borderRadius: '0', marginBottom: '5px' }} onClick={(event) => handleUnfollowButtonClick(event, id)}>Unfollow</Button>: 
-                 <Button variant='contained' size='small' sx={{ textTransform: 'none', borderRadius: '0', marginBottom: '5px' }} onClick={(event) => handleFollowButtonClick(event, id)}>Follow</Button> }
+                { hasFollowed ? <Button variant='contained' size='small' sx={{ textTransform: 'none', borderRadius: '34px', marginBottom: '5px' }} onClick={(event) => handleUnfollowButtonClick(event, id)}>Unfollow</Button>: 
+                 <Button variant='contained' size='small' sx={{ textTransform: 'none', borderRadius: '34px', marginBottom: '5px' }} onClick={(event) => handleFollowButtonClick(event, id)}>Follow</Button> }
                 <Button variant='text' size='small' sx={{ textTransform: 'none', borderRadius: '0' }} onClick={()=>viewUserProfile(username)}>View Profile</Button>
               </ButtonContainer>
             </StyledListItem>
@@ -125,14 +125,13 @@ if (!searchResult) return null;
 
 const StyledListItem = styled(ListItem)(({ theme }) => ({
   '&:hover': {
-    backgroundColor: theme.palette.mode === LIGHT_MODE_THEME ? alpha(theme.palette.primary.light, 0.15) : alpha(theme.palette.secondary.contrastText, 0.25),
+    backgroundColor: theme.palette.mode === LIGHT_MODE_THEME ? alpha(LIGHT_THEME_COLOR, 0.05) : alpha(DARK_THEME_COLOR, 0.25),
     cursor: 'pointer',
     paddingRight: '10px',
-    borderTopRightRadius: '5px',
-    borderBottomRightRadius: '5px',
+    borderRadius: '5px',
     borderStyle: 'solid',
     borderWidth: '1px',
-    borderColor: theme.palette.mode === LIGHT_MODE_THEME ? theme.palette.primary.light : theme.palette.secondary.contrastText,
+    borderColor: theme.palette.mode === LIGHT_MODE_THEME ? LIGHT_THEME_COLOR : DARK_THEME_COLOR,
   },
   alignItems: 'flex-start',
   marginRight: '10px',
@@ -141,27 +140,28 @@ const StyledListItem = styled(ListItem)(({ theme }) => ({
 
 
 const StyledList = styled(List)<{ left: number }>(({ left, theme }) => ({
+  paddingLeft: '6px',
+  paddingRight: '6px',
   position: 'fixed',
   top: '100px',
   zIndex: '1',
   overflowY: 'scroll',
   overflowX: 'hidden',
-  borderBottomLeftRadius: '10px',
-  borderBottomRightRadius: '10px',
-  borderBottom:  theme.palette.mode === LIGHT_MODE_THEME ? '5px solid #2196f3' : '5px solid #fff',
+  borderRadius: '10px',
+  borderBottom:  theme.palette.mode === LIGHT_MODE_THEME ? `5px solid ${LIGHT_THEME_COLOR}` : `5px solid ${DARK_THEME_COLOR}`,
   backgroundColor: theme.palette.background.paper,
   [theme.breakpoints.up('xs')]: {
     width: '100%',
     left: '0',
     maxHeight: '-webkit-fill-available;, 100vh',
-    top: '122px',
+    top: '138px',
   },
   [theme.breakpoints.up('md')]: {
-    width: '480px',
-    left: `calc(${left}px + 24px)`,
+    width: '525px',
+    left: `${left}px`,
     maxHeight: '400px',
     minHeight: 'auto',
-    top: '122px',
+    top: '138px',
   },
 
 }))

@@ -6,6 +6,9 @@ import SearchResultList from '../SearchResultList';
 import { useLazyQuery } from '@apollo/client';
 import { LIGHT_MODE_THEME } from '../../../utils/constants';
 import { GET_MENTOR_LIST } from '../../../types/graphSchema';
+import { LIGHT_THEME_COLOR } from '../../../utils/constants';
+import { DARK_THEME_COLOR } from '../../../utils/constants';
+import { HEADER_HEIGHT } from '../../../utils/constants';
 
 
 interface SearchProps {
@@ -103,12 +106,17 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
   if (isIconClick) {
     return (
       <>
-        <Box sx={{ display: { xs: 'flex' }, ml: [6, null, 12] }} ref={ref}>
-          <SearchWrapper>
+        <Box sx={(theme)=>({ display: { xs: 'flex'}, mr: [2, null, null],
+         ml: [2, null, 12], 
+         border:theme.palette.mode === LIGHT_MODE_THEME ?  `2px solid ${LIGHT_THEME_COLOR}` : `2px solid ${DARK_THEME_COLOR}`,
+          borderRadius: '15px',
+          minWidth: {xs: '-webkit-fill-available', sm: 'inherit'},
+          py: 1})} ref={ref} >
+          <SearchWrapper >
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase placeholder="Search a career for mentor…" inputProps={{ 'aria-label': 'search' }} onChange={handleChange} value={searchInput}/>
+            <StyledInputBase placeholder="Search a career for mentor…" inputProps={{ 'aria-label': 'search' }} onChange={handleChange} value={searchInput} sx={{width: {xs: 'inherit'}}}/>
             <CloseIconWrapper onClick={handleCloseButton}>
               <CloseIcon />
             </CloseIconWrapper>
@@ -120,7 +128,7 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
             Search Result for Mentors
           </Typography>
           <CloseIconWrapper onClick={handleCloseButton}>
-            <CloseIcon />
+            <CloseIcon fontSize='small'/>
           </CloseIconWrapper>
         </SearchResultWrapper>
         }
@@ -130,10 +138,10 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
 
   return (
     <>
-      <Box sx={{ display: { sm: 'flex', xs: 'none', }, ml: [2, null, 12] }} ref={ref}>
+      <Box sx={(theme)=>({ display: { sm: 'flex', xs: 'none', }, ml: [2, null, 12], border:theme.palette.mode === LIGHT_MODE_THEME ?  `2px solid ${LIGHT_THEME_COLOR}` : `2px solid ${DARK_THEME_COLOR}`, borderRadius: '30px', py: 1 })} ref={ref}>
         <SearchWrapper>
           <SearchIconWrapper>
-            <SearchIcon />
+            <SearchIcon/>
           </SearchIconWrapper>
           <StyledInputBase placeholder="Search a career for mentor…" inputProps={{ 'aria-label': 'search' }} onChange={handleChange} value={searchInput} />
           <CloseIconWrapper onClick={handleCloseButton}>
@@ -162,7 +170,8 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
               cursor: 'pointer',
             }
           })
-          } />
+          } 
+          fontSize='small'/>
         </CloseIconWrapper>
       </SearchResultWrapper>
       }
@@ -185,7 +194,7 @@ const SearchWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
     marginLeft: theme.spacing(3),
     width: 'auto',
-  },
+  }
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -221,20 +230,18 @@ const CloseIconWrapper = styled('div')(({ theme }) => ({
 
 const SearchResultWrapper = styled('div')<{ left: number }>(({ theme, left }) => ({
   display: 'flex',
-  width: '480px',
+  width: '525px',
   position: 'fixed',
-  top: '70px',
-  left: `calc(${left}px + 24px)`,
+  top: `calc(${HEADER_HEIGHT}px + 18px)`,
+  left: `${left}px`,
   height: '50px',
-  borderTopRightRadius: '10px',
-  borderTopLeftRadius: '10px',
+  borderRadius: '10px',
   backgroundColor: theme.palette.background.paper,
   color: theme.palette.mode === LIGHT_MODE_THEME ? theme.palette.text.primary : '#fff',
   alignItems: 'center',
-  boxShadow: '0px 2px 0px #888',
   [theme.breakpoints.down('md')]: {
     width: '100%',
     left: '0',
-    top: '70px',
+    top: `calc(${HEADER_HEIGHT}px + 18px)`,
   },
 }))

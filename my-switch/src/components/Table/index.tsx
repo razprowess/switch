@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import TableFilter, { ITableFilterProps } from "./filter";
 import { tableCellClasses } from '@mui/material/TableCell';
-import { LIGHT_MODE_THEME } from "../../utils/constants";
+import { LIGHT_MODE_THEME, LIGHT_THEME_COLOR } from "../../utils/constants";
 
 type Alignment = "inherit" | "right" | "left" | "center" | "justify";
 export type RowData = { [key: string]: string | number | any };
@@ -81,11 +81,11 @@ const Table = ({
   return (
     <Box sx={{margin: { xs: "0 10px", sm: "0 auto", md: "0 110px" }}}>
       {!disableFilter && (<TableFilter  onChanged={setFilter} title={title} ctaLabel={ctaLabel} onCTAClicked={onCTAClicked} />)}
-      <TableContainer component={Paper} style={style}  >
+      <TableContainer component={Paper} style={style}>
         {preHeaderNode}
         <MUITable aria-label="sticky table">
           <TableHead>
-            <TableRow sx={{ bgcolor: (theme) => theme.palette.mode === LIGHT_MODE_THEME ? theme.palette.primary.light : theme.palette.common.white }}>
+            <TableRow sx={{ bgcolor: (theme) => theme.palette.mode === LIGHT_MODE_THEME ? LIGHT_THEME_COLOR : theme.palette.common.white }}>
               {enabledColumns.map((column) => (
                 <StyledTableCell
                   key={column.id}
