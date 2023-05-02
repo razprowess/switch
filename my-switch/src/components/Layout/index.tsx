@@ -7,6 +7,7 @@ import { Footer } from '../Footer';
 
 import { FOOTER_HEIGHT, LIGHT_MODE_THEME } from '../../utils/constants';
 import { AuthContext } from '../../contexts/authContext';
+import MessageHeader from '../MessageHeader';
 
 
 export const Layout: FC = ({ children }) => {
@@ -57,6 +58,7 @@ return (
           <DrawerHeader />
            {children} 
         </Box> 
+        <MessageHeader/>
       </ContentWrapper>
       <Box component="footer">
         <Footer />
