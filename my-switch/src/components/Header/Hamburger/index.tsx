@@ -17,7 +17,7 @@ export const Hamburger = ({ toggleNavigation, onClickOutside }: HamburgerProps) 
 
 
   const toggle = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((status)=> !status);
     toggleNavigation();
   };
 

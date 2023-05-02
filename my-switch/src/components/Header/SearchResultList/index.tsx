@@ -7,7 +7,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { styled, alpha, Button, Box } from '@mui/material';
-import { LIGHT_MODE_THEME } from '../../../utils/constants';
+import { HEADER_HEIGHT, LIGHT_MODE_THEME } from '../../../utils/constants';
 import { useMutation} from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -154,14 +154,14 @@ const StyledList = styled(List)<{ left: number }>(({ left, theme }) => ({
     width: '100%',
     left: '0',
     maxHeight: '-webkit-fill-available;, 100vh',
-    top: '138px',
+    top: `${HEADER_HEIGHT}px + 73px`
   },
   [theme.breakpoints.up('md')]: {
     width: '525px',
     left: `${left}px`,
     maxHeight: '400px',
     minHeight: 'auto',
-    top: '138px',
+    top: `${HEADER_HEIGHT}px + 73px`,
   },
 
 }))

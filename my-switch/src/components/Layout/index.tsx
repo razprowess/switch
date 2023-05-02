@@ -13,12 +13,18 @@ export const Layout: FC = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [hasClickOutide, setHasclickOutside] = useState(false);
 
-  const toggleNavigation = () => setOpen((status) => !status);
+  const toggleNavigation = () => {
+    setOpen((status) => !status);
+    if(!open)setHasclickOutside(false);
+  };
 
   const closeNavigation = () => {
       setOpen(false);
-      setHasclickOutside((status)=> !status);
-  };
+    };
+
+  const closeHamburger = () => {
+    setHasclickOutside(true);
+  }
 
 const { user } =  useContext(AuthContext);
 
@@ -36,6 +42,7 @@ useEffect(()=>{
 const handleClickOut = (event:any)=>{
   if(ref.current && headerRef.current && !headerRef.current.contains(event.target) && !ref.current.contains(event.target)){
     closeNavigation();
+    closeHamburger();
   }
 }
 
