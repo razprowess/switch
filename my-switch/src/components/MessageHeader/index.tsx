@@ -1,6 +1,7 @@
 import { Box, Typography, styled } from "@mui/material";
 import { UnreadMail, ArrowUp, ArrowDown } from "../Actions";
 import { useState } from "react";
+import { BLACK_COLOR, LIGHT_MODE_THEME, WHITE_COLOR } from "../../utils/constants";
 
 
 const MessageHeader = () => {
@@ -33,15 +34,16 @@ const MessageHeader = () => {
 export default MessageHeader
 
 const Container = styled(Box)<{open: boolean}>(({ open, theme }) => ({
+    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px;', 
     borderTopLeftRadius: theme.spacing(2),
     borderTopRightRadius: theme.spacing(2),
     zIndex: 2,
-    background: 'pink',
+    background: theme.palette.mode === LIGHT_MODE_THEME ? WHITE_COLOR : BLACK_COLOR,
     position: 'fixed',
     bottom: '0px',
     right: '20px',
-    width: '368px',
-    height: '54px',
+    width: '400px',
+    height: '65px',
     padding: theme.spacing(0, 2),
     [theme.breakpoints.down('sm')]: {
         display: 'none'

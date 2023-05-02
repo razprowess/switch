@@ -33,6 +33,7 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
   const [isClosed, setIsClosed] = useState(false);
   const [left, setLeft] = useState(0);
   const [mentorsList, setMentorsList] = useState<Mentor[]>([]);
+  const [isInputClick, setIsInputClick]= useState(false);
 
   const ref = useRef<HTMLElement | null>(null);
   
@@ -70,7 +71,7 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
     }, 1000);
 
     return () => clearTimeout(timerId);
-  }, [searchInput]);
+  }, [getMentor, searchInput]);
 
   const handleResize = () => {
     if (ref.current) {
@@ -88,6 +89,7 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(event.target.value);
+    setIsInputClick(true);
   }
 
   const onHandleButtonClick = (id: number) => {
@@ -122,7 +124,7 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
             </CloseIconWrapper>
           </SearchWrapper>
         </Box>
-        {!isClosed && <SearchResultList left={left} searchResult={mentorsList} onHandleButtonClick={onHandleButtonClick} onHandleCloseButton={handleCloseButton}/>}
+        {!isClosed && <SearchResultList left={left} searchResult={mentorsList} onHandleButtonClick={onHandleButtonClick} onHandleCloseButton={handleCloseButton} isInputClick={isInputClick}/>}
         {data && !isClosed && <SearchResultWrapper left={left}>
           <Typography variant='body1' sx={{ flexGrow: 1, fontWeight: 'bold' }} ml={2}>
             Search Result for Mentors
@@ -138,14 +140,15 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
 
   return (
     <>
-      <Box sx={(theme)=>({ display: { sm: 'flex', xs: 'none', }, ml: [2, null, 18], border:theme.palette.mode === LIGHT_MODE_THEME ?  `2px solid ${LIGHT_THEME_COLOR}` : `2px solid ${DARK_THEME_COLOR}`, borderRadius: '30px', py: 1 })} ref={ref}>
+      <Box sx={(theme)=>({ display: { sm: 'flex', xs: 'none', }, ml: [2, null, 20], border:theme.palette.mode === LIGHT_MODE_THEME ?  `2px solid ${LIGHT_THEME_COLOR}` : `2px solid ${DARK_THEME_COLOR}`, borderRadius: '30px', py: 1 })} ref={ref}>
         <SearchWrapper>
           <SearchIconWrapper>
             <SearchIcon/>
           </SearchIconWrapper>
           <StyledInputBase placeholder="Search a career for mentor…" inputProps={{ 'aria-label': 'search' }} onChange={handleChange} value={searchInput} />
-          <CloseIconWrapper onClick={handleCloseButton}>
+           <CloseIconWrapper onClick={handleCloseButton}>
             <CloseIcon sx={(theme) => ({
+              color: theme.palette.mode === LIGHT_MODE_THEME  && searchInput ? 'inherit' : theme.palette.mode !== LIGHT_MODE_THEME  && searchInput ? 'inherit' : 'transparent',
               "&:hover": {
                 backgroundColor: theme.palette.mode === LIGHT_MODE_THEME ? alpha(theme.palette.common.white, 0.15) : alpha(theme.palette.common.white, 0.15),
                 borderRadius: '10%',
@@ -157,7 +160,7 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
           </CloseIconWrapper>
         </SearchWrapper>
       </Box>
-      {!isClosed && <SearchResultList left={left} searchResult={mentorsList} onHandleButtonClick={onHandleButtonClick} onHandleCloseButton={handleCloseButton}/>}
+      {!isClosed && <SearchResultList left={left} searchResult={mentorsList} onHandleButtonClick={onHandleButtonClick} onHandleCloseButton={handleCloseButton} isInputClick={isInputClick}/>}
       {data && !isClosed && <SearchResultWrapper left={left}>
         <Typography variant='body1' sx={{ flexGrow: 1, fontWeight: 'bold' }} ml={2}>
           Search Result for Mentors

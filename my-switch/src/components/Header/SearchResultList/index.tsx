@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import { styled, alpha, Button, Box } from '@mui/material';
 import { HEADER_HEIGHT, LIGHT_MODE_THEME } from '../../../utils/constants';
 import { useMutation} from '@apollo/client';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { REGISTER_FOLLOWER, REMOVE_FOLLOWER } from '../../../types/graphSchema';
 import { toast } from "react-toastify";
@@ -21,17 +20,14 @@ interface SearchResultListProps {
   searchResult?: any;
   onHandleButtonClick: Function;
   onHandleCloseButton: ()=>void;
+  isInputClick?: boolean;
 }
 
 
 export default function SearchResultList(props: SearchResultListProps) {
-  const { left, searchResult, onHandleButtonClick, onHandleCloseButton } = props;
-  const [rendered, setRendered] =  useState(false);
+  const { left, searchResult, onHandleButtonClick, onHandleCloseButton, isInputClick } = props;
 const navigate = useNavigate();
 
-  useEffect(()=>{
-    setRendered(true);
-  },[])
 
 const [create] = useMutation(REGISTER_FOLLOWER);
 
@@ -41,9 +37,10 @@ const [remove] = useMutation(REMOVE_FOLLOWER);
 if (!searchResult) return null;
 
   if (searchResult.length === 0) {
+    
     return (
       <>
-     {!rendered && (<StyledList left={left} >
+     {isInputClick && (<StyledList left={left} >
         <NoSearchResult>
           <ListItemText
             sx={{ textAlign: 'center' }}
