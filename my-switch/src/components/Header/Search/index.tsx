@@ -138,7 +138,7 @@ export const Search = ({ isIconClick, handleIconclose }: SearchProps) => {
 
   return (
     <>
-      <Box sx={(theme)=>({ display: { sm: 'flex', xs: 'none', }, ml: [2, null, 12], border:theme.palette.mode === LIGHT_MODE_THEME ?  `2px solid ${LIGHT_THEME_COLOR}` : `2px solid ${DARK_THEME_COLOR}`, borderRadius: '30px', py: 1 })} ref={ref}>
+      <Box sx={(theme)=>({ display: { sm: 'flex', xs: 'none', }, ml: [2, null, 18], border:theme.palette.mode === LIGHT_MODE_THEME ?  `2px solid ${LIGHT_THEME_COLOR}` : `2px solid ${DARK_THEME_COLOR}`, borderRadius: '30px', py: 1 })} ref={ref}>
         <SearchWrapper>
           <SearchIconWrapper>
             <SearchIcon/>

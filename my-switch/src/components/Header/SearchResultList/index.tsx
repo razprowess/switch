@@ -154,14 +154,14 @@ const StyledList = styled(List)<{ left: number }>(({ left, theme }) => ({
     width: '100%',
     left: '0',
     maxHeight: '-webkit-fill-available;, 100vh',
-    top: `${HEADER_HEIGHT}px + 73px`
+    top: `${HEADER_HEIGHT + 73}px`
   },
   [theme.breakpoints.up('md')]: {
     width: '525px',
     left: `${left}px`,
     maxHeight: '400px',
     minHeight: 'auto',
-    top: `${HEADER_HEIGHT}px + 73px`,
+    top: `${HEADER_HEIGHT + 73}px`,
   },
 
 }))
