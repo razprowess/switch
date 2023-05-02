@@ -9,6 +9,7 @@ import {
   Login as SignupIcon,
   Person as ProfileIcon,
   CheckCircle as CheckCircleIcon,
+  MailOutline as MailOutlineIcon,
 } from '@mui/icons-material';
 
 import { ActionItem } from './ActionItem';
@@ -23,6 +24,16 @@ export const Messages = ({ total, onClick, disableTooltip = false }: ActionProps
   <ActionItem
     title="My Messages"
     icon={MailIcon}
+    onClick={onClick}
+    badgeContent={total}
+    disableTooltip={disableTooltip}
+  />
+);
+
+export const Message = ({ total, onClick, disableTooltip = false }: ActionProps) => (
+  <ActionItem
+    title="My Messages"
+    icon={MailOutlineIcon}
     onClick={onClick}
     badgeContent={total}
     disableTooltip={disableTooltip}
