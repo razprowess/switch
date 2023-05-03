@@ -27,6 +27,11 @@ export const Layout: FC = ({ children }) => {
     setHasclickOutside(true);
   }
 
+  // const closeHamburgerFromMenu = () => {
+  //   setHasclickOutside(true);
+  //   setOpen(false);
+  // }
+
 const { user } =  useContext(AuthContext);
 
 const ref = useRef<HTMLDivElement | null>(null);

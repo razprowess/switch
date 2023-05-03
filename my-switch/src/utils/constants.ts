@@ -15,7 +15,7 @@ export const PAGE_TITLE_SIGNIN = "Signin";
 // UI CONSTANTS
 export const FOOTER_HEIGHT = 60; //previously 30
 export const HEADER_HEIGHT = 65;
-export const DRAWER_WIDTH = 250;
+export const DRAWER_WIDTH = 350;
 // APP THEME
 export const DARK_MODE_THEME = 'dark';
 export const LIGHT_MODE_THEME = 'light';
