@@ -29,6 +29,7 @@ import {
       path: '/',
       isEnabled: true,
       icon: HomeIcon,
+      isSkip: true
     },
     {
       key: 'router-dashboard',

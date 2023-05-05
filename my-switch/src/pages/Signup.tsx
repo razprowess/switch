@@ -94,9 +94,9 @@ export function Signup() {
                     {PAGE_TITLE_SIGNUP} | {APP_TITLE}
                 </title>
             </Helmet>
-            <Card sx={{ minWidth: 275, maxWidth: 600, marginLeft: "auto", marginRight: "auto" }}>
+            <Card sx={{ minWidth: 275, maxWidth: 700, marginLeft: "auto", marginRight: "auto" }}>
                 <CardContent>
-                    <Container component="main" maxWidth="xs">
+                    <Container component="main" maxWidth="sm">
                         <CssBaseline />
                         <Box
                             sx={{
@@ -145,7 +145,7 @@ export function Signup() {
                                             autoComplete="user-name"
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid item xs={12} sm={6}>
                                         <TextField
                                             required
                                             fullWidth
@@ -155,7 +155,7 @@ export function Signup() {
                                             autoComplete="email"
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid item xs={12} sm={6}>
                                         <TextField
                                             required
                                             fullWidth
@@ -199,7 +199,7 @@ export function Signup() {
                                 >
                                     Sign Up
                                 </Button>
-                                <Grid container justifyContent="flex-end" sx={{ mb: 2 }}>
+                                <Grid container justifyContent="center" sx={{ mb: 2 }}>
                                     <Grid item>
                                         <Link href="/login" variant="body2">
                                             Already have an account? Sign in

@@ -7,14 +7,13 @@ interface HamburgerProps {
 }
 
 export const Hamburger = ({ toggleNavigation, onClickOutside }: HamburgerProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
     if (onClickOutside) {
       setIsOpen(false);
     }
   }, [onClickOutside])
-
 
   const toggle = () => {
     setIsOpen((status)=> !status);

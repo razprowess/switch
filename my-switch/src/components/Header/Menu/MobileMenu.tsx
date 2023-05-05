@@ -71,10 +71,10 @@ export const MobileMenu = ({ isMenuOpen, handleMenuOpen, handleMenuClose, anchor
             </MenuItem>
           </>
           :
-          <MenuItem onClick={handleSignup}>
-            <SignUp disableTooltip />
-            Sign Up
-          </MenuItem>
+            <MenuItem onClick={handleSignup}>
+              <SignUp disableTooltip />
+              Sign Up
+            </MenuItem>
         }
       </Box>
     </Menu>

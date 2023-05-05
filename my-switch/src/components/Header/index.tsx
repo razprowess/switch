@@ -14,6 +14,7 @@ import useIsMobile from '../../hooks/useIsMobile';
 import { HEADER_HEIGHT } from '../../utils/constants';
 import { GET_PROFILE_DETAIL } from '../../types/graphSchema';
 import { useQuery } from '@apollo/client';
+import { useLocation } from 'react-router-dom';
 
 interface HeaderProps {
   toggleNavigation: () => void;
@@ -29,6 +30,8 @@ export const Header = React.forwardRef<Ref, HeaderProps>((props, ref) => {
   const [logoSrc, setLogoSrc] = useState("");
 
   const { user } = useContext(AuthContext);
+  const location =  useLocation();
+  const isHomePage = location.pathname === '/';
 
   const { data } = useQuery(GET_PROFILE_DETAIL, {
     onCompleted(data) {
@@ -73,19 +76,21 @@ export const Header = React.forwardRef<Ref, HeaderProps>((props, ref) => {
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, py: 1 }}>
         <Toolbar disableGutters variant="dense" sx={{ height: HEADER_HEIGHT, paddingLeft: { sm: '52px' }, paddingRight: { sm: '52px' } }}>
           {isIconClick && isMobile ? null : <>
-            <Box sx={{ mr: 2.5 }} ref={ref}>
+            { isMobile && <Box sx={{ mr: 2.5 }} ref={ref}>
               <Hamburger toggleNavigation={toggleNavigation} onClickOutside={onClickOutside} />
-            </Box>
+            </Box> }
             <AppTitle variant="h5" />
           </>}
 
-          <Search isIconClick={isIconClick} handleIconclose={handleIconClose} />
+         { !isHomePage && <Search isIconClick={isIconClick} handleIconclose={handleIconClose} />}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex', alignItems: 'center' } }}>
-
             <ThemeSwitcher />
-            <Messages total={10} />
-            <Notifications total={20} />
+            { !isHomePage && <>
+              <Messages total={10} />
+            <Notifications total={20} />      
+            </>        
+            }
             <IconButton onClick={handleProfileMenuOpen} sx={{ mx: 2 }}>
               {logoSrc ? <Avatar alt="Remy Sharp" src={logoSrc} /> : <Avatar alt={capitalizedFirstLetter(data?.getProfileInfo?.firstname || 'avatar')} src="/static/images/avatar/2.jpg" />}
             </IconButton>

@@ -1,4 +1,5 @@
 import { FC, useState, useContext, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { styled, Box } from '@mui/material';
 
 import { Navigation } from '../Navigation';
@@ -8,11 +9,15 @@ import { Footer } from '../Footer';
 import { FOOTER_HEIGHT, LIGHT_MODE_THEME } from '../../utils/constants';
 import { AuthContext } from '../../contexts/authContext';
 import MessageHeader from '../MessageHeader';
+import useIsMobile from '../../hooks/useIsMobile';
 
 
 export const Layout: FC = ({ children }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [hasClickOutide, setHasclickOutside] = useState(false);
+const location = useLocation();
+const currentPath = location.pathname;
+const isMobile = useIsMobile();
 
   const toggleNavigation = () => {
     setOpen((status) => !status);
@@ -45,6 +50,11 @@ useEffect(()=>{
   }
 },[]);
 
+
+// useEffect(()=>{
+//   if(!open) setOpen(false);
+// },[isMobile])
+
 const handleClickOut = (event:any)=>{
   if(ref.current && headerRef.current && !headerRef.current.contains(event.target) && !ref.current.contains(event.target)){
     closeNavigation();
@@ -58,7 +68,7 @@ return (
         <Box component="header">
           <Header toggleNavigation={toggleNavigation} ref={headerRef} onClickOutside={hasClickOutide}/>
         </Box>
-        {user && <Navigation open={open} handleClose={toggleNavigation} ref={ref}/>} 
+        {user && currentPath !== '/' && <Navigation open={open} handleClose={toggleNavigation} ref={ref}/>} 
          <Box component="main" sx={(theme)=>({ flexGrow: 1, bgcolor: theme.palette.mode === LIGHT_MODE_THEME ? '#f6f3f3': '#353534' })}> 
           <DrawerHeader />
            {children} 
