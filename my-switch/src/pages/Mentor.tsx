@@ -59,8 +59,12 @@ export const Mentor = () => {
 
     return (
         <>
-            <Card sx={{ minWidth: 275, maxWidth: 600, marginLeft: "auto", marginRight: "auto" }}>
+        <Grid container gap={2} mt={4}>
+        <Grid item sm={1}></Grid>
+        <Grid item sm={8}> 
+        <Card sx={{ minWidth: 275, maxWidth: 600 }}>
                 <CardMedia
+                    sx={{mt: -2}}
                     component='img'
                     alt='mentoring image'
                     image={mento}
@@ -70,16 +74,15 @@ export const Mentor = () => {
                         <CssBaseline />
                         <Box
                             sx={{
-                                marginTop: 2,
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'center',
                             }}
                         >
-                            <Typography component="h1" variant="h5">
+                            <Typography component="h1" variant="h6">
                                 Few More Details Needed...
                             </Typography>
-                            <Box component="form" noValidate sx={{ mt: 3 }} onSubmit={handleSubmit}>
+                            <Box component="form" noValidate sx={{ mt: 2 }} onSubmit={handleSubmit}>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12}>
                                         <TextField
@@ -126,7 +129,7 @@ export const Mentor = () => {
                                     type="submit"
                                     fullWidth
                                     variant="contained"
-                                    sx={{ mt: 3, mb: 2 }}
+                                    sx={{ mt: 2, mb: 1 }}
                                 >
                                     Become A Mentor
                                 </Button>
@@ -137,6 +140,8 @@ export const Mentor = () => {
                     </Container>
                 </CardContent>
             </Card>
+        </Grid>    
+            </Grid>
         </>
     )
 }
