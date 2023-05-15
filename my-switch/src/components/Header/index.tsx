@@ -6,7 +6,8 @@ import { AppTitle } from './AppTitle';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { Messages, More, Notifications, UserAccount, Message } from '../Actions';
 import { DefaultMenu, MobileMenu } from './Menu';
-import logo from '../../assets/logo/switch.png';
+// import logo from '../../assets/logo/switch.png';
+import logo from '../../assets/logo/Logos.png';
 import { AuthContext } from '../../contexts/authContext';
 import { styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -30,7 +31,7 @@ export const Header = React.forwardRef<Ref, HeaderProps>((props, ref) => {
   const [logoSrc, setLogoSrc] = useState("");
 
   const { user } = useContext(AuthContext);
-  const location =  useLocation();
+  const location = useLocation();
   const isHomePage = location.pathname === '/';
 
   const { data } = useQuery(GET_PROFILE_DETAIL, {
@@ -38,6 +39,7 @@ export const Header = React.forwardRef<Ref, HeaderProps>((props, ref) => {
       setLogoSrc(data.getProfileInfo.imgurl);
     }
   });
+
 
   const isMobile = useIsMobile();
 
@@ -76,32 +78,32 @@ export const Header = React.forwardRef<Ref, HeaderProps>((props, ref) => {
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, py: 1 }}>
         <Toolbar disableGutters variant="dense" sx={{ height: HEADER_HEIGHT, paddingLeft: { sm: '52px' }, paddingRight: { sm: '52px' } }}>
           {isIconClick && isMobile ? null : <>
-            { isMobile && <Box sx={{ mr: 2.5 }} ref={ref}>
+            {isMobile && !isHomePage && <Box sx={{ mr: 2.5 }} ref={ref}>
               <Hamburger toggleNavigation={toggleNavigation} onClickOutside={onClickOutside} />
-            </Box> }
-            <AppTitle variant="h5" />
-          </>}
+            </Box>}
+            {isHomePage ? <Box sx={{ display: 'flex', width: '140px', height: '50px', marginLeft: '15px' }}><img src={logo} alt='nav logo' /></Box>
+              : <AppTitle variant="h5" />
+            }          </>}
 
-         { !isHomePage && <Search isIconClick={isIconClick} handleIconclose={handleIconClose} />}
+          {!isHomePage && <Search isIconClick={isIconClick} handleIconclose={handleIconClose} />}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex', alignItems: 'center' } }}>
             <ThemeSwitcher />
-            { !isHomePage && <>
+            {!isHomePage && <>
               <Messages total={10} />
-            <Notifications total={20} />      
-            </>        
+              <Notifications total={20} />
+            </>
             }
             <IconButton onClick={handleProfileMenuOpen} sx={{ mx: 2 }}>
               {logoSrc ? <Avatar alt="Remy Sharp" src={logoSrc} /> : <Avatar alt={capitalizedFirstLetter(data?.getProfileInfo?.firstname || 'avatar')} src="/static/images/avatar/2.jpg" />}
             </IconButton>
           </Box>
           {isIconClick ? null : <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <SearchIconWrapper onClick={handleIconClick}>
+            {!isHomePage && <><SearchIconWrapper onClick={handleIconClick}>
               <SearchIcon />
-            </SearchIconWrapper>
-            <MessageIconWrapper onClick={handleMessageIconClick}>
-              <Message total={10} />
-            </MessageIconWrapper>
+            </SearchIconWrapper><MessageIconWrapper onClick={handleMessageIconClick}>
+                <Message total={10} />
+              </MessageIconWrapper></>}
             <More onClick={handleMobileMenuOpen} />
           </Box>}
         </Toolbar>
