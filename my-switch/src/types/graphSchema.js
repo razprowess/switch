@@ -62,6 +62,7 @@ export const GET_PROFILE_DETAIL = gql`
       bio
       linkedin
       twitter
+      profession
       mentor {
         info
         speciality
@@ -89,6 +90,12 @@ export const GET_USER_FOLLOWING = gql`
   query GetFollwingData($username: String) {
     getFollowings(username: $username) {
       status
+      mentorAccount{
+      firstname
+      lastname
+      username
+      imgurl
+      }
     }
   }
 `;
