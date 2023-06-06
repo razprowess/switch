@@ -13,6 +13,7 @@ import {
   KeyboardDoubleArrowUpSharp as KeyboardDoubleArrowUpSharpIcon,
   KeyboardDoubleArrowDownSharp as KeyboardDoubleArrowDownSharpIcon,
   MarkEmailUnreadRounded as MarkEmailUnreadRoundedIcon,
+  ArrowBack as ArrowBackIcon,
 } from '@mui/icons-material';
 
 import { ActionItem } from './ActionItem';
@@ -54,6 +55,11 @@ export const ArrowUp = ({ onClick, disableTooltip = false }: ActionProps) => (
 export const ArrowDown = ({ onClick, disableTooltip = false }: ActionProps) => (
   <ActionItem title="Collapse" icon={KeyboardDoubleArrowDownSharpIcon} onClick={onClick} disableTooltip={disableTooltip} />
 );
+
+export const ArrowBack = ({ onClick, disableTooltip = false }: ActionProps) => (
+  <ActionItem title="Collapse" icon={ArrowBackIcon} onClick={onClick} disableTooltip={disableTooltip} />
+);
+
 
 export const UnreadMail = ({ onClick, disableTooltip = false }: ActionProps) => (
   <ActionItem title="Unread Message" icon={MarkEmailUnreadRoundedIcon} onClick={onClick} disableTooltip={disableTooltip} />

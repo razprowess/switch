@@ -10,18 +10,31 @@ import {  useState } from 'react';
 import { DARK_THEME_COLOR, LIGHT_MODE_THEME, LIGHT_THEME_COLOR } from '../../utils/constants';
 import { User } from '../MessageHeader';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
+import { CREATE_CHAT } from '../../types/graphSchema';
+import { useMutation } from '@apollo/client';
+import PageLayout from '../Layout/PageLayout';
 
 interface IMessageModal {
     open: boolean;
     onClose: () => void;
     onSearchFilter: (input: string)=>void;
     filterResult?: User[]|[];
-    onUserClick?: ()=> void; 
+    onUserClick?: (chatid: string)=> void; 
 }
 
 const MessageModal = (props: IMessageModal) => {
     const [searchInput, setSearchInput] = useState('');
     const { open, onClose, onSearchFilter, filterResult, onUserClick } = props;
+
+
+    const [createChat, {error}] = useMutation(CREATE_CHAT, {onCompleted(data) {
+        onUserClick && onUserClick(data.createChat.chatId);
+    },});
+
+    if (error) {
+        return <PageLayout error />;
+      }
+
 
     const handleClose = (e: any) => {
         onClose();
@@ -33,9 +46,9 @@ const MessageModal = (props: IMessageModal) => {
         onSearchFilter(search);
     }
 
-    const handleMessageButtonClick = (event: any)=>{
-        onUserClick && onUserClick();
+    const handleMessageButtonClick = (event: any, id: number)=>{
         onClose();
+        createChat({variables: {recieverid: id}});    
     }
 
     const capitalizedFirstLetter = (str: string) => {
@@ -70,20 +83,12 @@ const MessageModal = (props: IMessageModal) => {
                         <StyledInputBase placeholder="Search people..." inputProps={{ 'aria-label': 'search' }} value={searchInput} onChange={handleChange} autoFocus/>
                     </SearchWrapper>
                     <Divider sx={(theme)=>({ mx: -3, mb: 1, bgcolor: theme.palette.mode === LIGHT_MODE_THEME ? 'grey' : 'black' })}/>
-                    {/* <DialogContentText id="alert-dialog-description">
-                        <Typography paragraph mb={2}> Let join hands to be part of other people's success by providing timely guide and tips for the
-                            their journey.</Typography>
-
-                        <Typography paragraph>Would you like to be a mentor at your convinient, impact, and shape other people's career
-                            in a convinient atmosphere?</Typography>
-                    </DialogContentText> */}
-
                 <StyledList>
-                {filterResult?.map((result: any, index: number) => {
+                {filterResult?.map((result: any) => {
                  const { mentorAccount} = result;
-                const { firstname, lastname, username, imgurl } = mentorAccount;
+                const { firstname, lastname, username, imgurl, id } = mentorAccount;
             return (<>
-            <StyledListItem alignItems="flex-start" key={index}>
+            <StyledListItem alignItems="flex-start" key={id}>
               <ListItemAvatar>
                 <Avatar alt={capitalizedFirstLetter(firstname)} src={imgurl? imgurl : "/static/images/avatar/1.jpg"} sx={{width: '60px', height: '60px', mr: 1}}/>
               </ListItemAvatar>
@@ -94,7 +99,7 @@ const MessageModal = (props: IMessageModal) => {
                 <Typography variant='body2' sx={{color: 'rgb(0,0,0, 0.5)', fontWeight: 500, mt: -2}}>@{username}</Typography>
               </ListItemWrapper>
               <ButtonContainer>
-                 <Button variant='contained' size='small' sx={{ textTransform: 'none', borderRadius: '34px', marginBottom: '5px' }} onClick={(event) => handleMessageButtonClick(event)}>Message</Button> 
+                 <Button variant='contained' size='small' sx={{ textTransform: 'none', borderRadius: '34px', marginBottom: '5px' }} onClick={(event) => handleMessageButtonClick(event, id)}>Message</Button> 
               </ButtonContainer>
             </StyledListItem>
                 </>

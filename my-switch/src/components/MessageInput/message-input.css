@@ -1,0 +1,12 @@
+.submit-icon-focus{
+color: inherit;
+opacity: 1;
+pointer-events: auto;
+cursor: pointer;
+}
+
+.submit-icon-disabled {
+    color: #888888;
+    opacity: 0.5;
+    pointer-events: none;
+}

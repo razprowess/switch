@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { REGISTER_FOLLOWER, REMOVE_FOLLOWER } from '../../../types/graphSchema';
 import { toast } from "react-toastify";
 import { LIGHT_THEME_COLOR, DARK_THEME_COLOR } from '../../../utils/constants';
+import capitalizedFirstLetter from '../../../utils/capitalizeFirstLetter';
 
 
 interface SearchResultListProps {
@@ -61,10 +62,6 @@ if (!searchResult) return null;
     }
     </>
     )
-  }
-
-  const capitalizedFirstLetter = (str: string) => {
-    return str[0].toUpperCase();
   }
 
   const handleFollowButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number) => {

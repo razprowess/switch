@@ -6,10 +6,17 @@ import GifBoxOutlinedIcon from '@mui/icons-material/GifBoxOutlined';
 import { LIGHT_MODE_THEME } from "../../utils/constants";
 import { useState } from "react";
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { WHITE_COLOR } from "../../utils/constants";
 import { BLACK_COLOR } from "../../utils/constants";
+import './message-input.css';
 
-const MessageInput = () => {
+
+interface IMessageInput {
+    onUpdateChat: (message: any)=> void;
+}
+
+const MessageInput = (props: IMessageInput) => {
+    const {onUpdateChat} = props;
+
     const [input, setInput] = useState('');
     const [isInputClick, setIsInputClick] = useState(false);
 
@@ -22,6 +29,13 @@ const MessageInput = () => {
     const handleArrowClick = () => {
         setIsInputClick(false);
     }
+
+    const handleSendClick = ()=>{
+        onUpdateChat(input);
+        setInput('');
+        setIsInputClick(false);
+    }
+
     return (
         <Box sx={{ position: 'fixed', bottom: '5px', right: '20px', width: 'inherit', height: 'auto', }}>
             <Divider sx={(theme) => ({ mb: 1, bgcolor: theme.palette.mode === LIGHT_MODE_THEME ? 'grey' : 'black' })} />
@@ -38,13 +52,13 @@ const MessageInput = () => {
                             <SentimentSatisfiedOutlinedIcon fontSize="small" />
                         </SearchIconWrapper>
                     </>}
-                <StyledInputBase multiline placeholder="Start a new message" inputProps={{ 'aria-label': 'search' }} autoFocus onChange={handleInput} value={input} /><SearchIconWrapper sx={{ mr: 1 }}>
-                    <SendOutlinedIcon fontSize="small" sx={{ color: isInputClick ? 'inherit' : '#888', opacity: isInputClick ? 1 : 0.5, pointerEvents: isInputClick ? 'auto' : 'none' }} />
-                </SearchIconWrapper>
+                <StyledInputBase multiline placeholder="Start a new message" inputProps={{ 'aria-label': 'search' }} autoFocus onChange={handleInput} value={input} />
+                <SendIconWrapper sx={{ mr: 1, '&:hover': isInputClick ? {backgroundColor: alpha('#5577ff', 0.1), borderRadius: '50%'} : '', height: '40px'}} onClick={handleSendClick}>
+                    <SendOutlinedIcon fontSize="small" className={isInputClick ? 'submit-icon-focus' : 'submit-icon-disabled'}/>
+                </SendIconWrapper>
             </InputWrapper>
         </Box>
     )
-
 }
 
 export default MessageInput;
@@ -55,7 +69,8 @@ const InputWrapper = styled('div')(({ theme }) => ({
     width: '92%',
     background: '#eeeeee',
     borderRadius: '15px',
-    marginLeft: theme.spacing(2)
+    marginLeft: theme.spacing(2),
+    alignItems: 'center'
 }))
 
 
@@ -78,15 +93,26 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
+    height: '40px',
     color: theme.palette.mode === LIGHT_MODE_THEME ? '#5577ff' :  BLACK_COLOR,
     display: 'flex',
     padding: theme.spacing(0, 1),
     margin: theme.spacing(0.5, 0),
-    pointerEvents: 'visible',
+    pointerEvents: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
     '&:hover': {
         backgroundColor: alpha('#5577ff', 0.1),
         borderRadius: '50%',
     }
+}));
+
+const SendIconWrapper = styled('div')(({ theme }) => ({
+    color: theme.palette.mode === LIGHT_MODE_THEME ? '#5577ff' :  BLACK_COLOR,
+    display: 'flex',
+    padding: theme.spacing(0, 1),
+    margin: theme.spacing(0.5, 0),
+    pointerEvents: 'auto',
+    justifyContent: 'center',
+    alignItems: 'center',
 }));
