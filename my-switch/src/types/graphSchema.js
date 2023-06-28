@@ -62,6 +62,7 @@ export const GET_PROFILE_DETAIL = gql`
       bio
       linkedin
       twitter
+      profession
       mentor {
         info
         speciality
@@ -77,9 +78,10 @@ export const GET_MENTOR_FOLLOWERS = gql`
       status
       menteeid
       account {
-      firstname
-      lastname
-      username
+        firstname
+        lastname
+        username
+        id
       }
     }
   }
@@ -89,6 +91,13 @@ export const GET_USER_FOLLOWING = gql`
   query GetFollwingData($username: String) {
     getFollowings(username: $username) {
       status
+      mentorAccount {
+        firstname
+        lastname
+        username
+        imgurl
+        id
+      }
     }
   }
 `;
@@ -109,7 +118,51 @@ export const UPDATE_USER_PROFILE = gql`
 `;
 
 export const UPDATE_FOLLOWER = gql`
-mutation UpdateFollower($menteeid: ID){
-  updateFollower(menteeId: $menteeid)
+  mutation UpdateFollower($menteeid: ID) {
+    updateFollower(menteeId: $menteeid)
+  }
+`;
+
+export const CREATE_CHAT = gql`
+  mutation CreateChat($recieverid: ID) {
+    createChat(recieverid: $recieverid){
+      senderUserId
+      recieverUserId
+      chatId
+    }
+  }
+`;
+
+export const CREATE_MESSAGE = gql`
+  mutation CreateMessage($message: String, $chatId: ID) {
+    createMessage(message: $message, chatId: $chatId)
+  }
+`;
+
+export const GET_CHAT = gql`
+  query GetChat {
+    getChat {
+      chatId
+      recieverAccount {
+        firstname
+        lastname
+        username
+        imgurl
+      }
+      conversation{
+      content
+      createdAt
+      }     
+    }
+  }
+`;
+
+export const GET_MESSAGES = gql`
+query GetMessages($chatid: ID) {
+getMessages(chatid: $chatid){
+    content
+    createdAt
+    sender
+  }
 }
-`
+`;

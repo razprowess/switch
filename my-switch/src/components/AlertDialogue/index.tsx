@@ -34,6 +34,7 @@ const AlertDialogue = () => {
     return (
         <Box>
             <Dialog open={open}
+                PaperProps={{ sx: { borderRadius: '15px' } }}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">

@@ -1,6 +1,6 @@
 import React, { ComponentType } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Icon, IconButton, lighten, ListItemButton, ListItemIcon, ListItemText, styled, Tooltip } from '@mui/material';
+import { Icon, IconButton, lighten, ListItemButton, ListItemIcon, ListItemText, styled } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 import { Route } from '../../../../types';
@@ -30,7 +30,7 @@ export const RouteItem = ({
   const item = (
     <StyledListItemButton
       isEnabled={route.isEnabled}
-      sx={{ pl: nested ? 3 : 1 }}
+      sx={(theme)=>({ pl: nested ? 3 : 1, '&:hover': { borderRadius: '34px'}, py: 2, mr: 2, borderRadius: '34px' })}
       onClick={() => handleMenuClick(route)}
     >
       <ListItemIcon>
@@ -39,20 +39,16 @@ export const RouteItem = ({
           === LIGHT_MODE_THEME ? LIGHT_THEME_COLOR : DARK_THEME_COLOR})}/>}
         </StyledIconButton>
       </ListItemIcon>
-      <ListItemText primary={route.title} />
+      <ListItemText primary={route.title} primaryTypographyProps={{fontWeight: 700}}/>
       {hasChildren && (route.expanded ? <ExpandLess /> : <ExpandMore />)}
     </StyledListItemButton>
   );
 
   return (
     <StyledNavLink to={`${route.path}`} key={route.key} onClick={handleNavigate}>
-      {route.description ? (
-        <Tooltip title={`${route.description}${!route.isEnabled ? ' (Not Allowed)' : ''}`} placement="right">
-          {item}
-        </Tooltip>
-      ) : (
+      {
         item
-      )}
+      }
     </StyledNavLink>
   );
 };
@@ -72,5 +68,6 @@ const StyledIconButton = styled(IconButton)<{ isSelected: boolean }>(({ isSelect
 }));
 
 const StyledIcon = styled(Icon)<{ isSelected: boolean; component: ComponentType<{}> }>`
-  ${({ isSelected, theme }) => isSelected &&  `color: ${theme.palette.primary.main};`}
+  ${({ isSelected, theme }) => isSelected &&  `color: ${LIGHT_THEME_COLOR};`}
 `;
+

@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-import { IconButton, styled } from "@mui/material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useQuery, useMutation } from "@apollo/client";
@@ -21,8 +20,9 @@ import axios from "axios";
 import { Alert } from "@mui/material";
 import { GET_PROFILE_DETAIL, GET_MENTOR_FOLLOWERS, GET_USER_FOLLOWING, REGISTER_FOLLOWER_BY_USERNAME, UPDATE_USER_PROFILE } from "../types/graphSchema";
 import { toast } from "react-toastify";
-import { BLACK_COLOR, DARK_THEME_COLOR, LIGHT_MODE_THEME, LIGHT_THEME_COLOR, WHITE_COLOR } from "../utils/constants";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { BLACK_COLOR, LIGHT_MODE_THEME, LIGHT_THEME_COLOR, WHITE_COLOR } from "../utils/constants";
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import TwitterIcon from '@mui/icons-material/Twitter';
 
 export function Profile() {
   const [showEditProfile, setShowEditProfile] = React.useState(false);
@@ -76,7 +76,8 @@ export function Profile() {
     bio,
     mentor,
     linkedin,
-    twitter
+    twitter,
+    profession
   } = data.getProfileInfo;
 
   const handleFollowButtonClick = () => {
@@ -85,16 +86,16 @@ export function Profile() {
   };
 
   const handleEditButton = () => {
-     setShowEditProfile(true);
+    setShowEditProfile(true);
   };
 
 
-  const handleUploadComplete = (response: { message: string; code?: number; })=>{
+  const handleUploadComplete = (response: { message: string; code?: number; }) => {
     const data = response || {
       message: "We couldn't process your request! Try again",
     };
 
-     toast(data.message, { type: data.code === 1 ? "error" : "success" });
+    toast(data.message, { type: data.code === 1 ? "error" : "success" });
   }
 
 
@@ -107,9 +108,9 @@ export function Profile() {
       const url = "https://api.Cloudinary.com/v1_1/switch4career/image/upload";
       const result = await axios.post(url, formData);
       setLogoSrc(result.data.secure_url);
-      handleUploadComplete({message: 'upload sussessful', code: 0})
+      handleUploadComplete({ message: 'upload sussessful', code: 0 })
     } catch (err) {
-      handleUploadComplete({message: 'fail to upload image! Try again', code: 1})
+      handleUploadComplete({ message: 'fail to upload image! Try again', code: 1 })
     }
   };
 
@@ -135,65 +136,64 @@ export function Profile() {
   };
 
   return (
-    <PageContainer>
-    {username && <Box sx={{marginLeft: {sm: '50px'}}}>
-      <IconButton aria-label="add an arrow back" onClick={()=>navigate(-1)}
-      sx={(theme)=>({color: theme.palette.mode
-        === LIGHT_MODE_THEME ? LIGHT_THEME_COLOR : DARK_THEME_COLOR})}
-      >
-  <ArrowBackIcon />
-</IconButton>
-    </Box>}
-      <GridContainer>
-        <Grid container justifyContent="space-around">
-          <Grid item xs={12} sm={2} >
-            {imgurl ? (
-              <Avatar
-                alt="abdulrazak lawal"
-                src={imgurl}
-                sx={(theme) => ({
-                  width: theme.spacing(25),
-                  height: theme.spacing(25),
-                  marginBottom: theme.spacing(2),
-                  marginLeft: {xs: 'auto'},
-                  marginRight: {xs: 'auto'}
-                })}
-              />
-            ) : (
-              <Avatar
-                src={logo}
-                sx={(theme) => ({
-                  width: theme.spacing(25),
-                  height: theme.spacing(25),
-                  marginBottom: theme.spacing(4),
-                  marginLeft: {xs: 'auto'},
-                  marginRight: {xs: 'auto'}
-                })}
-              />
-            )}
-            {username ? (
-              <Button
-                variant="contained"
-                fullWidth
-                sx={{ textTransform: "none", marginBottom: "10px" }}
-                onClick={handleFollowButtonClick}
-              >
-                Follow
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                fullWidth
-                sx={{ textTransform: "none", marginBottom: "10px" }}
-                onClick={handleEditButton}
-              >
-                Edit profile
-              </Button>
-            )}
+    <Box>
+      <Grid container mt={4} sx={(theme) => ({ bgcolor: theme.palette.mode === LIGHT_MODE_THEME ? WHITE_COLOR : BLACK_COLOR })} pt={3}>
+        <Grid item md={3} xs={12}> {imgurl ? (
+          <Avatar
+            alt="abdulrazak lawal"
+            src={imgurl}
+            sx={(theme) => ({
+              width: theme.spacing(20),
+              height: theme.spacing(20),
+              marginBottom: theme.spacing(4),
+              marginLeft: { xs: 'auto' },
+              marginRight: { xs: 'auto' },
+              borderRadius: '10px'
+            })}
+          />
+        ) : (
+          <Avatar
+            src={logo}
+            sx={(theme) => ({
+              width: theme.spacing(20),
+              height: theme.spacing(20),
+              marginBottom: theme.spacing(4),
+              marginLeft: { xs: 'auto' },
+              marginRight: { xs: 'auto' },
+              borderRadius: '10px'
+            })}
+          />
+        )}</Grid>
+        <Grid item md={6} xs={12}>
+          <Typography
+            variant="h4"
+            sx={(theme) => ({
+              fontWeight: 500,
+              textTransform: "capitalize",
+              textAlign: { xs: 'center', sm: 'start' }
+            })}
+            key={"name"}
+          >
+            {firstname} {lastname}
+          </Typography>
+          <Typography
+            color="text.secondary"
+            variant="body2"
+            sx={(theme) => ({
+              textTransform: "lowercase",
+              textAlign: { xs: 'center', sm: 'start' },
+              marginBottom: { xs: '10px', sm: '0px' }
+            })}
+            key={"name"}
+          >
+            {profession}
+          </Typography>
+
+          <Box sx={(theme) => ({ display: 'flex', marginTop: { xs: 0, md: theme.spacing(6) }, justifyContent: { xs: 'center', sm: 'flex-start' } })}>
+
             {followerData && (
               <Typography
                 variant="body1"
-                sx={(theme) => ({ marginBottom: theme.spacing(4) })}
                 color="text.secondary"
               >
                 <PeopleOutlinedIcon
@@ -204,7 +204,6 @@ export function Profile() {
                 <Typography
                   variant="body1"
                   component={"span"}
-                  sx={(theme) => ({ marginBottom: theme.spacing(4) })}
                   color="text.secondary"
                 >
                   {" "}
@@ -217,106 +216,170 @@ export function Profile() {
                 </Typography>
               </Typography>
             )}
-          </Grid>
-          <Grid item xs={12} sm={9}>
-            <Card
-              elevation={2}
-              sx={(theme) => ({
-                marginBottom: theme.spacing(4),
-                paddingLeft: theme.spacing(4),
-                paddingRight: theme.spacing(2),
-                bgcolor: theme.palette.mode === LIGHT_MODE_THEME ? WHITE_COLOR : BLACK_COLOR,
-              })}
-              key={"info"}
-            >
-              <Typography
-                sx={{ fontSize: 18, marginTop: "10px" }}
-                color="text.secondary"
-                gutterBottom
-              >
-                Welcome,
-              </Typography>
-              <Typography
-                variant="h4"
-                sx={(theme) => ({
-                  fontWeight: "bold",
-                  marginBottom: theme.spacing(2),
-                  textTransform: "capitalize",
-                })}
-                key={"name"}
-              >
-                {firstname} {lastname}
-              </Typography>
-              <Typography
-                variant="body1"
-                sx={(theme) => ({ marginBottom: theme.spacing(4) })}
-                key={"info"}
-              >
-                <strong>About me:</strong> {bio}
-              </Typography>
+          </Box>
 
-              {mentor && (
-                <>
-                  {mentor.info && (
-                    <Typography
-                      variant="body1"
-                      sx={(theme) => ({
-                        marginBottom: theme.spacing(4),
-                        marginRight: theme.spacing(3),
-                      })}
-                      key={"info"}
-                    >
-                      {" "}
-                      <strong>More Info: </strong> {mentor.info}
-                    </Typography>
-                  )}
+          <Box sx={(theme) => ({ display: 'flex', justifyContent: { xs: 'center', sm: 'flex-start' }, mb: { xs: -3, sm: 0 }, mt: 1 })}>
+            {linkedin &&
+              <> <LinkedInIcon fontSize="small" />
+                <Typography
+                  variant="body2"
+                  sx={(theme) => ({ marginBottom: theme.spacing(4), mr: 2 })}
+                  key={"info"}
+                >
+                  <a style={{ textDecoration: 'none', textTransform: 'none' }} href={linkedin} target="_blank" rel="noopener noreferrer">Linkedin profile</a>
+                </Typography>
+              </>
+            }
+
+            {twitter &&
+              <><TwitterIcon fontSize="small" />
+                <Typography
+                  variant="body2"
+                  sx={(theme) => ({ marginBottom: theme.spacing(4) })}
+                  key={"info"}
+                >
+                  <a style={{ textDecoration: 'none' }} href={twitter} target="_blank" rel="noopener noreferrer">Twitter profile</a>
+
+                </Typography>
+              </>}
+          </Box>
+        </Grid>
+
+        {/* <Grid item md={3} xs={12}> 
+             <Box sx={(theme) => ({ display: 'flex', paddingTop: {xs: 0, md: theme.spacing(17)}, justifyContent: {xs: 'center', sm: 'flex-start'}, mb: {xs: -3, sm: 0} })}>
+              {linkedin &&
+                <> <LinkedInIcon fontSize="small" />
                   <Typography
-                    variant="body1"
-                    sx={(theme) => ({ marginBottom: theme.spacing(4) })}
+                    variant="body2"
+                    sx={(theme) => ({ marginBottom: theme.spacing(4), mr: 2 })}
                     key={"info"}
                   >
-                    <strong>Area of Specialization:</strong> {mentor.speciality}
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={(theme) => ({ marginBottom: theme.spacing(4) })}
-                    key={"info"}
-                  >
-                    <strong>Year of Experience:</strong>{" "}
-                    {mentor.experienceinyears}
+                    <a style={{ textDecoration: 'none', textTransform: 'none' }} href={linkedin} target="_blank" rel="noopener noreferrer">Linkedin profile</a>
                   </Typography>
                 </>
-              )}
+              }
 
-             { twitter && <Typography
-                variant="body1"
-                sx={(theme) => ({ marginBottom: theme.spacing(4) })}
-                key={"info"}
-              >
-                <strong>Find me on twitter on:</strong> <a style={{textDecoration: 'none'}} href={twitter} target="_blank" rel="noopener noreferrer">Twitter</a> 
-              
-              </Typography>}
+              {twitter &&
+                <><TwitterIcon fontSize="small" />
+                  <Typography
+                    variant="body2"
+                    sx={(theme) => ({ marginBottom: theme.spacing(4) })}
+                    key={"info"}
+                  >
+                    <a style={{ textDecoration: 'none' }} href={twitter} target="_blank" rel="noopener noreferrer">Twitter profile</a>
 
-              { linkedin && <Typography
-                variant="body1"
-                sx={(theme) => ({ marginBottom: theme.spacing(4) })}
-                key={"info"}
-              >
-                <strong>Find me on linkedin on:</strong> <a style={{textDecoration: 'none'}} href={linkedin} target="_blank" rel="noopener noreferrer">Linkedin</a>  
-              </Typography>}
-            </Card>
-          </Grid>
+                  </Typography>
+                </>}
+            </Box> 
+          </Grid> */}
+
+        <Grid item md={3} xs={12} sx={{ display: { xs: 'flex', sm: 'block', justifyContent: 'center' }, mt: { xs: 2, sm: 0 }, mb: 2 }}>
+          {username ? (
+            <Button
+              variant="contained"
+              fullWidth
+              sx={{ textTransform: "none", marginBottom: "10px", borderRadius: '10px', width: 'auto' }}
+              onClick={handleFollowButtonClick}
+            >
+              Follow
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              sx={{ textTransform: "none", marginBottom: "10px", borderRadius: '10px', width: 'auto' }}
+              onClick={handleEditButton}
+            >
+              Edit profile
+            </Button>
+          )}
         </Grid>
-      </GridContainer>
+      </Grid>
+
+
+      <Grid container sx={{ px: { xs: 4 } }} gap={1}>
+        <Grid item sm={4} mt={4} px={{ md: 3 }}>
+          <Typography
+            variant="h6"
+            sx={(theme) => ({ marginBottom: theme.spacing(1), textTransform: 'none' })}
+            key={"info"}
+          >
+            About
+          </Typography>
+          <Typography
+            variant="body1"
+            key={"info"}
+          >
+            {bio}
+          </Typography>
+        </Grid>
+        <Grid item sm={4} mt={4}>
+          {mentor && (
+            <>
+              {mentor.info && (
+                <Box>
+                  <Typography
+                    variant="h6"
+                    sx={(theme) => ({ marginBottom: theme.spacing(1), textTransform: 'none' })}
+                    key={"info-heading"}
+                  >
+                    Additional info
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={(theme) => ({
+                      marginRight: theme.spacing(3),
+                    })}
+                    key={"info"}
+                  >
+                    {mentor.info}
+                  </Typography>
+                </Box>
+
+
+              )}
+            </>
+          )}
+
+        </Grid>
+        <Grid item sm={3} mt={4}>
+          {mentor && (
+            <Box>
+              <Typography
+                variant="h6"
+                sx={(theme) => ({ marginBottom: theme.spacing(1) })}
+                key={"info"}
+              >
+                Area of specialization
+              </Typography>
+              <Typography sx={(theme) => ({
+                width: 'fit-content',
+                borderStyle: 'solid',
+                borderWidth: '1px',
+                borderColor: theme.palette.mode === LIGHT_MODE_THEME ? LIGHT_THEME_COLOR : WHITE_COLOR,
+                borderRadius: '10px', px: 1
+              })}>{mentor.speciality}</Typography>
+              <Typography
+                variant="body1"
+                sx={(theme) => ({ marginBottom: theme.spacing(4), marginTop: theme.spacing(4) })}
+                key={"info"}
+              >
+                <strong>Year of Experience:</strong>{" "}
+                {mentor.experienceinyears}
+              </Typography>
+            </Box>
+          )}
+        </Grid>
+      </Grid>
 
       {showEditProfile && (
         <Card
-        elevation={2}
-          sx={(theme)=>({
+          elevation={2}
+          sx={(theme) => ({
             bgcolor: theme.palette.mode === LIGHT_MODE_THEME ? WHITE_COLOR : BLACK_COLOR,
             minWidth: 275,
             marginLeft: { xs: "25px", md: "60px" },
             marginRight: { xs: "25px", md: "60px" },
+            marginTop: theme.spacing(4)
           })}
         >
           <CardContent>
@@ -441,7 +504,7 @@ export function Profile() {
                   )}
 
 
-                <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={6}>
                     <TextField
                       defaultValue={twitter}
                       fullWidth
@@ -505,22 +568,8 @@ export function Profile() {
           </CardContent>
         </Card>
       )}
-    </PageContainer>
+    </Box>
   );
 }
 
-const GridContainer = styled(Box)(({ theme }) => ({
-  flexGrow: 1,
-  marginTop: theme.spacing(4),
-  padding: theme.spacing(4),
-  justifyContent: "space-around",
-  [theme.breakpoints.down("sm")]: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-}));
-
-const PageContainer = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(4), 
-}));
 

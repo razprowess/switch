@@ -13,7 +13,7 @@ export type Ref = HTMLDivElement | null;
 export const Navigation = React.forwardRef<Ref, NavigationProps>((props, ref) => {
   const { open, handleClose } = props;
   return (
-    <Drawer variant="permanent" open={open} onClose={handleClose} ref={ref}>
+    <Drawer variant="permanent" open={open} onClose={handleClose} ref={ref} sx={{position: {xs: 'fixed', sm: 'relative'}}}>
       <DrawerHeader />
       <Routes />
     </Drawer>
@@ -26,7 +26,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
   zIndex: 2,
-  position: 'fixed',
+  position: 'relative',
   flexShrink: 0,
   whiteSpace: 'nowrap',
   boxSizing: 'border-box',

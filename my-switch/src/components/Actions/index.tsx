@@ -9,6 +9,11 @@ import {
   Login as SignupIcon,
   Person as ProfileIcon,
   CheckCircle as CheckCircleIcon,
+  MailOutline as MailOutlineIcon,
+  KeyboardDoubleArrowUpSharp as KeyboardDoubleArrowUpSharpIcon,
+  KeyboardDoubleArrowDownSharp as KeyboardDoubleArrowDownSharpIcon,
+  MarkEmailUnreadRounded as MarkEmailUnreadRoundedIcon,
+  ArrowBack as ArrowBackIcon,
 } from '@mui/icons-material';
 
 import { ActionItem } from './ActionItem';
@@ -29,8 +34,35 @@ export const Messages = ({ total, onClick, disableTooltip = false }: ActionProps
   />
 );
 
+export const Message = ({ total, onClick, disableTooltip = false }: ActionProps) => (
+  <ActionItem
+    title="My Messages"
+    icon={MailOutlineIcon}
+    onClick={onClick}
+    badgeContent={total}
+    disableTooltip={disableTooltip}
+  />
+);
+
 export const More = ({ onClick, disableTooltip = false }: ActionProps) => (
   <ActionItem title="More" icon={MoreIcon} onClick={onClick} disableTooltip={disableTooltip} />
+);
+
+export const ArrowUp = ({ onClick, disableTooltip = false }: ActionProps) => (
+  <ActionItem title="Expand" icon={KeyboardDoubleArrowUpSharpIcon} onClick={onClick} disableTooltip={disableTooltip} />
+);
+
+export const ArrowDown = ({ onClick, disableTooltip = false }: ActionProps) => (
+  <ActionItem title="Collapse" icon={KeyboardDoubleArrowDownSharpIcon} onClick={onClick} disableTooltip={disableTooltip} />
+);
+
+export const ArrowBack = ({ onClick, disableTooltip = false }: ActionProps) => (
+  <ActionItem title="Collapse" icon={ArrowBackIcon} onClick={onClick} disableTooltip={disableTooltip} />
+);
+
+
+export const UnreadMail = ({ onClick, disableTooltip = false }: ActionProps) => (
+  <ActionItem title="Unread Message" icon={MarkEmailUnreadRoundedIcon} onClick={onClick} disableTooltip={disableTooltip} />
 );
 
 export const Notifications = ({ total, onClick, disableTooltip = false }: ActionProps) => (

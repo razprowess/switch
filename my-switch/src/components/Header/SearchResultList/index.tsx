@@ -7,13 +7,13 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { styled, alpha, Button, Box } from '@mui/material';
-import { LIGHT_MODE_THEME } from '../../../utils/constants';
+import { HEADER_HEIGHT, LIGHT_MODE_THEME } from '../../../utils/constants';
 import { useMutation} from '@apollo/client';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { REGISTER_FOLLOWER, REMOVE_FOLLOWER } from '../../../types/graphSchema';
 import { toast } from "react-toastify";
 import { LIGHT_THEME_COLOR, DARK_THEME_COLOR } from '../../../utils/constants';
+import capitalizedFirstLetter from '../../../utils/capitalizeFirstLetter';
 
 
 interface SearchResultListProps {
@@ -21,17 +21,14 @@ interface SearchResultListProps {
   searchResult?: any;
   onHandleButtonClick: Function;
   onHandleCloseButton: ()=>void;
+  isInputClick?: boolean;
 }
 
 
 export default function SearchResultList(props: SearchResultListProps) {
-  const { left, searchResult, onHandleButtonClick, onHandleCloseButton } = props;
-  const [rendered, setRendered] =  useState(false);
+  const { left, searchResult, onHandleButtonClick, onHandleCloseButton, isInputClick } = props;
 const navigate = useNavigate();
 
-  useEffect(()=>{
-    setRendered(true);
-  },[])
 
 const [create] = useMutation(REGISTER_FOLLOWER);
 
@@ -41,9 +38,10 @@ const [remove] = useMutation(REMOVE_FOLLOWER);
 if (!searchResult) return null;
 
   if (searchResult.length === 0) {
+    
     return (
       <>
-     {!rendered && (<StyledList left={left} >
+     {isInputClick && (<StyledList left={left} >
         <NoSearchResult>
           <ListItemText
             sx={{ textAlign: 'center' }}
@@ -64,10 +62,6 @@ if (!searchResult) return null;
     }
     </>
     )
-  }
-
-  const capitalizedFirstLetter = (str: string) => {
-    return str[0].toUpperCase();
   }
 
   const handleFollowButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number) => {
@@ -154,14 +148,14 @@ const StyledList = styled(List)<{ left: number }>(({ left, theme }) => ({
     width: '100%',
     left: '0',
     maxHeight: '-webkit-fill-available;, 100vh',
-    top: '138px',
+    top: `${HEADER_HEIGHT + 73}px`
   },
   [theme.breakpoints.up('md')]: {
     width: '525px',
     left: `${left}px`,
     maxHeight: '400px',
     minHeight: 'auto',
-    top: '138px',
+    top: `${HEADER_HEIGHT + 73}px`,
   },
 
 }))

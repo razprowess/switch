@@ -1,4 +1,5 @@
 import { FC, useState, useContext, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { styled, Box } from '@mui/material';
 
 import { Navigation } from '../Navigation';
@@ -7,18 +8,32 @@ import { Footer } from '../Footer';
 
 import { FOOTER_HEIGHT, LIGHT_MODE_THEME } from '../../utils/constants';
 import { AuthContext } from '../../contexts/authContext';
+import MessageHeader from '../MessageHeader';
 
 
 export const Layout: FC = ({ children }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [hasClickOutide, setHasclickOutside] = useState(false);
+const location = useLocation();
+const currentPath = location.pathname;
 
-  const toggleNavigation = () => setOpen((status) => !status);
+  const toggleNavigation = () => {
+    setOpen((status) => !status);
+    if(!open)setHasclickOutside(false);
+  };
 
   const closeNavigation = () => {
       setOpen(false);
-      setHasclickOutside((status)=> !status);
-  };
+    };
+
+  const closeHamburger = () => {
+    setHasclickOutside(true);
+  }
+
+  // const closeHamburgerFromMenu = () => {
+  //   setHasclickOutside(true);
+  //   setOpen(false);
+  // }
 
 const { user } =  useContext(AuthContext);
 
@@ -36,6 +51,7 @@ useEffect(()=>{
 const handleClickOut = (event:any)=>{
   if(ref.current && headerRef.current && !headerRef.current.contains(event.target) && !ref.current.contains(event.target)){
     closeNavigation();
+    closeHamburger();
   }
 }
 
@@ -45,11 +61,13 @@ return (
         <Box component="header">
           <Header toggleNavigation={toggleNavigation} ref={headerRef} onClickOutside={hasClickOutide}/>
         </Box>
-        {user && <Navigation open={open} handleClose={toggleNavigation} ref={ref}/>} 
+        {user && currentPath !== '/' &&  <Navigation open={open} handleClose={toggleNavigation} ref={ref}/>} 
          <Box component="main" sx={(theme)=>({ flexGrow: 1, bgcolor: theme.palette.mode === LIGHT_MODE_THEME ? '#f6f3f3': '#353534' })}> 
           <DrawerHeader />
            {children} 
-        </Box> 
+        </Box>
+        {user && <MessageHeader/>} 
+
       </ContentWrapper>
       <Box component="footer">
         <Footer />
