@@ -147,6 +147,7 @@ export const GET_CHAT = gql`
         firstname
         lastname
         username
+        imgurl
       }
       conversation{
       content

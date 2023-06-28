@@ -30,7 +30,6 @@ const ChatList = (props: IChatList) => {
       {list.map((chatList, index: number) => {
         const { recieverAccount, chatId, conversation } = chatList;
         const { username, firstname, lastname, imgurl } = recieverAccount;
-
         return (
           <StyledListItem alignItems="flex-start" onClick={() => { onHandleChatList({ firstname, lastname, username, chatId }) }} sx={{ py: 2 }} key={index}>
             <ListItemAvatar sx={{ mt: 0 }}>

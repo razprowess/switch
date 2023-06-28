@@ -162,7 +162,8 @@ const MessageHeader = () => {
     setOpenchatMessage(false);
     setOpenChatHeader(false);
   };
-  console.log("how many");
+
+  console.log('reload...')
   return (
     <Container open={open}>
       {openChatMessage ? (
