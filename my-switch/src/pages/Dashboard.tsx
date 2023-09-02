@@ -1,4 +1,4 @@
-import { Typography, Box, styled } from '@mui/material';
+import { Typography, Box, styled, Grid } from '@mui/material';
 import BasicCard from '../components/Card';
 import AlertDialogue from '../components/AlertDialogue';
 import { useQuery } from "@apollo/client";
@@ -8,6 +8,7 @@ import PageLayout from '../components/Layout/PageLayout';
 import { useState } from 'react';
 import Table, { RowData } from '../components/Table';
 import { TableIcon } from '../components/Table/TableIcon';
+import { BLACK_COLOR, LIGHT_MODE_THEME, WHITE_COLOR } from '../utils/constants';
 
 
 export type Request = {
@@ -73,31 +74,51 @@ const render = (row: RowData)=> {
 
   return (
     <PageContainer>
-      <AlertDialogue />
-      <>
-        <Typography variant='h6' sx={{ textTransform: 'none', marginLeft: { xs: '0px', md: '120px' }, mb: 1 }}>Connection Info</Typography>
-        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row', md: 'row' }, margin: { xs: "0 10px", sm: "0 auto", md: "0 110px" }, flexWrap: 'wrap' }}>
-
-          <BasicCard cardContent='Number of Followers' number={acceptedRequest ? acceptedRequest.length : 0} />
-          <BasicCard cardContent='Number of Followings' number={following ? following.getFollowings.length : 0} />
-          <BasicCard cardContent='Number of Messages' number={15} />
-         { data && <BasicCard cardContent='Number of Requests' number={pendingRequest.length} />}
-        </Box>
-      </>
-{data &&
-      <><>
-          {/* <Typography variant='h6' sx={{ textTransform: 'none', marginLeft: { xs: '0px', md: '120px' }, mb: 1, mt: 3 }}>Mentor Info</Typography>
-          */}
-        </><Table rows={pendingRequest} title={{ label: 'Pending Request Table' }} columns={createColumn(pendingRequest)} />
-        </>
-}
+    <Grid container gap={4}>
+          <GridItem item xs={12} sm={6}>
+            <Typography>There's usually a bit of a waiting period after your client interview. However, the interview and feedback/decision
+               timeline varies depending on our client's hiring urgency and priorities. Sometimes we hear back within the same day, 
+               and other times it takes clients a few weeks to finalize a decision. But don't worry! As soon as we have the client 
+               feedback, you will be notified by our matchers here in AC or via email</Typography></GridItem>
+          <GridItem item xs={12} sm={4}>
+            <Typography>There's usually a bit of a waiting period after your client interview. However, the interview and feedback/decision
+               timeline varies depending on our client's hiring urgency and priorities. Sometimes we hear back within the same day, and other
+                times it takes clients a few weeks to finalize a decision. But don't worry! As soon as we have the client feedback, you will
+                 be notified by our matchers here in AC or via email</Typography>
+                 </GridItem>
+    </Grid>
     </PageContainer>
+//     <PageContainer>
+//       <AlertDialogue />
+//       <>
+//         <Typography variant='h6' sx={{ textTransform: 'none', marginLeft: { xs: '0px', md: '120px' }, mb: 1 }}>Connection Info</Typography>
+//         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row', md: 'row' }, margin: { xs: "0 10px", sm: "0 auto", md: "0 110px" }, flexWrap: 'wrap' }}>
+
+//           <BasicCard cardContent='Number of Followers' number={acceptedRequest ? acceptedRequest.length : 0} />
+//           <BasicCard cardContent='Number of Followings' number={following ? following.getFollowings.length : 0} />
+//           <BasicCard cardContent='Number of Messages' number={15} />
+//          { data && <BasicCard cardContent='Number of Requests' number={pendingRequest.length} />}
+//         </Box>
+//       </>
+// {data &&
+//       <><>
+//         </><Table rows={pendingRequest} title={{ label: 'Pending Request Table' }} columns={createColumn(pendingRequest)} />
+//         </>
+// }
+//     </PageContainer>
   );
 };
 
 
 const PageContainer = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(8), 
-  paddingLeft: theme.spacing(2),
-  paddingRight: theme.spacing(2)
+  paddingLeft: theme.spacing(3),
+  paddingRight: theme.spacing(2),
+  height: '100vh'
+}));
+
+const GridItem = styled(Grid)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === LIGHT_MODE_THEME ? WHITE_COLOR : BLACK_COLOR,
+  borderRadius: '10px',
+  border: '1px solid lightGrey'
 }));

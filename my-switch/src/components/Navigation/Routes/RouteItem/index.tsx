@@ -1,6 +1,6 @@
 import React, { ComponentType } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Icon, IconButton, lighten, ListItemButton, ListItemIcon, ListItemText, styled } from '@mui/material';
+import { Icon, IconButton, lighten, ListItemButton, ListItemIcon, ListItemText, styled, Typography } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 import { Route } from '../../../../types';
@@ -40,6 +40,7 @@ export const RouteItem = ({
         </StyledIconButton>
       </ListItemIcon>
       <ListItemText primary={route.title} primaryTypographyProps={{fontWeight: 700}}/>
+      {route.title === 'Notification' && <Typography component={'span'}> 10</Typography>}
       {hasChildren && (route.expanded ? <ExpandLess /> : <ExpandMore />)}
     </StyledListItemButton>
   );
