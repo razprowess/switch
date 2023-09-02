@@ -7,9 +7,10 @@ import {
     ListAlt as ListIcon,
     CreditCard as BillingIcon,
     Person as ProfileIcon,
-    PersonOutline as MentorIcon
+    PersonOutline as MentorIcon,
+    NotificationsNone as NotificationsNoneIcon
   } from '@mui/icons-material';
-  
+  // import {  Notifications } from '../components/Actions/index'
 
 
   import { Home } from '../pages/Home';
@@ -50,6 +51,16 @@ import {
     icon: ProfileIcon,
     isEnabled: true,
     isAuthenticated: true
+  },
+  {
+    key: 'router-notification',
+    title: 'Notification',
+    description: 'Notification',
+    component: Home,
+    path: '/notification',
+    isEnabled: true,
+    icon: NotificationsNoneIcon,
+    isAuthenticated: true,
   },
   {
     key: 'router-signin',
